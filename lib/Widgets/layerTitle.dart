@@ -31,7 +31,7 @@ class LayerTitle extends StatelessWidget {
             height: 65,
             decoration: BoxDecoration(
                 color: _titleColor,
-                borderRadius: BorderRadius.circular(15.0)
+                borderRadius: BorderRadius.circular(15.0),
             ),
             child: Stack(
               children: [

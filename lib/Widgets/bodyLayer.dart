@@ -15,8 +15,8 @@ class BodyLayer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15.0)
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
       ),
       child: Column(
         children: [
