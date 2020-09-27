@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'SynWord',
+          'synword',
           style: TextStyle(fontFamily: 'Waxe', fontSize: 30),
         ),
         centerTitle: true,

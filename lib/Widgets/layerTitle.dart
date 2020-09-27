@@ -6,6 +6,7 @@ typedef CloseButtonCallback = void Function();
 class LayerTitle extends StatelessWidget {
   final Text _title;
   final Color _titleColor;
+  final Color _shadowColor;
   final bool _isTitleEnable;
   final bool _isCloseButtonEnable;
   final bool _isGestureDetectorEnable;
@@ -15,6 +16,7 @@ class LayerTitle extends StatelessWidget {
   LayerTitle(
       this._title,
       this._titleColor,
+      this._shadowColor,
       this._isTitleEnable,
       this._isCloseButtonEnable,
       this._isGestureDetectorEnable,
@@ -32,6 +34,14 @@ class LayerTitle extends StatelessWidget {
             decoration: BoxDecoration(
                 color: _titleColor,
                 borderRadius: BorderRadius.circular(15.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: _shadowColor,
+                    spreadRadius: 3,
+                    blurRadius: 6,
+                    offset: Offset(0, -10)
+                  ),
+                ]
             ),
             child: Stack(
               children: [

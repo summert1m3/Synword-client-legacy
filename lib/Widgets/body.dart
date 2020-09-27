@@ -48,14 +48,14 @@ class _BodyState extends State<Body> {
 
     for (int i = 0; i < _layersInfo.length; i++) {
       bool isCloseButtonEnable = false;
+      bool isContains = false;
+      Color color = Colors.white;
 
       if (i == _layersInfo.length - 1) {
         isCloseButtonEnable = true;
       }
 
       if (_layersInfo[i].getName() == 'UniqueCheck') {
-        bool isContains = false;
-
         for (int j = 0; j < _offsets.length; j++) {
           if (j == _layersInfo[i].getPosition()) {
             isContains = true;
@@ -66,29 +66,35 @@ class _BodyState extends State<Body> {
           _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
         }
 
-        _layers.add(UniqueCheckLayer(
-          _offsets[_layersInfo[i].getPosition()],
-          isCloseButtonEnable,
-          (offset) {
-            Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+        if (i != _layersInfo.length - 1) {
+          color = UniqueCheckLayer.getColor();
+        }
 
-            setState(() {
-              if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                _offsets[_layersInfo[i].getPosition()] = newOffset;
-              } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                _offsets[_layersInfo[i].getPosition()] = newOffset;
-              }
-            });
-          },
-          () {
-            setState(() {
-              deleteLayer(_layersInfo[i].getPosition());
-              updateFloatingActionButtons();
-            });
-          }));
+        UniqueCheckLayer layer = UniqueCheckLayer(
+            _offsets[_layersInfo[i].getPosition()],
+            color,
+            isCloseButtonEnable,
+            (offset) {
+              Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+
+              setState(() {
+                if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                  _offsets[_layersInfo[i].getPosition()] = newOffset;
+                } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                  _offsets[_layersInfo[i].getPosition()] = newOffset;
+                }
+              });
+            },
+            () {
+              setState(() {
+                deleteLayer(_layersInfo[i].getPosition());
+                updateFloatingActionButtons();
+              });
+            }
+        );
+
+        _layers.add(layer);
       } else if (_layersInfo[i].getName() == 'UniqueText') {
-        bool isContains = false;
-
         for (int j = 0; j < _offsets.length; j++) {
           if (j == _layersInfo[i].getPosition()) {
             isContains = true;
@@ -97,10 +103,15 @@ class _BodyState extends State<Body> {
 
         if (!isContains) {
           _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
+        }
+
+        if (i != _layersInfo.length - 1) {
+          color = UniqueTextLayer.getColor();
         }
 
         _layers.add(UniqueTextLayer(
           _offsets[_layersInfo[i].getPosition()],
+          color,
           isCloseButtonEnable,
           (offset) {
             Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
@@ -192,7 +203,13 @@ class _BodyState extends State<Body> {
     updateLayers();
     List<Widget> content = new List<Widget>();
 
-    content.add(OriginalTextLayer(_textEditingController));
+    bool isOriginalTextTitleVisible = true;
+
+    if (_layers.length == 0) {
+      isOriginalTextTitleVisible = false;
+    }
+
+    content.add(OriginalTextLayer(_textEditingController, isOriginalTextTitleVisible));
 
     for (int i = 0; i < _layers.length; i++) {
       content.add(_layers[i]);

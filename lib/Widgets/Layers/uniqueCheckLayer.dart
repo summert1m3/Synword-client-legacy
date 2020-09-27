@@ -4,16 +4,22 @@ import 'package:synword/Widgets/layerTitle.dart';
 
 class UniqueCheckLayer extends StatelessWidget {
   final Offset _offset;
+  final Color _titleColor;
   final GestureDetectorCallback _gestureDetectorCallback;
   final CloseButtonCallback _closeButtonCallback;
   final bool _isCloseButtonEnable;
 
   UniqueCheckLayer(
       this._offset,
+      this._titleColor,
       this._isCloseButtonEnable,
       this._gestureDetectorCallback,
       this._closeButtonCallback
   );
+
+  static Color getColor() {
+    return Colors.green;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +38,15 @@ class UniqueCheckLayer extends StatelessWidget {
           ),
           LayerTitle(
               Text('Unique check', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
-              Colors.green,
+              _titleColor,
+              Colors.black.withOpacity(0.2),
               true,
               _isCloseButtonEnable,
               true,
               _gestureDetectorCallback,
               _closeButtonCallback
-          )
+          ),
+          true
       ),
     );
   }

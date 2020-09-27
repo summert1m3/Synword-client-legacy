@@ -4,10 +4,12 @@ import 'package:synword/Widgets/layerTitle.dart';
 class BodyLayer extends StatelessWidget {
   final Widget _widget;
   final LayerTitle _title;
+  final bool isTitileVisible;
 
   BodyLayer(
       this._widget,
       this._title,
+      this.isTitileVisible
   );
 
   @override
@@ -20,7 +22,10 @@ class BodyLayer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _title,
+          Visibility(
+            child: _title,
+            visible: isTitileVisible,
+          ),
           Container(
             child: _widget,
           )
