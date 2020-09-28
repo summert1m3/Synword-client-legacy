@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:synword/Widgets/bodyLayer.dart';
-import 'package:synword/Widgets/layerTextForm.dart';
-import 'package:synword/Widgets/layerTitle.dart';
+import 'package:synword/widgets/layers/buttonBarLayer.dart';
+import 'package:synword/widgets/layers/originalTextLayer.dart';
+import 'package:synword/widgets/layers/uniqueTextLayer.dart';
+import 'package:synword/widgets/layers/uniqueCheckLayer.dart';
+import 'package:synword/widgets/layers/layerInfo.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -11,107 +13,249 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Offset> offsets = [Offset(0, 0), Offset(0, 65), Offset(0, 130)];
-  bool isSecondLayerVisible = true;
-  bool isThirdLayerVisible = true;
+  List<Offset> _offsets = List<Offset>();
+  List<LayerInfo> _layersInfo = List<LayerInfo>();
+  List<Widget> _layers = List<Widget>();
+
+  bool _isFirstFloatingActionButtonVisible = true;
+  bool _isSecondFloatingActionButtonVisible = true;
+  bool _isFloatingActionButtonsNotVisible = false;
+
+  TextEditingController _textEditingController = TextEditingController();
+
+  void addLayer(LayerInfo item) {
+    _layersInfo.add(item);
+
+    for (int i = 0; i < _offsets.length; i++) {
+      _offsets[i] = Offset(0, ((i + 1) * 65).toDouble());
+    }
+  }
+
+  void deleteLayer(int position) {
+    _offsets.removeAt(position);
+    _layersInfo.removeAt(position);
+    updateLayersInfo(position);
+  }
+
+  void updateLayersInfo(int index) {
+    for (int i = index; i < _layersInfo.length; i++) {
+      _layersInfo[i].setPosition(_layersInfo[i].getPosition() - 1);
+    }
+  }
+
+  void updateLayers() {
+    _layers = List<Widget>();
+
+    for (int i = 0; i < _layersInfo.length; i++) {
+      bool isCloseButtonEnable = false;
+      bool isContains = false;
+      Color color = Colors.white;
+
+      if (i == _layersInfo.length - 1) {
+        isCloseButtonEnable = true;
+      }
+
+      if (_layersInfo[i].getName() == 'UniqueCheck') {
+        for (int j = 0; j < _offsets.length; j++) {
+          if (j == _layersInfo[i].getPosition()) {
+            isContains = true;
+          }
+        }
+
+        if (!isContains) {
+          _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
+        }
+
+        if (i != _layersInfo.length - 1) {
+          color = UniqueCheckLayer.getColor();
+        }
+
+        UniqueCheckLayer layer = UniqueCheckLayer(
+            _offsets[_layersInfo[i].getPosition()],
+            color,
+            isCloseButtonEnable,
+            (offset) {
+              Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+
+              setState(() {
+                if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                  _offsets[_layersInfo[i].getPosition()] = newOffset;
+                } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                  _offsets[_layersInfo[i].getPosition()] = newOffset;
+                }
+              });
+            },
+            () {
+              setState(() {
+                deleteLayer(_layersInfo[i].getPosition());
+                updateFloatingActionButtons();
+              });
+            }
+        );
+
+        _layers.add(layer);
+      } else if (_layersInfo[i].getName() == 'UniqueText') {
+        for (int j = 0; j < _offsets.length; j++) {
+          if (j == _layersInfo[i].getPosition()) {
+            isContains = true;
+          }
+        }
+
+        if (!isContains) {
+          _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
+        }
+
+        if (i != _layersInfo.length - 1) {
+          color = UniqueTextLayer.getColor();
+        }
+
+        _layers.add(UniqueTextLayer(
+          _offsets[_layersInfo[i].getPosition()],
+          color,
+          isCloseButtonEnable,
+          (offset) {
+            Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+
+            setState(() {
+              if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                _offsets[_layersInfo[i].getPosition()] = newOffset;
+              } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
+                _offsets[_layersInfo[i].getPosition()] = newOffset;
+              }
+            });
+          },
+          () {
+            setState(() {
+              deleteLayer(_layersInfo[i].getPosition());
+              updateFloatingActionButtons();
+            });
+          }
+        )
+      );
+      }
+    }
+  }
+
+  bool isOffsetOutOfBounds(int position, Offset offset) {
+    for (int i = position - 1; i >= 0; i--) {
+      if (offset.dy <= _offsets[i].dy + 65) {
+        return true;
+      }
+    }
+
+    for (int i = position + 1; i < _offsets.length; i++) {
+      if (offset.dy >= _offsets[i].dy - 65) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  void updateCheckButton() {
+    if (_layersInfo.isNotEmpty && !_isFloatingActionButtonsNotVisible) {
+      if (_layersInfo[_layersInfo.length - 1].getName() == 'UniqueCheck') {
+        _isFirstFloatingActionButtonVisible = false;
+      } else {
+        _isFirstFloatingActionButtonVisible = true;
+      }
+    } else if (_layersInfo.isEmpty && !_isFloatingActionButtonsNotVisible) {
+      _isFirstFloatingActionButtonVisible = true;
+    }
+  }
+
+  void updateUpButton() {
+    if (_layersInfo.isNotEmpty && !_isFloatingActionButtonsNotVisible) {
+      if (!isContains('UniqueText')) {
+        _isSecondFloatingActionButtonVisible = true;
+      } else {
+        _isSecondFloatingActionButtonVisible = false;
+      }
+    } else if (_layersInfo.isEmpty && !_isFloatingActionButtonsNotVisible) {
+      _isSecondFloatingActionButtonVisible = true;
+    }
+  }
+
+  void updateFloatingActionButtons() {
+    if ((!_isFirstFloatingActionButtonVisible && !_isSecondFloatingActionButtonVisible) && _layersInfo.isNotEmpty) {
+      _isFloatingActionButtonsNotVisible = true;
+    } else {
+      _isFloatingActionButtonsNotVisible = false;
+    }
+
+    updateCheckButton();
+    updateUpButton();
+  }
+
+  bool isContains(String name) {
+    bool isContains = false;
+
+    _layersInfo.forEach((element) {
+      if (element.getName() == name) {
+        isContains = true;
+      }
+    });
+
+    return isContains;
+  }
+
+  List<Widget> createContent() {
+    updateLayers();
+    List<Widget> content = new List<Widget>();
+
+    bool isOriginalTextTitleVisible = true;
+
+    if (_layers.length == 0) {
+      isOriginalTextTitleVisible = false;
+    }
+
+    content.add(OriginalTextLayer(_textEditingController, isOriginalTextTitleVisible));
+
+    for (int i = 0; i < _layers.length; i++) {
+      content.add(_layers[i]);
+    }
+
+    content.add(ButtonBarLayer(
+      _isFirstFloatingActionButtonVisible,
+      _isSecondFloatingActionButtonVisible,
+      () {
+        setState(() {
+          if (isContains('UniqueCheck')) {
+            int position = 0;
+
+            _layersInfo.forEach((element) {
+              if (element.getName() == 'UniqueCheck') {
+                position = element.getPosition();
+              }
+            });
+
+            deleteLayer(position);
+          }
+
+          addLayer(LayerInfo('UniqueCheck', _layersInfo.length));
+          updateFloatingActionButtons();
+        });
+      },
+      () {
+        setState(() {
+          addLayer(LayerInfo('UniqueText', _layersInfo.length));
+          updateFloatingActionButtons();
+        });
+      })
+    );
+
+    return content;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
-        Positioned(
-          child: BodyLayer(
-              Expanded(child: LayerTextForm()),
-              LayerTitle(
-                Text('Original text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.white)),
-                Colors.red,
-                true,
-                false,
-                false,
-                null,
-                null
-              )
-          ),
-        ),
-        Positioned(
-          top: offsets[1].dy,
-          child: Visibility(
-            child: BodyLayer(
-              SizedBox(
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text('Исторически сложилось так, что программирование возникло и развивалось как процедурное программирование. В школьных курсах информатики рассматриваются традиционные процедурно-ориентированные языки программирования.',
-                      style: TextStyle(fontSize: 20, fontFamily: 'Audrey'),
-                    ),
-                  ),
-                  width: MediaQuery.of(context).copyWith().size.width - 20,
-                  height: MediaQuery.of(context).copyWith().size.height
-              ),
-              LayerTitle(
-                Text('Unique text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
-                Colors.yellow,
-                true,
-                true,
-                true,
-                (Offset offset) {
-                  setState(() {
-                    if (isThirdLayerVisible == true && offsets[1].dy + offset.dy >= offsets[0].dy + 65 && offsets[1].dy + offset.dy <= offsets[2].dy - 65) {
-                    offsets[1] = Offset(offsets[1].dx, offsets[1].dy + offset.dy);
-                    } else if (isThirdLayerVisible == false && offsets[1].dy + offset.dy >= offsets[0].dy + 65 && offsets[1].dy + offset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                    offsets[1] = Offset(offsets[1].dx, offsets[1].dy + offset.dy);
-                    }
-                  });
-                },
-                () {
-                  setState(() {
-                    isSecondLayerVisible = false;
-                  });
-                }
-            )
-          ),
-          visible: isSecondLayerVisible,
-        ),
-        ),
-        Positioned(
-            top: offsets[2].dy,
-            child: Visibility(
-              child: BodyLayer(
-                  SizedBox(
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                          child: Text('Под инкапсуляцией понимается скрытие полей объекта с целью обеспечения доступа к ним только посредством методов класса. В языке Delphi ограничение доступа к полям объекта реализуется при помощи свойств объекта.',
-                            style: TextStyle(fontSize: 20, fontFamily: 'Audrey'),
-                          ),
-                      ),
-                      width: MediaQuery.of(context).copyWith().size.width - 20,
-                      height: MediaQuery.of(context).copyWith().size.height
-                  ),
-                  LayerTitle(
-                    Text('Unique check', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
-                    Colors.green,
-                    true,
-                    true,
-                    true,
-                    (Offset offset) {
-                      setState(() {
-                        if (isSecondLayerVisible == true && offsets[2].dy + offset.dy >= offsets[1].dy + 65 && offsets[2].dy + offset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                          offsets[2] = Offset(offsets[2].dx, offsets[2].dy + offset.dy);
-                        } else if (isSecondLayerVisible == false && offsets[2].dy + offset.dy >= offsets[0].dy + 65 && offsets[2].dy + offset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                          offsets[2] = Offset(offsets[2].dx, offsets[2].dy + offset.dy);
-                        }
-                      });
-                    },
-                    () {
-                      setState(() {
-                        isThirdLayerVisible = false;
-                      });
-                    }
-                  )
-              ),
-              visible: isThirdLayerVisible,
-            )
-        ),
-      ],
+      children: createContent()
     );
   }
 }
