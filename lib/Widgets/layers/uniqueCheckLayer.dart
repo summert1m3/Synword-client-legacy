@@ -5,7 +5,8 @@ import 'package:synword/widgets/layerTitle.dart';
 class UniqueCheckLayer extends StatelessWidget {
   final Offset _offset;
   final Color _titleColor;
-  final GestureDetectorCallback _gestureDetectorCallback;
+  final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
+  final OnPanEndCallback _gestureDetectorOnPanEndCallback;
   final CloseButtonCallback _closeButtonCallback;
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
@@ -15,7 +16,8 @@ class UniqueCheckLayer extends StatelessWidget {
       this._titleColor,
       this._isTitleVisible,
       this._isCloseButtonVisible,
-      this._gestureDetectorCallback,
+      this._gestureDetectorOnPanUpdateCallback,
+      this._gestureDetectorOnPanEndCallback,
       this._closeButtonCallback
   );
 
@@ -48,7 +50,8 @@ class UniqueCheckLayer extends StatelessWidget {
           ),
           true,
           true,
-          _gestureDetectorCallback
+          _gestureDetectorOnPanUpdateCallback,
+          _gestureDetectorOnPanEndCallback
       ),
     );
   }

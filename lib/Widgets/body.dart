@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:synword/widgets/layers/buttonBarLayer.dart';
 import 'package:synword/widgets/layers/originalTextLayer.dart';
 import 'package:synword/widgets/layers/uniqueTextLayer.dart';
@@ -92,6 +93,27 @@ class _BodyState extends State<Body> {
                 }
               });
             },
+            (offset) {
+              double border;
+
+              if (offset.dy > 0) {
+                if (i + 1 != _layersInfo.length) {
+                  border = _offsets[i + 1].dy - LayersSetting.titleHeight / 1.2;
+                } else {
+                  border = MediaQuery.of(context).copyWith().size.height - 127;
+                }
+
+                hideLayer(i, border);
+              } else if (offset.dy < 0) {
+                if (i != 0) {
+                  border = _offsets[i - 1].dy + LayersSetting.titleHeight;
+                } else {
+                  border = LayersSetting.titleHeight;
+                }
+
+                showLayer(i, border);
+              }
+            },
             () {
               setState(() {
                 deleteLayer(_layersInfo[i].getPositionInStack());
@@ -127,7 +149,6 @@ class _BodyState extends State<Body> {
           isCloseButtonVisible,
           (offset) {
             Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPositionInStack()].dy + offset.dy);
-
             setState(() {
               if (_offsets.length < 2 && newOffset.dy >= LayersSetting.titleHeight && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 127) {
                 _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
@@ -135,6 +156,31 @@ class _BodyState extends State<Body> {
                 _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
               }
             });
+          },
+          (offset) {
+            double border;
+
+            if (offset.dy > 0) {
+              if (i + 1 != _layersInfo.length) {
+                border = _offsets[i + 1].dy - LayersSetting.titleHeight / 1.2;
+              } else {
+                border = MediaQuery.of(context).copyWith().size.height - 127;
+              }
+
+              hideLayer(i, border);
+            } else if (offset.dy < 0) {
+              if (i != 0) {
+                border = _offsets[i - 1].dy + LayersSetting.titleHeight;
+              } else {
+                if (i != 0) {
+                  border = _offsets[i - 1].dy + LayersSetting.titleHeight;
+                } else {
+                  border = LayersSetting.titleHeight;
+                }
+              }
+
+              showLayer(i, border);
+            }
           },
           () {
             setState(() {
@@ -146,6 +192,42 @@ class _BodyState extends State<Body> {
       );
       }
     }
+  }
+
+  void hideLayer(int layerPosition, double border) {
+    Timer.periodic(Duration(milliseconds: 5), (timer) {
+      if (_offsets[layerPosition].dy < border) {
+        setState(() {
+          Offset newOffset = Offset(0, _offsets[layerPosition].dy + 10);
+
+          if (newOffset.dy > border) {
+            newOffset = Offset(0, border);
+          }
+
+          _offsets[layerPosition] = newOffset;
+        });
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  void showLayer(int layerPosition, double border) {
+    Timer.periodic(Duration(milliseconds: 5), (timer) {
+      if (_offsets[layerPosition].dy > border) {
+        setState(() {
+          Offset newOffset = Offset(0, _offsets[layerPosition].dy - 10);
+
+          if (newOffset.dy < border) {
+            newOffset = Offset(0, border);
+          }
+
+          _offsets[layerPosition] = newOffset;
+        });
+      } else {
+        timer.cancel();
+      }
+    });
   }
 
   bool isOffsetOutOfBounds(int position, Offset offset) {
