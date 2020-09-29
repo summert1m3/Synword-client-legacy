@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/layerTitle.dart';
 
-typedef GestureDetectorCallback = void Function(Offset offset);
+typedef OnPanUpdateCallback = void Function(Offset offset);
+typedef OnPanEndCallback = void Function(Offset offset);
 
 class BodyLayer extends StatelessWidget {
   final Widget _widget;
   final LayerTitle _title;
   final bool _isTitleVisible;
   final bool _isGestureDetectorEnable;
-  final GestureDetectorCallback _gestureDetectorCallback;
+  final OnPanUpdateCallback _onPanUpdateCallback;
+  final OnPanEndCallback _onPanEndCallback;
 
   BodyLayer(
       this._widget,
       this._title,
       this._isTitleVisible,
       this._isGestureDetectorEnable,
-      this._gestureDetectorCallback
+      this._onPanUpdateCallback,
+      this._onPanEndCallback
   );
 
   @override
@@ -40,11 +43,13 @@ class BodyLayer extends StatelessWidget {
         ),
         onPanUpdate: (details) {
           if (_isGestureDetectorEnable) {
-            _gestureDetectorCallback(Offset(details.delta.dx, details.delta.dy));
+            _onPanUpdateCallback(Offset(details.delta.dx, details.delta.dy));
           }
         },
         onPanEnd: (details) {
-          print("Hello");
+          if (_isGestureDetectorEnable) {
+            _onPanEndCallback(details.velocity.pixelsPerSecond);
+          }
         },
       )
     );

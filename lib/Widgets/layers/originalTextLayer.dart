@@ -23,10 +23,11 @@ class OriginalTextLayer extends StatelessWidget {
                 Colors.black.withOpacity(0.0),
                 true,
                 false,
-                null
+                null,
             ),
             _isTitleVisible,
             false,
+            null,
             null
         )
     );
