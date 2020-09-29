@@ -43,6 +43,9 @@ class BodyLayer extends StatelessWidget {
             _gestureDetectorCallback(Offset(details.delta.dx, details.delta.dy));
           }
         },
+        onPanEnd: (details) {
+          print("Hello");
+        },
       )
     );
   }

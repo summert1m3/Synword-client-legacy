@@ -4,6 +4,7 @@ import 'package:synword/widgets/layers/originalTextLayer.dart';
 import 'package:synword/widgets/layers/uniqueTextLayer.dart';
 import 'package:synword/widgets/layers/uniqueCheckLayer.dart';
 import 'package:synword/widgets/layers/layerInfo.dart';
+import 'package:synword/widgets/layers/layersSetting.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _BodyState extends State<Body> {
     _layersInfo.add(item);
 
     for (int i = 0; i < _offsets.length; i++) {
-      _offsets[i] = Offset(0, ((i + 1) * 65).toDouble());
+      _offsets[i] = Offset(0, ((i + 1) * LayersSetting.titleHeight).toDouble());
     }
   }
 
@@ -39,7 +40,7 @@ class _BodyState extends State<Body> {
 
   void updateLayersInfo(int index) {
     for (int i = index; i < _layersInfo.length; i++) {
-      _layersInfo[i].setPosition(_layersInfo[i].getPosition() - 1);
+      _layersInfo[i].setPosition(_layersInfo[i].getPositionInStack() - 1);
     }
   }
 
@@ -47,23 +48,28 @@ class _BodyState extends State<Body> {
     _layers = List<Widget>();
 
     for (int i = 0; i < _layersInfo.length; i++) {
-      bool isCloseButtonEnable = false;
+      bool isTitleVisible = true;
+      bool isCloseButtonVisible = false;
       bool isContains = false;
       Color color = Colors.white;
 
       if (i == _layersInfo.length - 1) {
-        isCloseButtonEnable = true;
+        isCloseButtonVisible = true;
       }
 
       if (_layersInfo[i].getName() == 'UniqueCheck') {
         for (int j = 0; j < _offsets.length; j++) {
-          if (j == _layersInfo[i].getPosition()) {
+          if (j == _layersInfo[i].getPositionInStack()) {
             isContains = true;
           }
         }
 
         if (!isContains) {
-          _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
+          _offsets.add(Offset(0, ((_layers.length + 1) * LayersSetting.titleHeight).toDouble()));
+        }
+
+        if (_offsets[i].dy >=  MediaQuery.of(context).copyWith().size.height - 137) {
+          isTitleVisible = false;
         }
 
         if (i != _layersInfo.length - 1) {
@@ -71,23 +77,24 @@ class _BodyState extends State<Body> {
         }
 
         UniqueCheckLayer layer = UniqueCheckLayer(
-            _offsets[_layersInfo[i].getPosition()],
+            _offsets[_layersInfo[i].getPositionInStack()],
             color,
-            isCloseButtonEnable,
+            isTitleVisible,
+            isCloseButtonVisible,
             (offset) {
-              Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+              Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPositionInStack()].dy + offset.dy);
 
               setState(() {
-                if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                  _offsets[_layersInfo[i].getPosition()] = newOffset;
-                } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                  _offsets[_layersInfo[i].getPosition()] = newOffset;
+                if (_offsets.length < 2 && newOffset.dy >= LayersSetting.titleHeight && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 127) {
+                  _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
+                } else if (_offsets.length >= 2 && newOffset.dy >= LayersSetting.titleHeight && !isOffsetOutOfBounds(_layersInfo[i].getPositionInStack(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 127) {
+                  _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
                 }
               });
             },
             () {
               setState(() {
-                deleteLayer(_layersInfo[i].getPosition());
+                deleteLayer(_layersInfo[i].getPositionInStack());
                 updateFloatingActionButtons();
               });
             }
@@ -96,13 +103,17 @@ class _BodyState extends State<Body> {
         _layers.add(layer);
       } else if (_layersInfo[i].getName() == 'UniqueText') {
         for (int j = 0; j < _offsets.length; j++) {
-          if (j == _layersInfo[i].getPosition()) {
+          if (j == _layersInfo[i].getPositionInStack()) {
             isContains = true;
           }
         }
 
         if (!isContains) {
-          _offsets.add(Offset(0, ((_layers.length + 1) * 65).toDouble()));
+          _offsets.add(Offset(0, ((_layers.length + 1) * LayersSetting.titleHeight).toDouble()));
+        }
+
+        if (_offsets[i].dy >=  MediaQuery.of(context).copyWith().size.height - 137) {
+          isTitleVisible = false;
         }
 
         if (i != _layersInfo.length - 1) {
@@ -110,23 +121,24 @@ class _BodyState extends State<Body> {
         }
 
         _layers.add(UniqueTextLayer(
-          _offsets[_layersInfo[i].getPosition()],
+          _offsets[_layersInfo[i].getPositionInStack()],
           color,
-          isCloseButtonEnable,
+            isTitleVisible,
+          isCloseButtonVisible,
           (offset) {
-            Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPosition()].dy + offset.dy);
+            Offset newOffset = Offset(0, _offsets[_layersInfo[i].getPositionInStack()].dy + offset.dy);
 
             setState(() {
-              if (_offsets.length < 2 && newOffset.dy >= 65 && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                _offsets[_layersInfo[i].getPosition()] = newOffset;
-              } else if (_offsets.length >= 2 && newOffset.dy >= 65 && !isOffsetOutOfBounds(_layersInfo[i].getPosition(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 157) {
-                _offsets[_layersInfo[i].getPosition()] = newOffset;
+              if (_offsets.length < 2 && newOffset.dy >= LayersSetting.titleHeight && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 127) {
+                _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
+              } else if (_offsets.length >= 2 && newOffset.dy >= LayersSetting.titleHeight && !isOffsetOutOfBounds(_layersInfo[i].getPositionInStack(), newOffset) && newOffset.dy <= MediaQuery.of(context).copyWith().size.height - 127) {
+                _offsets[_layersInfo[i].getPositionInStack()] = newOffset;
               }
             });
           },
           () {
             setState(() {
-              deleteLayer(_layersInfo[i].getPosition());
+              deleteLayer(_layersInfo[i].getPositionInStack());
               updateFloatingActionButtons();
             });
           }
@@ -138,13 +150,13 @@ class _BodyState extends State<Body> {
 
   bool isOffsetOutOfBounds(int position, Offset offset) {
     for (int i = position - 1; i >= 0; i--) {
-      if (offset.dy <= _offsets[i].dy + 65) {
+      if (offset.dy <= _offsets[i].dy + LayersSetting.titleHeight) {
         return true;
       }
     }
 
     for (int i = position + 1; i < _offsets.length; i++) {
-      if (offset.dy >= _offsets[i].dy - 65) {
+      if (offset.dy >= _offsets[i].dy - LayersSetting.titleHeight) {
         return true;
       }
     }
@@ -225,7 +237,7 @@ class _BodyState extends State<Body> {
 
             _layersInfo.forEach((element) {
               if (element.getName() == 'UniqueCheck') {
-                position = element.getPosition();
+                position = element.getPositionInStack();
               }
             });
 
