@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:synword/widgets/layers/layersSetting.dart';
 
 typedef CloseButtonCallback = void Function();
 
@@ -6,14 +7,16 @@ class LayerTitle extends StatelessWidget {
   final Text _title;
   final Color _titleColor;
   final Color _shadowColor;
-  final bool _isCloseButtonEnable;
+  final bool _isTitleVisible;
+  final bool _isCloseButtonVisible;
   final CloseButtonCallback _closeButtonCallback;
 
   LayerTitle(
       this._title,
       this._titleColor,
       this._shadowColor,
-      this._isCloseButtonEnable,
+      this._isTitleVisible,
+      this._isCloseButtonVisible,
       this._closeButtonCallback
   );
 
@@ -21,7 +24,7 @@ class LayerTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
           width: MediaQuery.of(context).copyWith().size.width - 20,
-          height: 65,
+          height: LayersSetting.titleHeight,
           decoration: BoxDecoration(
               color: _titleColor,
               borderRadius: BorderRadius.circular(15.0),
@@ -34,25 +37,28 @@ class LayerTitle extends StatelessWidget {
                 ),
               ]
           ),
-          child: Stack(
-            children: [
-              Positioned(
-                  child: Center(
-                      child: _title
-                  )
-              ),
-              Visibility(
-                child: Positioned(
-                  top: 8,
-                  left: MediaQuery.of(context).copyWith().size.width - 65,
-                  child: IconButton(
-                    icon: Icon(Icons.cancel),
-                    onPressed: _closeButtonCallback,
-                  ),
+          child: Visibility(
+            child: Stack(
+              children: [
+                Positioned(
+                    child: Center(
+                        child: _title
+                    )
                 ),
-                visible: _isCloseButtonEnable,
-              )
-            ],
+                Visibility(
+                  child: Positioned(
+                    top: 8,
+                    left: MediaQuery.of(context).copyWith().size.width - 65,
+                    child: IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: _closeButtonCallback,
+                    ),
+                  ),
+                  visible: _isCloseButtonVisible,
+                )
+              ],
+            ),
+            visible: _isTitleVisible,
           )
     );
   }

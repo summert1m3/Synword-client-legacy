@@ -7,12 +7,14 @@ class UniqueTextLayer extends StatelessWidget {
   final Color _titleColor;
   final GestureDetectorCallback _gestureDetectorCallback;
   final CloseButtonCallback _closeButtonCallback;
-  final bool _isCloseButtonEnable;
+  final bool _isTitleVisible;
+  final bool _isCloseButtonVisible;
 
   UniqueTextLayer(
       this._offset,
       this._titleColor,
-      this._isCloseButtonEnable,
+      this._isTitleVisible,
+      this._isCloseButtonVisible,
       this._gestureDetectorCallback,
       this._closeButtonCallback
   );
@@ -40,7 +42,8 @@ class UniqueTextLayer extends StatelessWidget {
               Text('Unique text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
               _titleColor,
               Colors.black.withOpacity(0.2),
-              _isCloseButtonEnable,
+              _isTitleVisible,
+              _isCloseButtonVisible,
               _closeButtonCallback,
           ),
           true,

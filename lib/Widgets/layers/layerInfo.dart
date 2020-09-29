@@ -1,18 +1,18 @@
 class LayerInfo {
   String _name;
-  int _position;
+  int _positionInStack;
 
-  LayerInfo(this._name, this._position);
+  LayerInfo(this._name, this._positionInStack);
 
   String getName() {
     return _name;
   }
 
   void setPosition(int newPosition) {
-    _position = newPosition;
+    _positionInStack = newPosition;
   }
 
-  int getPosition() {
-    return _position;
+  int getPositionInStack() {
+    return _positionInStack;
   }
 }

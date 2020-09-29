@@ -21,6 +21,7 @@ class OriginalTextLayer extends StatelessWidget {
                 Text('Original text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.white)),
                 Colors.red,
                 Colors.black.withOpacity(0.0),
+                true,
                 false,
                 null
             ),
