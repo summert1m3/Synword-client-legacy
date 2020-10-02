@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/bodyButtonBar.dart';
+import 'package:synword/types.dart';
 
-class ButtonBarLayer extends StatelessWidget {
+class ButtonBarWidget extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
   final bool _isSecondFloatingActionButtonVisible;
   final FloatingActionButtonCallback _firstButtonCallback;
   final FloatingActionButtonCallback _secondButtonCallback;
 
-  ButtonBarLayer(
+  ButtonBarWidget(
       this._isFirstFloatingActionButtonVisible,
       this._isSecondFloatingActionButtonVisible,
       this._firstButtonCallback,

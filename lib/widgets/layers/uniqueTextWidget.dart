@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
+import 'package:synword/types.dart';
 
-class UniqueTextLayer extends StatelessWidget {
+class UniqueTextWidget extends StatelessWidget {
   final Offset _offset;
   final Color _titleColor;
   final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
@@ -11,14 +12,14 @@ class UniqueTextLayer extends StatelessWidget {
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
 
-  UniqueTextLayer(
-      this._offset,
-      this._titleColor,
-      this._isTitleVisible,
-      this._isCloseButtonVisible,
-      this._gestureDetectorOnPanUpdateCallback,
-      this._gestureDetectorOnPanEndCallback,
-      this._closeButtonCallback
+  UniqueTextWidget(
+  this._offset,
+    this._titleColor,
+    this._isTitleVisible,
+    this._isCloseButtonVisible,
+    this._gestureDetectorOnPanUpdateCallback,
+    this._gestureDetectorOnPanEndCallback,
+    this._closeButtonCallback
   );
 
   static Color getColor() {

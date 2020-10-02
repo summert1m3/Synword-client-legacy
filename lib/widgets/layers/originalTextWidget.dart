@@ -3,11 +3,11 @@ import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTextForm.dart';
 import 'package:synword/widgets/layerTitle.dart';
 
-class OriginalTextLayer extends StatelessWidget {
+class OriginalTextWidget extends StatelessWidget {
   final TextEditingController _textEditingController;
   final bool _isTitleVisible;
 
-  OriginalTextLayer(
+  OriginalTextWidget(
     this._textEditingController,
     this._isTitleVisible
   );

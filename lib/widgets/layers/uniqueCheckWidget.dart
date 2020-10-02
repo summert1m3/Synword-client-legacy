@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
+import 'package:synword/types.dart';
 
-class UniqueCheckLayer extends StatelessWidget {
+class UniqueCheckWidget extends StatelessWidget {
+  final Widget _widget;
   final Offset _offset;
   final Color _titleColor;
   final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
@@ -11,14 +13,15 @@ class UniqueCheckLayer extends StatelessWidget {
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
 
-  UniqueCheckLayer(
-      this._offset,
-      this._titleColor,
-      this._isTitleVisible,
-      this._isCloseButtonVisible,
-      this._gestureDetectorOnPanUpdateCallback,
-      this._gestureDetectorOnPanEndCallback,
-      this._closeButtonCallback
+  UniqueCheckWidget(
+    this._widget,
+    this._offset,
+    this._titleColor,
+    this._isTitleVisible,
+    this._isCloseButtonVisible,
+    this._gestureDetectorOnPanUpdateCallback,
+    this._gestureDetectorOnPanEndCallback,
+    this._closeButtonCallback
   );
 
   static Color getColor() {
@@ -31,12 +34,7 @@ class UniqueCheckLayer extends StatelessWidget {
       top: _offset.dy,
       child: BodyLayer(
           SizedBox(
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: Text('Под инкапсуляцией понимается скрытие полей объекта с целью обеспечения доступа к ним только посредством методов класса. В языке Delphi ограничение доступа к полям объекта реализуется при помощи свойств объекта.',
-                  style: TextStyle(fontSize: 20, fontFamily: 'Audrey'),
-                ),
-              ),
+              child: _widget,
               width: MediaQuery.of(context).copyWith().size.width - 20,
               height: MediaQuery.of(context).copyWith().size.height
           ),

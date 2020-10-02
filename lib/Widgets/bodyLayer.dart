@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/layerTitle.dart';
-
-typedef OnPanUpdateCallback = void Function(Offset offset);
-typedef OnPanEndCallback = void Function(Offset offset);
+import 'package:synword/types.dart';
 
 class BodyLayer extends StatelessWidget {
   final Widget _widget;
@@ -13,12 +11,12 @@ class BodyLayer extends StatelessWidget {
   final OnPanEndCallback _onPanEndCallback;
 
   BodyLayer(
-      this._widget,
-      this._title,
-      this._isTitleVisible,
-      this._isGestureDetectorEnable,
-      this._onPanUpdateCallback,
-      this._onPanEndCallback
+    this._widget,
+    this._title,
+    this._isTitleVisible,
+    this._isGestureDetectorEnable,
+    this._onPanUpdateCallback,
+    this._onPanEndCallback
   );
 
   @override

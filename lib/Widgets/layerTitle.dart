@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:synword/widgets/layers/layersSetting.dart';
-
-typedef CloseButtonCallback = void Function();
+import 'package:synword/layersSetting.dart';
+import 'package:synword/types.dart';
 
 class LayerTitle extends StatelessWidget {
   final Text _title;
@@ -12,19 +11,19 @@ class LayerTitle extends StatelessWidget {
   final CloseButtonCallback _closeButtonCallback;
 
   LayerTitle(
-      this._title,
-      this._titleColor,
-      this._shadowColor,
-      this._isTitleVisible,
-      this._isCloseButtonVisible,
-      this._closeButtonCallback
+    this._title,
+    this._titleColor,
+    this._shadowColor,
+    this._isTitleVisible,
+    this._isCloseButtonVisible,
+    this._closeButtonCallback
   );
 
   @override
   Widget build(BuildContext context) {
     return Container(
           width: MediaQuery.of(context).copyWith().size.width - 20,
-          height: LayersSetting.titleHeight,
+          height: TitleHeight,
           decoration: BoxDecoration(
               color: _titleColor,
               borderRadius: BorderRadius.circular(15.0),
