@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-typedef FloatingActionButtonCallback = void Function();
+import 'package:synword/types.dart';
 
 class BodyButtonBar extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
