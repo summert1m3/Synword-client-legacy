@@ -141,12 +141,21 @@ class _BodyState extends State<Body> {
   }
 
   void updateLayers() {
-    if (_layerList.length != 0) {
+    updateOriginalTextTitleVisible();
+    updateLayersTitleColors();
+    updateLastLayerTitleVisible();
+    updateButtons();
+  }
+
+  void updateOriginalTextTitleVisible() {
+    if (_layerList.isNotEmpty) {
       _originalText.setTitleVisible(true);
     } else {
       _originalText.setTitleVisible(false);
     }
+  }
 
+  void updateLayersTitleColors() {
     if (_layerList.isNotEmpty) {
       for (int i = 0; i < _layerList.length - 1; i++) {
         _layerList[i].setTitleColor(_layerList[i].getDefaultColor());
@@ -154,7 +163,9 @@ class _BodyState extends State<Body> {
 
       _layerList.last.setTitleColor(Colors.white);
     }
+  }
 
+  void updateLastLayerTitleVisible() {
     if (_layerList.isNotEmpty) {
       if (_layerList.last.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
         _layerList.last.setTitleVisible(false);
@@ -162,17 +173,15 @@ class _BodyState extends State<Body> {
         _layerList.last.setTitleVisible(true);
       }
     }
-
-    updateButtons();
   }
 
   void updateButtons() {
-    if (_layerList.isNotEmpty) {
-      if (isContains(UniqueTextLayer)) {
-        _buttonBar.setSecondButtonVisible(false);
-      }
-    }
+    updateUpButton();
+    updateCheckButton();
+    updateButtonBarButtonVisible();
+  }
 
+  void updateCheckButton() {
     if (_layerList.isNotEmpty) {
       Type type = _layerList.last.runtimeType;
 
@@ -182,7 +191,17 @@ class _BodyState extends State<Body> {
         _buttonBar.setFirstButtonVisible(true);
       }
     }
+  }
 
+  void updateUpButton() {
+    if (_layerList.isNotEmpty) {
+      if (isContains(UniqueTextLayer)) {
+        _buttonBar.setSecondButtonVisible(false);
+      }
+    }
+  }
+
+  void updateButtonBarButtonVisible() {
     if (!_buttonBar.getFirstButtonVisible() && !_buttonBar.getSecondButtonVisible()) {
       _isButtonBarButtonNotVisible = true;
     }
