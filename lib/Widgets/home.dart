@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:synword/widgets/body.dart';
+import 'package:synword/Widgets/DrawerMenu/drawerMenu.dart';
+import 'package:synword/Widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           'synword',
@@ -15,8 +20,8 @@ class Home extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           tooltip: 'Menu',
-          icon: Icon(Icons.menu, color: Hexcolor('#840200')),
-          onPressed: null,
+          icon: Icon(Icons.menu, color: Hexcolor('#c70000'), size: 30),
+            onPressed: () => _scaffoldKey.currentState.openDrawer(),
         ),
         actions: [
           IconButton(
@@ -31,6 +36,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.black,
         toolbarHeight: 40,
       ),
+      drawer: DrawerMenu(),
       body: Body(),
       backgroundColor: Colors.black,
     );
