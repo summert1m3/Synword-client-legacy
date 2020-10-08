@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:synword/Widgets/DrawerMenu/drawerMenu.dart';
-import 'package:synword/Widgets/body.dart';
+import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
+import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
