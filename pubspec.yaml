@@ -58,6 +58,7 @@ flutter:
     - icons/check_button.svg
     - icons/up_button.svg
     - icons/upload_button.svg
+    - icons/premium.svg
     - icons/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
