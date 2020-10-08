@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'synword',
-          style: TextStyle(fontFamily: 'Waxe', fontSize: 30),
+          style: TextStyle(fontFamily: 'Waxe', fontSize: 33, letterSpacing: 1.5),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -29,6 +29,7 @@ class Home extends StatelessWidget {
           )
         ],
         backgroundColor: Colors.black,
+        toolbarHeight: 40,
       ),
       body: Body(),
       backgroundColor: Colors.black,

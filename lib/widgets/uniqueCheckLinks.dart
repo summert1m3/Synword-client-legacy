@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class UniqueCheckLinks extends StatelessWidget {
+  final double _height;
+
+  UniqueCheckLinks(this._height);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      height: _height,
+      child: ListView(
         children: [
           UniqueCheckLinksItem(
               'google.com',
@@ -23,7 +28,7 @@ class UniqueCheckLinks extends StatelessWidget {
               5
           ),
         ],
-      ),
+      )
     );
   }
 }

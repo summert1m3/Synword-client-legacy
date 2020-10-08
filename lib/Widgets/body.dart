@@ -34,11 +34,10 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
 
-    _layerList = new List<MovingLayer>();
-    _textEditingController = new TextEditingController();
+    _layerList = List<MovingLayer>();
+    _textEditingController = TextEditingController();
     _originalText = OriginalTextLayer(_textEditingController, false);
     _buttonBar = ButtonBarLayer(true, true, buttonBarFirstButtonCallback(), buttonBarSecondButtonCallback());
-
   }
 
   FloatingActionButtonCallback buttonBarFirstButtonCallback() => () {
@@ -305,7 +304,7 @@ class _BodyState extends State<Body> {
   }
 
   List<Widget> getWidgets() {
-    List<Widget> widgetList = new List<Widget>();
+    List<Widget> widgetList = List<Widget>();
     widgetList.add(_originalText.getWidget());
 
     _layerList.forEach((element) {

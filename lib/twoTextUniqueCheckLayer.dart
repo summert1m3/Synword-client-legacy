@@ -46,7 +46,7 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
 
   void build() {
     _widget = UniqueCheckWidget(
-        TwoTextUniqueCheckWidget(_originalProgress, _uniqueProgress),
+        TwoTextUniqueCheckWidget(_offset, _originalProgress, _uniqueProgress),
         _offset,
         _titleColor,
         _isTitleVisible,
