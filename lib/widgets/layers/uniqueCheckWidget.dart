@@ -24,10 +24,6 @@ class UniqueCheckWidget extends StatelessWidget {
     this._closeButtonCallback
   );
 
-  static Color getColor() {
-    return Colors.green;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Positioned(

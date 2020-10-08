@@ -83,6 +83,9 @@ flutter:
         - asset: fonts/Audrey-MediumOblique.otf
         - asset: fonts/Audrey-Normal.otf
         - asset: fonts/Audrey-NormalOblique.otf
+    - family: Comodo
+      fonts:
+        - asset: fonts/Comodo.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

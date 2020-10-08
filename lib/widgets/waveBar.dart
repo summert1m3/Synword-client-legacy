@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:synword/widgets/waveBall.dart';
+import 'package:synword/layersSetting.dart';
 
 class WaveBar extends StatelessWidget {
   final double _progress;
@@ -11,8 +13,8 @@ class WaveBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 130,
-      height: 130,
+      width: WaveBarWidth,
+      height: WaveBarHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(width: 0.8)
@@ -21,11 +23,14 @@ class WaveBar extends StatelessWidget {
         child: WaveBall(
           size: 130,
           circleColor: Colors.white,
+          foregroundColor: Hexcolor("#008FFF"),
+          backgroundColor: Hexcolor("#6FC0FF"),
           progress: _progress,
+          range: 8,
           child: Center(
             child: Text(
-              (_progress * 100).toString(),
-              style: TextStyle(color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold),
+              (_progress * 100).toInt().toString(),
+              style: TextStyle(color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold, fontFamily: 'Audrey'),
             ),
           ),
         ),

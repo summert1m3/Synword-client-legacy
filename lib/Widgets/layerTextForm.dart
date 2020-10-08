@@ -13,13 +13,14 @@ class LayerTextForm extends StatelessWidget {
         controller: _textEditingController,
         maxLines: MediaQuery.of(context).copyWith().size.height ~/ 20,
         decoration: InputDecoration(
-            hintStyle: TextStyle(fontFamily: 'Audrey', fontSize: 20, fontWeight: FontWeight.bold),
-            hintText: 'Enter your text here',
-            fillColor: Colors.white,
-            filled: true,
-            border: UnderlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0)
-            )
+          hintStyle: TextStyle(fontFamily: 'Audrey', fontSize: 20, fontWeight: FontWeight.bold),
+          hintText: 'Enter your text here',
+          fillColor: Colors.white,
+          filled: true,
+          border: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+          ),
+          focusedBorder: InputBorder.none
         ),
       ),
     );
