@@ -29,14 +29,13 @@ class Home extends StatelessWidget {
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
         ),
         actions: [
-
           IconButton(
             tooltip: 'Insert file',
             icon: SvgPicture.asset(
               'icons/upload_button.svg',
               semanticsLabel: 'Upload button',
             ),
-            onPressed: ()=>{},
+            onPressed: () => {},
           ),
           SizedBox(
             width: 10,
