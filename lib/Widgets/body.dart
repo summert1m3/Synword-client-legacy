@@ -124,6 +124,7 @@ class _BodyState extends State<Body> {
 
   void addLayer(MovingLayer layer) {
     _layerList.add(layer);
+    FocusScope.of(context).unfocus();
     setLayerDefaultOffset();
     updateLayers();
   }
@@ -143,6 +144,7 @@ class _BodyState extends State<Body> {
     updateOriginalTextTitleVisible();
     updateLayersTitleColors();
     updateLastLayerTitleVisible();
+    updateLayersCloseButtonVisible();
     updateButtons();
   }
 
@@ -165,11 +167,21 @@ class _BodyState extends State<Body> {
   }
 
   void updateLastLayerTitleVisible() {
-    if (_layerList.isNotEmpty) {
-      if (_layerList.last.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
-        _layerList.last.setTitleVisible(false);
+    _layerList.forEach((element) {
+      if (element.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
+        element.setTitleVisible(false);
       } else {
-        _layerList.last.setTitleVisible(true);
+        element.setTitleVisible(true);
+      }
+    });
+  }
+
+  void updateLayersCloseButtonVisible() {
+    for (int i = 0; i < _layerList.length; i++) {
+      if (i == _layerList.length - 1) {
+        _layerList[i].setCloseButtonVisible(true);
+      } else {
+        _layerList[i].setCloseButtonVisible(false);
       }
     }
   }
@@ -196,6 +208,8 @@ class _BodyState extends State<Body> {
     if (_layerList.isNotEmpty) {
       if (isContains(UniqueTextLayer)) {
         _buttonBar.setSecondButtonVisible(false);
+      } else {
+        _buttonBar.setSecondButtonVisible(true);
       }
     }
   }
