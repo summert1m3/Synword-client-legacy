@@ -13,6 +13,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        leadingWidth: 80,
         title: Text(
           'synword',
           style: TextStyle(fontFamily: 'Waxe', fontSize: 33, letterSpacing: 1.5),
@@ -20,21 +21,30 @@ class Home extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           tooltip: 'Menu',
-          icon: Icon(Icons.menu, color: Hexcolor('#c70000'), size: 30),
+          icon: SvgPicture.asset(
+            'icons/menu.svg',
+            width: 18,
+            height: 18,
+          ),
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
         ),
         actions: [
+
           IconButton(
             tooltip: 'Insert file',
             icon: SvgPicture.asset(
               'icons/upload_button.svg',
               semanticsLabel: 'Upload button',
             ),
-            onPressed: null,
-          )
+            onPressed: ()=>{},
+          ),
+          SizedBox(
+            width: 10,
+            height: 10,
+          ),
         ],
         backgroundColor: Colors.black,
-        toolbarHeight: 40,
+        //toolbarHeight: 50,
       ),
       drawer: DrawerMenu(),
       body: Body(),
