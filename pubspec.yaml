@@ -58,6 +58,9 @@ flutter:
     - icons/check_button.svg
     - icons/up_button.svg
     - icons/upload_button.svg
+    - icons/premium.svg
+    - icons/logo.png
+    - icons/menu.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -82,6 +85,9 @@ flutter:
         - asset: fonts/Audrey-MediumOblique.otf
         - asset: fonts/Audrey-Normal.otf
         - asset: fonts/Audrey-NormalOblique.otf
+    - family: Comodo
+      fonts:
+        - asset: fonts/Comodo.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
