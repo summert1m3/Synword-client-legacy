@@ -25,8 +25,11 @@ class Home extends StatelessWidget {
             'icons/menu.svg',
             width: 18,
             height: 18,
+            color: Hexcolor('#C70000'),
           ),
-            onPressed: () => _scaffoldKey.currentState.openDrawer(),
+            onPressed: () => {
+            _scaffoldKey.currentState.openDrawer()
+            },
         ),
         actions: [
           IconButton(

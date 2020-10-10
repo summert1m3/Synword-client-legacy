@@ -124,7 +124,6 @@ class _BodyState extends State<Body> {
 
   void addLayer(MovingLayer layer) {
     _layerList.add(layer);
-    FocusScope.of(context).unfocus();
     setLayerDefaultOffset();
     updateLayers();
   }

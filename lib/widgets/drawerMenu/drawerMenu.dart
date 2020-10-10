@@ -31,6 +31,7 @@ class DrawerMenuState extends State<DrawerMenu> {
                   color: Colors.white,
                 ),
                 onPressed: () {
+                  FocusScope.of(context).unfocus();
                   Navigator.of(context).pop();
                 },
               ),
