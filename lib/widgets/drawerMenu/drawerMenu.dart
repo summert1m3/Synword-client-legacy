@@ -42,7 +42,7 @@ class DrawerMenuState extends State<DrawerMenu> {
               Text('COMMERCIAL',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16)),
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15)),
               SizedBox(
                 width: 10,
                 height: 10,
@@ -74,7 +74,7 @@ class DrawerMenuState extends State<DrawerMenu> {
                   'SOCIAL',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
                   )
               ),
               SizedBox(
@@ -104,7 +104,7 @@ class DrawerMenuState extends State<DrawerMenu> {
               Text('OTHER',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
                   )
               ),
               SizedBox(
