@@ -19,12 +19,12 @@ class DrawerMenuState extends State<DrawerMenu> {
       width: 150,
       child: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.black87,
+          canvasColor: Colors.black,
         ),
         child: Drawer(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 35),
+              SizedBox(height: 25),
               IconButton(
                 icon: Icon(
                   Icons.arrow_forward,
@@ -35,50 +35,98 @@ class DrawerMenuState extends State<DrawerMenu> {
                   Navigator.of(context).pop();
                 },
               ),
+              SizedBox(
+                width: 15,
+                height: 15,
+              ),
+              Text(
+                'COMMERCIAL',
+                //textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
+              ),
+              SizedBox(
+                width: 10,
+                height: 10,
+              ),
               IconButton(
-                iconSize: 100,
+                iconSize: 60,
                 tooltip: 'Premium',
                 icon: SvgPicture.asset(
                   'icons/premium.svg',
-                  semanticsLabel: 'Upload button',
+                  semanticsLabel: 'Premium',
                 ),
                 onPressed: () => {},
               ),
-              InkWell(
-                onTap: () => {},
-                child: IconContainer(
-                  iconName: 'Unlock',
-                  icon: Icon(Icons.info, size: 31, color: Hexcolor('#a10000')),
+              //SizedBox(height: 25),
+              IconButton(
+                iconSize: 60,
+                tooltip: 'Buy symbols',
+                icon: SvgPicture.asset(
+                  'icons/buy_symbols.svg',
+                  semanticsLabel: 'Buy symbols',
                 ),
+                onPressed: () => {},
               ),
-              //SizedBox(height: 25),
-              Material(
-                //color: Colors.blue,
-                child: InkWell(
-                  //onTap: () => print("Container pressed"),
-                  // handle your onTap here
-                  child: Container(
-                      height: 100,
-                      width: 100,
-                      //margin: EdgeInsets.all(50.0),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Hexcolor('#a10000'), width: 2),
-                          shape: BoxShape.circle,
-                      ),
-                    child: InkWell(
-                      onTap: ()=>{},
-                    ),
-                  ),
+              SizedBox(
+                width: 20,
+                height: 20,
+              ),
+              Text(
+                  'SOCIAL',
+                  //textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
+              ),
+              SizedBox(
+                width: 10,
+                height: 10,
+              ),
+              IconButton(
+                iconSize: 55,
+                tooltip: 'VK',
+                icon: Image(
+                  image: AssetImage('icons/vk.png'),
                 ),
+                onPressed: () => {},
               ),
-
-              //SizedBox(height: 25),
-              IconContainer(
-                iconName: 'Language',
-                icon:
-                    Icon(Icons.language, size: 31, color: Hexcolor('#a10000')),
+              IconButton(
+                iconSize: 55,
+                tooltip: 'VK',
+                icon: Image(
+                  image: AssetImage('icons/instagram.png'),
+                ),
+                onPressed: () => {},
               ),
-              //SizedBox(height: 25),
+              SizedBox(
+                width: 20,
+                height: 20,
+              ),
+              Text(
+                  'OTHER',
+                  //textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
+              ),
+              SizedBox(
+                width: 10,
+                height: 10,
+              ),
+              IconButton(
+                iconSize: 60,
+                tooltip: 'Language',
+                icon: SvgPicture.asset(
+                  'icons/language.svg',
+                  semanticsLabel: 'Language',
+                ),
+                onPressed: () => {},
+              ),
+              IconButton(
+                iconSize: 60,
+                tooltip: 'Feedback',
+                icon: SvgPicture.asset(
+                  'icons/feedback.svg',
+                  semanticsLabel: 'Feedback',
+                ),
+                onPressed: () => {},
+              ),
             ],
           ),
         ),
