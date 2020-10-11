@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:synword/Widgets/drawerMenu/iconContainer.dart';
+import 'package:synword/widgets/drawerMenu/iconContainer.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -22,9 +22,9 @@ class DrawerMenuState extends State<DrawerMenu> {
           canvasColor: Colors.black,
         ),
         child: Drawer(
-          child: Column(
+          child: ListView(
             children: <Widget>[
-              SizedBox(height: 25),
+              SizedBox(height: 5),
               IconButton(
                 icon: Icon(
                   Icons.arrow_forward,
@@ -36,14 +36,13 @@ class DrawerMenuState extends State<DrawerMenu> {
                 },
               ),
               SizedBox(
-                width: 15,
-                height: 15,
+                width: 8,
+                height: 8,
               ),
-              Text(
-                'COMMERCIAL',
-                //textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
-              ),
+              Text('COMMERCIAL',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16)),
               SizedBox(
                 width: 10,
                 height: 10,
@@ -68,17 +67,27 @@ class DrawerMenuState extends State<DrawerMenu> {
                 onPressed: () => {},
               ),
               SizedBox(
-                width: 20,
-                height: 20,
+                width: 15,
+                height: 15,
               ),
               Text(
                   'SOCIAL',
-                  //textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16
+                  )
               ),
               SizedBox(
                 width: 10,
                 height: 10,
+              ),
+              IconButton(
+                iconSize: 55,
+                tooltip: 'Instagram',
+                icon: Image(
+                  image: AssetImage('icons/instagram.png'),
+                ),
+                onPressed: () => {},
               ),
               IconButton(
                 iconSize: 55,
@@ -88,22 +97,15 @@ class DrawerMenuState extends State<DrawerMenu> {
                 ),
                 onPressed: () => {},
               ),
-              IconButton(
-                iconSize: 55,
-                tooltip: 'VK',
-                icon: Image(
-                  image: AssetImage('icons/instagram.png'),
-                ),
-                onPressed: () => {},
-              ),
               SizedBox(
-                width: 20,
-                height: 20,
+                width: 15,
+                height: 15,
               ),
-              Text(
-                  'OTHER',
-                  //textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontFamily: 'Audrey', fontSize: 16)
+              Text('OTHER',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: 16
+                  )
               ),
               SizedBox(
                 width: 10,
