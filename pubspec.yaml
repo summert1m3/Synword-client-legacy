@@ -66,6 +66,7 @@ flutter:
     - icons/premium.svg
     - icons/menu.svg
     - icons/buy_symbols.svg
+    - icons/upload_file_button.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -3,6 +3,7 @@ import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
 import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:synword/widgets/uploadButton/uploadButtonWidget.dart';
 
 class Home extends StatelessWidget {
 
@@ -38,7 +39,14 @@ class Home extends StatelessWidget {
               'icons/upload_button.svg',
               semanticsLabel: 'Upload button',
             ),
-            onPressed: () => {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return UploadFileUI();
+                }
+              );
+            },
           ),
           SizedBox(
             width: 10,
