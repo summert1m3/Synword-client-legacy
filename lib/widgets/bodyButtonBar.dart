@@ -35,15 +35,23 @@ class BodyButtonBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Visibility(
-            child: FloatingActionButton(
-                child: SvgPicture.asset(
-                  'icons/check_button.svg',
-                  color: Colors.black,
-                  semanticsLabel: 'Check button',
+            child: Column(
+              children: [
+                FloatingActionButton(
+                    child: SvgPicture.asset(
+                      'icons/check_button.svg',
+                      color: Colors.black,
+                      semanticsLabel: 'Check button',
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0.0,
+                    onPressed: _firstButtonCallback
                 ),
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-                onPressed: _firstButtonCallback
+                Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text('CHECK', style: TextStyle(fontSize: 17, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                )
+              ],
             ),
             visible: _isFirstFloatingActionButtonVisible,
           ),
@@ -54,15 +62,23 @@ class BodyButtonBar extends StatelessWidget {
             visible: getSizedBoxVisible(),
           ),
           Visibility(
-            child: FloatingActionButton(
-              child: SvgPicture.asset(
-                'icons/up_button.svg',
-                color: Colors.black,
-                semanticsLabel: 'Up button',
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              onPressed: _secondButtonCallback
+            child: Column(
+              children: [
+                FloatingActionButton(
+                    child: SvgPicture.asset(
+                      'icons/up_button.svg',
+                      color: Colors.black,
+                      semanticsLabel: 'Up button',
+                    ),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0.0,
+                    onPressed: _secondButtonCallback
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text('UP', style: TextStyle(fontSize: 17, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                )
+              ],
             ),
             visible: _isSecondFloatingActionButtonVisible,
           )

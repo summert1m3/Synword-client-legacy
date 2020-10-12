@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-const double TitleHeight = 65;
+const double TitleHeight = 80;
+const double TitleContactHeight = 20;
 const Color OriginalTextTitleColor = Colors.red;
 final Color UniqueTextTitleColor = Hexcolor('#FCFD64');
 final Color UniqueCheckTitleColor = Hexcolor('#FCFD64');
