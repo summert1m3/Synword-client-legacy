@@ -85,7 +85,7 @@ class _BodyState extends State<Body> {
     setState(() {
       if (_layerList.length < 2 && newOffset.dy >= TitleHeight - TitleContactHeight && newOffset.dy <= bottomBorder) {
         layer.setOffset(newOffset);
-      } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
+      } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight - TitleContactHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
         layer.setOffset(newOffset);
       }
 
@@ -109,7 +109,7 @@ class _BodyState extends State<Body> {
       if (index != 0) {
         border = _layerList[index - 1].getOffset().dy + TitleHeight - TitleContactHeight;
       } else {
-        border = TitleHeight - 20;
+        border = TitleHeight - TitleContactHeight;
       }
 
       showLayer(layer, border);
@@ -300,7 +300,7 @@ class _BodyState extends State<Body> {
     }
 
     for (int i = index + 1; i < _layerList.length; i++) {
-      if (newOffset.dy > _layerList[i].getOffset().dy - TitleHeight - TitleContactHeight) {
+      if (newOffset.dy > _layerList[i].getOffset().dy - TitleHeight + TitleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }

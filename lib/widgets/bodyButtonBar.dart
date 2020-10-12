@@ -49,7 +49,7 @@ class BodyButtonBar extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: Text('CHECK', style: TextStyle(fontSize: 17, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  child: Text('CHECK', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),
@@ -76,7 +76,7 @@ class BodyButtonBar extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: Text('UP', style: TextStyle(fontSize: 17, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  child: Text('UP', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),

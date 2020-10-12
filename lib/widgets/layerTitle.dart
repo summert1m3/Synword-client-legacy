@@ -35,7 +35,7 @@ class LayerTitle extends StatelessWidget {
                     color: _shadowColor,
                     spreadRadius: 1,
                     blurRadius: 13,
-                    offset: Offset(0, -20)
+                    offset: Offset(0, -15)
                 ),
               ]
           ),
