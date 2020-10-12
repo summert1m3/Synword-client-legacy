@@ -26,13 +26,16 @@ class LayerTitle extends StatelessWidget {
           height: TitleHeight,
           decoration: BoxDecoration(
               color: _titleColor,
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
               boxShadow: [
                 BoxShadow(
                     color: _shadowColor,
-                    spreadRadius: 3,
-                    blurRadius: 6,
-                    offset: Offset(0, -10)
+                    spreadRadius: 1,
+                    blurRadius: 13,
+                    offset: Offset(0, -20)
                 ),
               ]
           ),

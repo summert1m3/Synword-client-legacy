@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:synword/widgets/drawerMenu/iconContainer.dart';
-
 class DrawerMenu extends StatefulWidget {
   @override
   DrawerMenuState createState() {

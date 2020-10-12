@@ -25,7 +25,7 @@ class BodyLayer extends StatelessWidget {
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(25.0),
       ),
       child: GestureDetector(
         child: Column(
