@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
-  DrawerMenuState createState() {
-    return DrawerMenuState();
+  _DrawerMenuState createState() {
+    return _DrawerMenuState();
   }
 }
 
-class DrawerMenuState extends State<DrawerMenu> {
+class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
