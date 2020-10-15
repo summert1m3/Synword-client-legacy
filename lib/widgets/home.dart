@@ -3,6 +3,7 @@ import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
 import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:synword/widgets/uploadButton/uploadButtonWidget.dart';
 
 class Home extends StatelessWidget {
 
@@ -25,8 +26,11 @@ class Home extends StatelessWidget {
             'icons/menu.svg',
             width: 18,
             height: 18,
+            color: Hexcolor('#C70000'),
           ),
-            onPressed: () => _scaffoldKey.currentState.openDrawer(),
+            onPressed: () => {
+            _scaffoldKey.currentState.openDrawer()
+            },
         ),
         actions: [
           IconButton(
@@ -35,7 +39,14 @@ class Home extends StatelessWidget {
               'icons/upload_button.svg',
               semanticsLabel: 'Upload button',
             ),
-            onPressed: () => {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return UploadFileUI();
+                }
+              );
+            },
           ),
           SizedBox(
             width: 10,
@@ -43,7 +54,6 @@ class Home extends StatelessWidget {
           ),
         ],
         backgroundColor: Colors.black,
-        //toolbarHeight: 50,
       ),
       drawer: DrawerMenu(),
       body: Body(),

@@ -24,7 +24,6 @@ class LayerTextForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.0),
             ),
             focusedBorder: InputBorder.none,
-            //disabledBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
         ),
       ),

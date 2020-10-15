@@ -40,7 +40,7 @@ class UniqueTextWidget extends StatelessWidget {
           LayerTitle(
               Text('Unique text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
               _titleColor,
-              Colors.black.withOpacity(0.2),
+              Colors.black.withOpacity(0.4),
               _isTitleVisible,
               _isCloseButtonVisible,
               _closeButtonCallback,

@@ -83,9 +83,9 @@ class _BodyState extends State<Body> {
     double bottomBorder = MediaQuery.of(context).copyWith().size.height - 127;
 
     setState(() {
-      if (_layerList.length < 2 && newOffset.dy >= TitleHeight && newOffset.dy <= bottomBorder) {
+      if (_layerList.length < 2 && newOffset.dy >= TitleHeight - TitleContactHeight && newOffset.dy <= bottomBorder) {
         layer.setOffset(newOffset);
-      } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
+      } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight - TitleContactHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
         layer.setOffset(newOffset);
       }
 
@@ -99,7 +99,7 @@ class _BodyState extends State<Body> {
 
     if (offset.dy > 0) {
       if (index + 1 != _layerList.length) {
-        border = _layerList[index + 1].getOffset().dy - TitleHeight / 1.2;
+        border = _layerList[index + 1].getOffset().dy - TitleHeight + TitleContactHeight;
       } else {
         border = MediaQuery.of(context).copyWith().size.height - 127;
       }
@@ -107,9 +107,9 @@ class _BodyState extends State<Body> {
       hideLayer(layer, border);
     } else if (offset.dy < 0) {
       if (index != 0) {
-        border = _layerList[index - 1].getOffset().dy + TitleHeight;
+        border = _layerList[index - 1].getOffset().dy + TitleHeight - TitleContactHeight;
       } else {
-        border = TitleHeight;
+        border = TitleHeight - TitleContactHeight;
       }
 
       showLayer(layer, border);
@@ -124,7 +124,6 @@ class _BodyState extends State<Body> {
 
   void addLayer(MovingLayer layer) {
     _layerList.add(layer);
-    FocusScope.of(context).unfocus();
     setLayerDefaultOffset();
     updateLayers();
   }
@@ -266,7 +265,14 @@ class _BodyState extends State<Body> {
 
   void setLayerDefaultOffset() {
     for (int i = 0; i < _layerList.length; i++) {
-      Offset offset = Offset(0, (i + 1) * TitleHeight);
+      Offset offset;
+
+      if (i == 0) {
+        offset = Offset(0, TitleHeight - TitleContactHeight);
+      } else {
+        offset = Offset(0, _layerList[i - 1].getOffset().dy + TitleHeight - TitleContactHeight);
+      }
+
       _layerList[i].setOffset(offset);
     }
   }
@@ -287,14 +293,14 @@ class _BodyState extends State<Body> {
     bool isOutOfBounds = false;
 
     for (int i = index - 1; i >= 0; i--) {
-      if (newOffset.dy < _layerList[i].getOffset().dy + TitleHeight / 1.2) {
+      if (newOffset.dy < _layerList[i].getOffset().dy + TitleHeight - TitleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
     }
 
     for (int i = index + 1; i < _layerList.length; i++) {
-      if (newOffset.dy > _layerList[i].getOffset().dy - TitleHeight / 1.2) {
+      if (newOffset.dy > _layerList[i].getOffset().dy - TitleHeight + TitleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
