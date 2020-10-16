@@ -6,54 +6,58 @@ import 'layersSetting.dart';
 import 'types.dart';
 
 class TwoTextUniqueCheckLayer extends MovingLayer {
-  Offset _offset;
   double _originalProgress;
   double _uniqueProgress;
-  Color _titleColor;
-  OnPanUpdateCallback _onPanUpdateCallback;
-  OnPanEndCallback _onPanEndCallback;
-  CloseButtonCallback _closeButtonCallback;
-  bool _isTitleVisible;
-  bool _isCloseButtonVisible;
-  Widget _widget;
 
   TwoTextUniqueCheckLayer.zero() {
-    _offset = Offset.zero;
+    offset = Offset.zero;
     _originalProgress = 0;
     _uniqueProgress = 0;
-    _titleColor = UniqueCheckTitleColor;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
+    titleColor = UniqueCheckTitleColor;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
     build();
   }
 
-  TwoTextUniqueCheckLayer.common(this._offset, this._originalProgress, this._uniqueProgress) {
-    _titleColor = UniqueCheckTitleColor;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
+  TwoTextUniqueCheckLayer.common(Offset offset, double originalProgress, double uniqueProgress) {
+    this.offset = offset;
+    _originalProgress = originalProgress;
+    _uniqueProgress = uniqueProgress;
+    titleColor = UniqueCheckTitleColor;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
     build();
   }
 
-  TwoTextUniqueCheckLayer(this._offset, this._originalProgress, this._uniqueProgress, this._titleColor, this._isTitleVisible, this._isCloseButtonVisible, this._onPanUpdateCallback, this._onPanEndCallback, this._closeButtonCallback) {
+  TwoTextUniqueCheckLayer(Offset offset, double originalProgress, double uniqueProgress, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
+    this.offset = offset;
+    _originalProgress = originalProgress;
+    _uniqueProgress = uniqueProgress;
+    this.titleColor = titleColor;
+    this.isTitleVisible = isTitleVisible;
+    this.isCloseButtonVisible = isCloseButtonVisible;
+    this.onPanUpdateCallback = onPanUpdateCallback;
+    this.onPanEndCallback = onPanEndCallback;
+    this.closeButtonCallback = closeButtonCallback;
     build();
   }
 
   void build() {
-    _widget = UniqueCheckWidget(
-        TwoTextUniqueCheckWidget(_offset, _originalProgress, _uniqueProgress),
-        _offset,
-        _titleColor,
-        _isTitleVisible,
-        _isCloseButtonVisible,
-        _onPanUpdateCallback,
-        _onPanEndCallback,
-        _closeButtonCallback
+    widget = UniqueCheckWidget(
+        TwoTextUniqueCheckWidget(offset, _originalProgress, _uniqueProgress),
+        offset,
+        titleColor,
+        isTitleVisible,
+        isCloseButtonVisible,
+        onPanUpdateCallback,
+        onPanEndCallback,
+        closeButtonCallback
     );
   }
 
@@ -67,50 +71,7 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
     build();
   }
 
-  void setTitleColor(Color value) {
-    _titleColor = value;
-    build();
-  }
-
-  void setTitleVisible(bool value) {
-    _isTitleVisible = value;
-    build();
-  }
-
-  void setCloseButtonVisible(bool value) {
-    _isCloseButtonVisible = value;
-    build();
-  }
-
-  void setOnPanUpdateCallback(OnPanUpdateCallback value) {
-    _onPanUpdateCallback = value;
-    build();
-  }
-
-  void setOnPanEndCallback(OnPanEndCallback value) {
-    _onPanEndCallback = value;
-    build();
-  }
-
-  void setCloseButtonCallback(CloseButtonCallback value) {
-    _closeButtonCallback = value;
-    build();
-  }
-
-  void setOffset(Offset value) {
-    _offset = value;
-    build();
-  }
-
   Color getDefaultColor() {
     return UniqueCheckTitleColor;
-  }
-
-  Offset getOffset() {
-    return _offset;
-  }
-
-  Widget getWidget() {
-    return _widget;
   }
 }

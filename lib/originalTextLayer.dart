@@ -5,7 +5,6 @@ import 'layer.dart';
 class OriginalTextLayer extends Layer {
   TextEditingController _textEditingController;
   bool _isTitleVisible;
-  Widget _widget;
 
   OriginalTextLayer.zero() {
     _textEditingController = null;
@@ -18,7 +17,7 @@ class OriginalTextLayer extends Layer {
   }
 
   void build() {
-    _widget = OriginalTextWidget(
+    widget = OriginalTextWidget(
         _textEditingController,
         _isTitleVisible
     );
@@ -32,9 +31,5 @@ class OriginalTextLayer extends Layer {
   void setTitleVisible(bool value) {
     _isTitleVisible = value;
     build();
-  }
-
-  Widget getWidget() {
-    return _widget;
   }
 }

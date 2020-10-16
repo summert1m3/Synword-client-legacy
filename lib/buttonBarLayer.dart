@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:synword/widgets/layers/buttonBarWidget.dart';
 import 'layer.dart';
 import 'types.dart';
-
 
 class ButtonBarLayer extends Layer {
   bool _isFirstButtonVisible;
   bool _isSecondButtonVisible;
   FloatingActionButtonCallback _firstButtonCallback;
   FloatingActionButtonCallback _secondButtonCallback;
-  Widget _widget;
 
   ButtonBarLayer.zero() {
     _isFirstButtonVisible = true;
@@ -24,7 +21,7 @@ class ButtonBarLayer extends Layer {
   }
 
   void build() {
-    _widget = ButtonBarWidget(
+    widget = ButtonBarWidget(
         _isFirstButtonVisible,
         _isSecondButtonVisible,
         _firstButtonCallback,
@@ -58,9 +55,5 @@ class ButtonBarLayer extends Layer {
 
   bool getSecondButtonVisible() {
     return _isSecondButtonVisible;
-  }
-
-  Widget getWidget() {
-    return _widget;
   }
 }

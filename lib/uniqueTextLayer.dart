@@ -5,96 +5,52 @@ import 'layersSetting.dart';
 import 'types.dart';
 
 class UniqueTextLayer extends MovingLayer {
-  Offset _offset;
-  Color _titleColor;
-  OnPanUpdateCallback _onPanUpdateCallback;
-  OnPanEndCallback _onPanEndCallback;
-  CloseButtonCallback _closeButtonCallback;
-  bool _isTitleVisible;
-  bool _isCloseButtonVisible;
-  Widget _widget;
-
   UniqueTextLayer.zero() {
-    _offset = Offset.zero;
-    _titleColor = UniqueTextTitleColor;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
+    offset = Offset.zero;
+    titleColor = UniqueTextTitleColor;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
     build();
   }
 
-  UniqueTextLayer.common(this._offset) {
-    _titleColor = UniqueTextTitleColor;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
+  UniqueTextLayer.common(Offset offset) {
+    this.offset = offset;
+    titleColor = UniqueTextTitleColor;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
     build();
   }
 
-  UniqueTextLayer(this._offset, this._titleColor, this._isTitleVisible, this._isCloseButtonVisible, this._onPanUpdateCallback, this._onPanEndCallback, this._closeButtonCallback) {
+  UniqueTextLayer(Offset offset, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
+    this.offset = offset;
+    this.titleColor = titleColor;
+    this.isTitleVisible = isTitleVisible;
+    this.isCloseButtonVisible = isCloseButtonVisible;
+    this.onPanUpdateCallback = onPanUpdateCallback;
+    this.onPanEndCallback = onPanEndCallback;
+    this.closeButtonCallback = closeButtonCallback;
     build();
   }
 
   void build() {
-    _widget = UniqueTextWidget(
-        _offset,
-        _titleColor,
-        _isTitleVisible,
-        _isCloseButtonVisible,
-        _onPanUpdateCallback,
-        _onPanEndCallback,
-        _closeButtonCallback
+    widget = UniqueTextWidget(
+        offset,
+        titleColor,
+        isTitleVisible,
+        isCloseButtonVisible,
+        onPanUpdateCallback,
+        onPanEndCallback,
+        closeButtonCallback
     );
-  }
-
-  void setTitleColor(Color value) {
-    _titleColor = value;
-    build();
-  }
-
-  void setTitleVisible(bool value) {
-    _isTitleVisible = value;
-    build();
-  }
-
-  void setCloseButtonVisible(bool value) {
-    _isCloseButtonVisible = value;
-    build();
-  }
-
-  void setOnPanUpdateCallback(OnPanUpdateCallback value) {
-    _onPanUpdateCallback = value;
-    build();
-  }
-
-  void setOnPanEndCallback(OnPanEndCallback value) {
-    _onPanEndCallback = value;
-    build();
-  }
-
-  void setCloseButtonCallback(CloseButtonCallback value) {
-    _closeButtonCallback = value;
-    build();
-  }
-
-  void setOffset(Offset value) {
-    _offset = value;
-    build();
   }
 
   Color getDefaultColor() {
     return UniqueTextTitleColor;
-  }
-
-  Offset getOffset() {
-    return _offset;
-  }
-
-  Widget getWidget() {
-    return _widget;
   }
 }

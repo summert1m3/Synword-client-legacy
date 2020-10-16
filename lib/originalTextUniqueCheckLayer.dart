@@ -6,52 +6,54 @@ import 'movingLayer.dart';
 import 'types.dart';
 
 class OriginalTextUniqueCheckLayer extends MovingLayer {
-  Offset _offset;
   double _progress;
-  Color _titleColor;
-  OnPanUpdateCallback _onPanUpdateCallback;
-  OnPanEndCallback _onPanEndCallback;
-  CloseButtonCallback _closeButtonCallback;
-  bool _isTitleVisible;
-  bool _isCloseButtonVisible;
-  Widget _widget;
 
   OriginalTextUniqueCheckLayer.zero() {
-    _offset = Offset.zero;
+    offset = Offset.zero;
     _progress = 0;
-    _titleColor = UniqueCheckTitleColor;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
+    titleColor = UniqueCheckTitleColor;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
     build();
   }
 
-  OriginalTextUniqueCheckLayer.common(this._offset, this._progress) {
-    _titleColor = UniqueCheckTitleColor;
-    _isTitleVisible = true;
-    _isCloseButtonVisible = true;
-    _onPanUpdateCallback = null;
-    _onPanEndCallback = null;
-    _closeButtonCallback = null;
+  OriginalTextUniqueCheckLayer.common(Offset offset, double progress) {
+    this.offset = offset;
+    this._progress = progress;
+    titleColor = UniqueCheckTitleColor;
+    isTitleVisible = true;
+    isCloseButtonVisible = true;
+    onPanUpdateCallback = null;
+    onPanEndCallback = null;
+    closeButtonCallback = null;
     build();
   }
 
-  OriginalTextUniqueCheckLayer(this._offset, this._progress, this._titleColor, this._isTitleVisible, this._isCloseButtonVisible, this._onPanUpdateCallback, this._onPanEndCallback, this._closeButtonCallback) {
+  OriginalTextUniqueCheckLayer(Offset offset, double progress, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
+    this.offset = offset;
+    _progress = progress;
+    this.titleColor = titleColor;
+    this.isTitleVisible = isTitleVisible;
+    this.isCloseButtonVisible = isCloseButtonVisible;
+    this.onPanUpdateCallback = onPanUpdateCallback;
+    this.onPanEndCallback = onPanEndCallback;
+    this.closeButtonCallback = closeButtonCallback;
     build();
   }
 
   void build() {
-    _widget = UniqueCheckWidget(
-        TextUniqueCheck(_offset, _progress),
-        _offset,
-        _titleColor,
-        _isTitleVisible,
-        _isCloseButtonVisible,
-        _onPanUpdateCallback,
-        _onPanEndCallback,
-        _closeButtonCallback
+    widget = UniqueCheckWidget(
+        TextUniqueCheck(offset, _progress),
+        offset,
+        titleColor,
+        isTitleVisible,
+        isCloseButtonVisible,
+        onPanUpdateCallback,
+        onPanEndCallback,
+        closeButtonCallback
     );
   }
 
@@ -60,50 +62,8 @@ class OriginalTextUniqueCheckLayer extends MovingLayer {
     build();
   }
 
-  void setTitleColor(Color value) {
-    _titleColor = value;
-    build();
-  }
-
-  void setTitleVisible(bool value) {
-    _isTitleVisible = value;
-    build();
-  }
-
-  void setCloseButtonVisible(bool value) {
-    _isCloseButtonVisible = value;
-    build();
-  }
-
-  void setOnPanUpdateCallback(OnPanUpdateCallback value) {
-    _onPanUpdateCallback = value;
-    build();
-  }
-
-  void setOnPanEndCallback(OnPanEndCallback value) {
-    _onPanEndCallback = value;
-    build();
-  }
-
-  void setCloseButtonCallback(CloseButtonCallback value) {
-    _closeButtonCallback = value;
-    build();
-  }
-
-  void setOffset(Offset value) {
-    _offset = value;
-    build();
-  }
-
   Color getDefaultColor() {
     return UniqueCheckTitleColor;
   }
 
-  Offset getOffset() {
-    return _offset;
-  }
-
-  Widget getWidget() {
-    return _widget;
-  }
 }
