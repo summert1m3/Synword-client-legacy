@@ -8,45 +8,23 @@ import 'types.dart';
 class OriginalTextUniqueCheckLayer extends MovingLayer {
   double _progress;
 
-  OriginalTextUniqueCheckLayer.zero() {
-    offset = Offset.zero;
+  OriginalTextUniqueCheckLayer.zero() : super(null, Offset.zero, UniqueCheckTitleColor, null, null, null, false, true, true) {
     _progress = 0;
-    titleColor = UniqueCheckTitleColor;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
     build();
   }
 
-  OriginalTextUniqueCheckLayer.common(Offset offset, double progress) {
-    this.offset = offset;
-    this._progress = progress;
-    titleColor = UniqueCheckTitleColor;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
+  OriginalTextUniqueCheckLayer.common(Offset offset, this._progress) : super(null, offset, UniqueCheckTitleColor, null, null, null, false, true, true) {
     build();
   }
 
-  OriginalTextUniqueCheckLayer(Offset offset, double progress, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
-    this.offset = offset;
-    _progress = progress;
-    this.titleColor = titleColor;
-    this.isTitleVisible = isTitleVisible;
-    this.isCloseButtonVisible = isCloseButtonVisible;
-    this.onPanUpdateCallback = onPanUpdateCallback;
-    this.onPanEndCallback = onPanEndCallback;
-    this.closeButtonCallback = closeButtonCallback;
+  OriginalTextUniqueCheckLayer(Offset offset, this._progress, Color titleColor, bool isLoadingWidgetEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     widget = UniqueCheckWidget(
-        TextUniqueCheck(offset, _progress),
+        isLoadingWidgetEnabled ? loadingWidget : TextUniqueCheck(offset, _progress),
         offset,
         titleColor,
         isTitleVisible,

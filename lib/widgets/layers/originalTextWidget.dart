@@ -20,7 +20,7 @@ class OriginalTextWidget extends StatelessWidget {
             Expanded(child: LayerTextForm(_textEditingController)),
             LayerTitle(
                 Text('Original text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.white)),
-                Hexcolor('#D45357'),
+              HexColor('#D45357'),
                 Colors.black.withOpacity(0.0),
                 true,
                 false,

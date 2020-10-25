@@ -1,45 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:synword/widgets/layers/uniqueTextWidget.dart';
+import 'package:synword/widgets/uniqueText.dart';
+import 'package:synword/widgets/loadingScreen.dart';
 import 'movingLayer.dart';
 import 'layersSetting.dart';
 import 'types.dart';
 
 class UniqueTextLayer extends MovingLayer {
-  UniqueTextLayer.zero() {
-    offset = Offset.zero;
-    titleColor = UniqueTextTitleColor;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
+  String _text;
+
+  UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, UniqueTextTitleColor, null, null, null, false, true, true) {
+    _text = "";
     build();
   }
 
-  UniqueTextLayer.common(Offset offset) {
-    this.offset = offset;
-    titleColor = UniqueTextTitleColor;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
+  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, UniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true) {
     build();
   }
 
-  UniqueTextLayer(Offset offset, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
-    this.offset = offset;
-    this.titleColor = titleColor;
-    this.isTitleVisible = isTitleVisible;
-    this.isCloseButtonVisible = isCloseButtonVisible;
-    this.onPanUpdateCallback = onPanUpdateCallback;
-    this.onPanEndCallback = onPanEndCallback;
-    this.closeButtonCallback = closeButtonCallback;
+  UniqueTextLayer(Offset offset, Color titleColor, this._text, bool isLoadingWidgetEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     widget = UniqueTextWidget(
+        isLoadingWidgetEnabled ? loadingWidget : UniqueText(_text, offset),
         offset,
         titleColor,
         isTitleVisible,
@@ -52,5 +38,10 @@ class UniqueTextLayer extends MovingLayer {
 
   Color getDefaultColor() {
     return UniqueTextTitleColor;
+  }
+
+  void setText(String value) {
+    _text = value;
+    build();
   }
 }

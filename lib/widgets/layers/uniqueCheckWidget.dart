@@ -32,7 +32,7 @@ class UniqueCheckWidget extends StatelessWidget {
           SizedBox(
               child: _widget,
               width: MediaQuery.of(context).copyWith().size.width - 20,
-              height: MediaQuery.of(context).copyWith().size.height
+              height: MediaQuery.of(context).copyWith().size.height,
           ),
           LayerTitle(
               Text('Unique check', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),

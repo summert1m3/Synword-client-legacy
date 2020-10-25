@@ -9,48 +9,24 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
   double _originalProgress;
   double _uniqueProgress;
 
-  TwoTextUniqueCheckLayer.zero() {
-    offset = Offset.zero;
+  TwoTextUniqueCheckLayer.zero() : super(null, Offset.zero, UniqueCheckTitleColor, null, null, null, false, true, true) {
     _originalProgress = 0;
     _uniqueProgress = 0;
-    titleColor = UniqueCheckTitleColor;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
     build();
   }
 
-  TwoTextUniqueCheckLayer.common(Offset offset, double originalProgress, double uniqueProgress) {
-    this.offset = offset;
-    _originalProgress = originalProgress;
-    _uniqueProgress = uniqueProgress;
-    titleColor = UniqueCheckTitleColor;
-    isTitleVisible = true;
-    isCloseButtonVisible = true;
-    onPanUpdateCallback = null;
-    onPanEndCallback = null;
-    closeButtonCallback = null;
+  TwoTextUniqueCheckLayer.common(Offset offset, this._originalProgress, this._uniqueProgress) : super(null, offset, UniqueCheckTitleColor, null, null, null, false, true, true)  {
     build();
   }
 
-  TwoTextUniqueCheckLayer(Offset offset, double originalProgress, double uniqueProgress, Color titleColor, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback) {
-    this.offset = offset;
-    _originalProgress = originalProgress;
-    _uniqueProgress = uniqueProgress;
-    this.titleColor = titleColor;
-    this.isTitleVisible = isTitleVisible;
-    this.isCloseButtonVisible = isCloseButtonVisible;
-    this.onPanUpdateCallback = onPanUpdateCallback;
-    this.onPanEndCallback = onPanEndCallback;
-    this.closeButtonCallback = closeButtonCallback;
+  TwoTextUniqueCheckLayer(Offset offset, this._originalProgress, this._uniqueProgress, Color titleColor, bool isLoadingWidgetEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     widget = UniqueCheckWidget(
-        TwoTextUniqueCheckWidget(offset, _originalProgress, _uniqueProgress),
+        isLoadingWidgetEnabled ? loadingWidget : TwoTextUniqueCheckWidget(offset, _originalProgress, _uniqueProgress),
         offset,
         titleColor,
         isTitleVisible,

@@ -30,7 +30,7 @@ class TextUniqueCheck extends StatelessWidget {
       child: Column(
         children: [
           WaveBar(
-              _progress
+            _progress
           ),
           Divider(
             color: Colors.grey,

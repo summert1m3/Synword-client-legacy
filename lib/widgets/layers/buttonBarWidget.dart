@@ -9,10 +9,10 @@ class ButtonBarWidget extends StatelessWidget {
   final FloatingActionButtonCallback _secondButtonCallback;
 
   ButtonBarWidget(
-      this._isFirstFloatingActionButtonVisible,
-      this._isSecondFloatingActionButtonVisible,
-      this._firstButtonCallback,
-      this._secondButtonCallback
+    this._isFirstFloatingActionButtonVisible,
+    this._isSecondFloatingActionButtonVisible,
+    this._firstButtonCallback,
+    this._secondButtonCallback
   );
 
   @override

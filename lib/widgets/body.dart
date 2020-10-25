@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
 import 'package:synword/buttonBarLayer.dart';
 import 'package:synword/originalTextUniqueCheckLayer.dart';
+import 'package:synword/synonymizer.dart';
 import 'package:synword/uniqueTextLayer.dart';
 import 'package:synword/uniqueTextUniqueCheckLayer.dart';
 import 'package:synword/twoTextUniqueCheckLayer.dart';
 import 'package:synword/types.dart';
 import 'package:synword/layersSetting.dart';
+import 'package:synword/freeSynonymizer.dart';
 import 'dart:async';
 
 class Body extends StatefulWidget {
@@ -21,12 +25,15 @@ class _BodyState extends State<Body> {
   List<MovingLayer> _layerList;
 
   TextEditingController _textEditingController;
+  Synonymizer _synonymizer = FreeSynonymizer();
 
   double _originalTextUniqueness = 40;
   double _uniqueTextUniqueness = 85;
 
   OriginalTextLayer _originalText;
   ButtonBarLayer _buttonBar;
+
+  String _uniqueText = 'Исторически сложилось так, что программирование возникло и развивалось как процедурное программирование. В школьных курсах информатики рассматриваются традиционные процедурно-ориентированные языки программирования.';
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -40,7 +47,7 @@ class _BodyState extends State<Body> {
     _buttonBar = ButtonBarLayer(true, true, buttonBarFirstButtonCallback(), buttonBarSecondButtonCallback());
   }
 
-  FloatingActionButtonCallback buttonBarFirstButtonCallback() => () {
+  FloatingActionButtonCallback buttonBarFirstButtonCallback() => () async {
     setState(() {
       MovingLayer movingLayer;
       double originalProgress = _originalTextUniqueness / 100;
@@ -64,17 +71,26 @@ class _BodyState extends State<Body> {
     });
   };
 
-  FloatingActionButtonCallback buttonBarSecondButtonCallback() => () {
+  FloatingActionButtonCallback buttonBarSecondButtonCallback() => () async {
+    UniqueTextLayer uniqueTextLayer;
+    Offset offset = Offset(0, (_layerList.length + 1) * TitleHeight);
+    uniqueTextLayer = UniqueTextLayer.zero();
+    uniqueTextLayer.setOffset(offset);
+    uniqueTextLayer.setLoadingWidgetEnabled(true);
+    uniqueTextLayer.setOnPanUpdateCallback(layerOnPanUpdateCallback(uniqueTextLayer));
+    uniqueTextLayer.setOnPanEndCallback(layerOnPanEndCallback(uniqueTextLayer));
+    uniqueTextLayer.setCloseButtonCallback(layerCloseButtonCallback(uniqueTextLayer));
+
     setState(() {
-      MovingLayer movingLayer;
-      Offset offset = Offset(0, (_layerList.length + 1) * TitleHeight);
+      addLayer(uniqueTextLayer);
+    });
 
-      movingLayer = UniqueTextLayer.common(offset);
+    String originalText = _textEditingController.value.text;
+    _uniqueText = await _synonymizer.synonymize(originalText);
 
-      movingLayer.setOnPanUpdateCallback(layerOnPanUpdateCallback(movingLayer));
-      movingLayer.setOnPanEndCallback(layerOnPanEndCallback(movingLayer));
-      movingLayer.setCloseButtonCallback(layerCloseButtonCallback(movingLayer));
-      addLayer(movingLayer);
+    setState(() {
+      uniqueTextLayer.setLoadingWidgetEnabled(false);
+      uniqueTextLayer.setText(_uniqueText);
     });
   };
 

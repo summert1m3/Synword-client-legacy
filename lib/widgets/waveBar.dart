@@ -23,8 +23,8 @@ class WaveBar extends StatelessWidget {
         child: WaveBall(
           size: 130,
           circleColor: Colors.white,
-          foregroundColor: Hexcolor("#008FFF"),
-          backgroundColor: Hexcolor("#6FC0FF"),
+          foregroundColor: HexColor("#008FFF"),
+          backgroundColor: HexColor("#6FC0FF"),
           progress: _progress,
           range: 8,
           child: Center(

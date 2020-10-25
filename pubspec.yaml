@@ -27,6 +27,7 @@ dependencies:
   hexcolor: ^1.0.4
   flutter_svg: ^0.19.0
   flutter_launcher_icons: ^0.8.0
+  loading_animations: ^2.1.0
 
 flutter_icons:
   android: true
