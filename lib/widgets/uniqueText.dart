@@ -9,16 +9,26 @@ class UniqueText extends StatelessWidget {
     this._offset
   );
 
+  double _getSizedBoxHeight(BuildContext context) {
+    double height = (MediaQuery.of(context).copyWith().size.height - 167) - _offset.dy;
+
+    if (height < 0) {
+      height = 0;
+    }
+
+    return height;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         child: Container(
           margin: EdgeInsets.all(10),
           child: SelectableText(_uniqueText,
-            style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 20)),
         ),
         width: MediaQuery.of(context).copyWith().size.width - 20,
-        height: (MediaQuery.of(context).copyWith().size.height - 167) - _offset.dy,
+        height: _getSizedBoxHeight(context),
     );
   }
 }
