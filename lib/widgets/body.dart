@@ -95,40 +95,44 @@ class _BodyState extends State<Body> {
   };
 
   OnPanUpdateCallback layerOnPanUpdateCallback(MovingLayer layer) => (offset) {
-    Offset newOffset = Offset(0, layer.getOffset().dy + offset.dy);
-    double bottomBorder = MediaQuery.of(context).copyWith().size.height - 127;
+    if (layer.getMovingEnabled()) {
+      Offset newOffset = Offset(0, layer.getOffset().dy + offset.dy);
+      double bottomBorder = MediaQuery.of(context).copyWith().size.height - 127;
 
-    setState(() {
-      if (_layerList.length < 2 && newOffset.dy >= TitleHeight - TitleContactHeight && newOffset.dy <= bottomBorder) {
-        layer.setOffset(newOffset);
-      } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight - TitleContactHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
-        layer.setOffset(newOffset);
-      }
+      setState(() {
+        if (_layerList.length < 2 && newOffset.dy >= TitleHeight - TitleContactHeight && newOffset.dy <= bottomBorder) {
+          layer.setOffset(newOffset);
+        } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight - TitleContactHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
+          layer.setOffset(newOffset);
+        }
 
-      updateLayers();
-    });
+        updateLayers();
+      });
+    }
   };
 
   OnPanEndCallback layerOnPanEndCallback(MovingLayer layer) => (offset) {
-    double border;
-    int index = getIndex(layer.runtimeType);
+    if (layer.getMovingEnabled()) {
+      double border;
+      int index = getIndex(layer.runtimeType);
 
-    if (offset.dy > 0) {
-      if (index + 1 != _layerList.length) {
-        border = _layerList[index + 1].getOffset().dy - TitleHeight + TitleContactHeight;
-      } else {
-        border = MediaQuery.of(context).copyWith().size.height - 127;
+      if (offset.dy > 0) {
+        if (index + 1 != _layerList.length) {
+          border = _layerList[index + 1].getOffset().dy - TitleHeight + TitleContactHeight;
+        } else {
+          border = MediaQuery.of(context).copyWith().size.height - 127;
+        }
+
+        hideLayer(layer, border);
+      } else if (offset.dy < 0) {
+        if (index != 0) {
+          border = _layerList[index - 1].getOffset().dy + TitleHeight - TitleContactHeight;
+        } else {
+          border = TitleHeight - TitleContactHeight;
+        }
+
+        showLayer(layer, border);
       }
-
-      hideLayer(layer, border);
-    } else if (offset.dy < 0) {
-      if (index != 0) {
-        border = _layerList[index - 1].getOffset().dy + TitleHeight - TitleContactHeight;
-      } else {
-        border = TitleHeight - TitleContactHeight;
-      }
-
-      showLayer(layer, border);
     }
   };
 
@@ -242,11 +246,13 @@ class _BodyState extends State<Body> {
   }
 
   void hideLayer(MovingLayer layer, double border) {
+    layer.setMovingEnabled(false);
+
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy < border) {
+
         setState(() {
           Offset newOffset = Offset(0, layer.getOffset().dy + 10);
-
           if (newOffset.dy > border) {
             newOffset = Offset(0, border);
           }
@@ -255,17 +261,20 @@ class _BodyState extends State<Body> {
           updateLayers();
         });
       } else {
+        layer.setMovingEnabled(true);
         timer.cancel();
       }
     });
   }
 
   void showLayer(MovingLayer layer, double border) {
+    layer.setMovingEnabled(false);
+
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy > border) {
+
         setState(() {
           Offset newOffset = Offset(0, layer.getOffset().dy - 10);
-
           if (newOffset.dy < border) {
             newOffset = Offset(0, border);
           }
@@ -274,6 +283,7 @@ class _BodyState extends State<Body> {
           updateLayers();
         });
       } else {
+        layer.setMovingEnabled(true);
         timer.cancel();
       }
     });

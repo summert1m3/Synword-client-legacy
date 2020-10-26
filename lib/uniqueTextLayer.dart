@@ -9,23 +9,23 @@ import 'types.dart';
 class UniqueTextLayer extends MovingLayer {
   String _text;
 
-  UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, UniqueTextTitleColor, null, null, null, false, true, true) {
+  UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, UniqueTextTitleColor, null, null, null, false, true, true, true) {
     _text = "";
     build();
   }
 
-  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, UniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true) {
+  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, UniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
     build();
   }
 
-  UniqueTextLayer(Offset offset, Color titleColor, this._text, bool isLoadingWidgetEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
-      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isTitleVisible, isCloseButtonVisible) {
+  UniqueTextLayer(Offset offset, Color titleColor, this._text, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     widget = UniqueTextWidget(
-        isLoadingWidgetEnabled ? loadingWidget : UniqueText(_text, offset),
+        isLoadingWidgetEnabled ? loadingScreen : UniqueText(_text, offset),
         offset,
         titleColor,
         isTitleVisible,

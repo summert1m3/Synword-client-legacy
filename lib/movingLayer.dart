@@ -3,20 +3,21 @@ import 'layer.dart';
 import 'types.dart';
 
 abstract class MovingLayer extends Layer {
-  Widget loadingWidget;
+  Widget loadingScreen;
   Offset offset;
   Color titleColor;
   OnPanUpdateCallback onPanUpdateCallback;
   OnPanEndCallback onPanEndCallback;
   CloseButtonCallback closeButtonCallback;
   bool isLoadingWidgetEnabled;
+  bool isMovingEnabled;
   bool isTitleVisible;
   bool isCloseButtonVisible;
 
-  MovingLayer(this.loadingWidget, this.offset, this.titleColor, this.onPanUpdateCallback, this.onPanEndCallback, this.closeButtonCallback, this.isLoadingWidgetEnabled, this.isTitleVisible, this.isCloseButtonVisible);
+  MovingLayer(this.loadingScreen, this.offset, this.titleColor, this.onPanUpdateCallback, this.onPanEndCallback, this.closeButtonCallback, this.isLoadingWidgetEnabled, this.isMovingEnabled, this.isTitleVisible, this.isCloseButtonVisible);
 
   void setWaitWidget(Widget value) {
-    loadingWidget = value;
+    loadingScreen = value;
     build();
   }
 
@@ -27,6 +28,15 @@ abstract class MovingLayer extends Layer {
 
   void setLoadingWidgetEnabled(bool value) {
     isLoadingWidgetEnabled = value;
+    build();
+  }
+
+  bool getMovingEnabled() {
+    return isMovingEnabled;
+  }
+
+  void setMovingEnabled(bool value) {
+    isMovingEnabled = value;
     build();
   }
 

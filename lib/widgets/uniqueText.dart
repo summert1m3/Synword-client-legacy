@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class UniqueText extends StatelessWidget {
-  final String _uniqueText;
+  final String _text;
   final Offset _offset;
 
   UniqueText(
-    this._uniqueText,
+    this._text,
     this._offset
   );
 
@@ -24,7 +24,7 @@ class UniqueText extends StatelessWidget {
     return SizedBox(
         child: Container(
           margin: EdgeInsets.all(10),
-          child: SelectableText(_uniqueText,
+          child: SelectableText(_text,
             style: TextStyle(fontSize: 20)),
         ),
         width: MediaQuery.of(context).copyWith().size.width - 20,
