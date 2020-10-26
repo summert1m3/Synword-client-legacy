@@ -12,8 +12,9 @@ class DrawerMenu extends StatefulWidget {
 class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Container(
-      width: 150,
+      width: screenSize.width/2.8,
       child: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.black,
@@ -21,11 +22,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
         child: Drawer(
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 5),
+              SizedBox(
+                  height: 5
+              ),
               IconButton(
                 icon: Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
+                  size: (screenSize.height + screenSize.width)/40,
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
@@ -33,19 +37,20 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 },
               ),
               SizedBox(
-                width: 8,
-                height: 8,
+                height: 3,
               ),
               Text('COMMERCIAL',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15)),
+                    color: Colors.white,
+                    fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width)/80,
+                  ),
+              ),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: (screenSize.height + screenSize.width)/240,
               ),
               IconButton(
-                iconSize: 60,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'Premium',
                 icon: SvgPicture.asset(
                   'icons/premium.svg',
@@ -53,9 +58,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
                 onPressed: () => {},
               ),
-              //SizedBox(height: 25),
               IconButton(
-                iconSize: 60,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'Buy symbols',
                 icon: SvgPicture.asset(
                   'icons/buy_symbols.svg',
@@ -64,22 +68,20 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 onPressed: () => {},
               ),
               SizedBox(
-                width: 15,
-                height: 15,
+                height: (screenSize.height + screenSize.width)/160,
               ),
               Text(
                   'SOCIAL',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
-                  )
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width)/80,
+                  ),
               ),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: (screenSize.height + screenSize.width)/240,
               ),
               IconButton(
-                iconSize: 55,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'Instagram',
                 icon: Image(
                   image: AssetImage('icons/instagram.png'),
@@ -87,7 +89,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 onPressed: () => {},
               ),
               IconButton(
-                iconSize: 55,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'VK',
                 icon: Image(
                   image: AssetImage('icons/vk.png'),
@@ -95,21 +97,19 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 onPressed: () => {},
               ),
               SizedBox(
-                width: 15,
-                height: 15,
+                height: (screenSize.height + screenSize.width)/160,
               ),
               Text('OTHER',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
-                  )
+                      color: Colors.white, fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width)/80,
+                  ),
               ),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: (screenSize.height + screenSize.width)/240,
               ),
               IconButton(
-                iconSize: 60,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'Language',
                 icon: SvgPicture.asset(
                   'icons/language.svg',
@@ -118,7 +118,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 onPressed: () => {},
               ),
               IconButton(
-                iconSize: 60,
+                iconSize: (screenSize.height/17 + screenSize.width/17),
                 tooltip: 'Feedback',
                 icon: SvgPicture.asset(
                   'icons/feedback.svg',

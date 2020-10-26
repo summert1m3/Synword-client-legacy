@@ -12,16 +12,18 @@ class WaveBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Container(
-      width: WaveBarWidth,
-      height: WaveBarHeight,
+      width: (screenSize.width+screenSize.height)/8.5,
+      height: (screenSize.width+screenSize.height)/8.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(width: 0.8)
       ),
       child: Center(
         child: WaveBall(
-          size: 130,
+          size: (screenSize.width+screenSize.height)/8.5,
           circleColor: Colors.white,
           foregroundColor: HexColor("#008FFF"),
           backgroundColor: HexColor("#6FC0FF"),

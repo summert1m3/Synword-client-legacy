@@ -29,6 +29,8 @@ class BodyButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Container(
       width: MediaQuery.of(context).copyWith().size.width,
       child: Row(
@@ -37,19 +39,22 @@ class BodyButtonBar extends StatelessWidget {
           Visibility(
             child: Column(
               children: [
-                FloatingActionButton(
-                    child: SvgPicture.asset(
-                      'icons/check_button.svg',
-                      color: Colors.black,
-                      semanticsLabel: 'Check button',
-                    ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    onPressed: _firstButtonCallback
+                Container(
+                  width: (screenSize.width+screenSize.height)/20,
+                  child: FloatingActionButton(
+                      child: SvgPicture.asset(
+                        'icons/check_button.svg',
+                        color: Colors.black,
+                        semanticsLabel: 'Check button',
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      onPressed: _firstButtonCallback
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text('CHECK', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width)/280),
+                  child: Text('CHECK', style: TextStyle(fontSize: screenSize.height/60, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),
@@ -64,19 +69,22 @@ class BodyButtonBar extends StatelessWidget {
           Visibility(
             child: Column(
               children: [
-                FloatingActionButton(
-                    child: SvgPicture.asset(
-                      'icons/up_button.svg',
-                      color: Colors.black,
-                      semanticsLabel: 'Up button',
-                    ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    onPressed: _secondButtonCallback
+                Container(
+                  width: (screenSize.width+screenSize.height)/20,
+                  child: FloatingActionButton(
+                      child: SvgPicture.asset(
+                        'icons/up_button.svg',
+                        color: Colors.black,
+                        semanticsLabel: 'Up button',
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      onPressed: _secondButtonCallback
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text('UP', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width)/280),
+                  child: Text('UP', style: TextStyle(fontSize: screenSize.height/50, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),
