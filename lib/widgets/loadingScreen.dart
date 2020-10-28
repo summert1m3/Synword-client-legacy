@@ -12,7 +12,7 @@ class LoadingScreen extends StatelessWidget {
           child: LoadingBouncingGrid.square(size: 70),
         ),
       ),
-      height: (MediaQuery.of(context).copyWith().size.height - 167) - TitleHeight * 2,
+      height: (MediaQuery.of(context).copyWith().size.height - 167) - layersSetting.titleHeight * 2,
     );
   }
 }

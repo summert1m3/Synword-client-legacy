@@ -21,12 +21,12 @@ class ButtonBarLayer extends Layer {
   }
 
   void build() {
-    widget = ButtonBarWidget(
+    setWidget(ButtonBarWidget(
         _isFirstButtonVisible,
         _isSecondButtonVisible,
         _firstButtonCallback,
         _secondButtonCallback
-    );
+    ));
   }
 
   void setFirstButtonVisible(bool value) {

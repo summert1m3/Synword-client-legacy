@@ -15,7 +15,7 @@ class BodyButtonBar extends StatelessWidget {
     this._secondButtonCallback
   );
   
-  bool getSizedBoxVisible() {
+  bool _getSizedBoxVisible() {
     bool isSizedBoxVisible;
 
     if (!_isFirstFloatingActionButtonVisible || !_isSecondFloatingActionButtonVisible) {
@@ -53,8 +53,8 @@ class BodyButtonBar extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width)/280),
-                  child: Text('CHECK', style: TextStyle(fontSize: screenSize.height/60, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
+                  child: Text('CHECK', style: TextStyle(fontSize: screenSize.height / 60, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),
@@ -64,7 +64,7 @@ class BodyButtonBar extends StatelessWidget {
             child: SizedBox(
               width: 30,
             ),
-            visible: getSizedBoxVisible(),
+            visible: _getSizedBoxVisible(),
           ),
           Visibility(
             child: Column(
@@ -83,8 +83,8 @@ class BodyButtonBar extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width)/280),
-                  child: Text('UP', style: TextStyle(fontSize: screenSize.height/50, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
+                  child: Text('UP', style: TextStyle(fontSize: screenSize.height / 50, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
                 )
               ],
             ),

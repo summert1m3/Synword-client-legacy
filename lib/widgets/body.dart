@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
@@ -33,7 +31,7 @@ class _BodyState extends State<Body> {
   OriginalTextLayer _originalText;
   ButtonBarLayer _buttonBar;
 
-  String _uniqueText = 'Исторически сложилось так, что программирование возникло и развивалось как процедурное программирование. В школьных курсах информатики рассматриваются традиционные процедурно-ориентированные языки программирования.';
+  String _uniqueText;
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -44,111 +42,111 @@ class _BodyState extends State<Body> {
     _layerList = List<MovingLayer>();
     _textEditingController = TextEditingController();
     _originalText = OriginalTextLayer(_textEditingController, false);
-    _buttonBar = ButtonBarLayer(true, true, buttonBarFirstButtonCallback(), buttonBarSecondButtonCallback());
+    _buttonBar = ButtonBarLayer(true, true, _buttonBarFirstButtonCallback(), _buttonBarSecondButtonCallback());
   }
 
-  FloatingActionButtonCallback buttonBarFirstButtonCallback() => () async {
+  FloatingActionButtonCallback _buttonBarFirstButtonCallback() => () async {
     setState(() {
       MovingLayer movingLayer;
       double originalProgress = _originalTextUniqueness / 100;
       double uniqueProgress = _uniqueTextUniqueness / 100;
-      Offset offset = Offset(0, (_layerList.length + 1) * TitleHeight);
+      Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
 
-      if (isContains(OriginalTextUniqueCheckLayer) && isContains(UniqueTextLayer)) {
-        deleteLayer(OriginalTextUniqueCheckLayer);
-        offset = Offset(0, (_layerList.length + 1) * TitleHeight);
+      if (_isContains(OriginalTextUniqueCheckLayer) && _isContains(UniqueTextLayer)) {
+        _deleteLayer(OriginalTextUniqueCheckLayer);
+        offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
         movingLayer = TwoTextUniqueCheckLayer.common(offset, originalProgress, uniqueProgress);
-      } else if (isContains(UniqueTextLayer)) {
+      } else if (_isContains(UniqueTextLayer)) {
         movingLayer = UniqueTextUniqueCheckLayer.common(offset, uniqueProgress);
       } else {
         movingLayer = OriginalTextUniqueCheckLayer.common(offset, originalProgress);
       }
 
-      movingLayer.setOnPanUpdateCallback(layerOnPanUpdateCallback(movingLayer));
-      movingLayer.setOnPanEndCallback(layerOnPanEndCallback(movingLayer));
-      movingLayer.setCloseButtonCallback(layerCloseButtonCallback(movingLayer));
-      addLayer(movingLayer);
+      movingLayer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(movingLayer));
+      movingLayer.setOnPanEndCallback(_layerOnPanEndCallback(movingLayer));
+      movingLayer.setCloseButtonCallback(_layerCloseButtonCallback(movingLayer));
+      _addLayer(movingLayer);
     });
   };
 
-  FloatingActionButtonCallback buttonBarSecondButtonCallback() => () async {
+  FloatingActionButtonCallback _buttonBarSecondButtonCallback() => () async {
     UniqueTextLayer uniqueTextLayer;
-    Offset offset = Offset(0, (_layerList.length + 1) * TitleHeight);
+    Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
     uniqueTextLayer = UniqueTextLayer.zero();
     uniqueTextLayer.setOffset(offset);
-    uniqueTextLayer.setLoadingWidgetEnabled(true);
-    uniqueTextLayer.setOnPanUpdateCallback(layerOnPanUpdateCallback(uniqueTextLayer));
-    uniqueTextLayer.setOnPanEndCallback(layerOnPanEndCallback(uniqueTextLayer));
-    uniqueTextLayer.setCloseButtonCallback(layerCloseButtonCallback(uniqueTextLayer));
+    uniqueTextLayer.setLoadingScreenEnabled(true);
+    uniqueTextLayer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(uniqueTextLayer));
+    uniqueTextLayer.setOnPanEndCallback(_layerOnPanEndCallback(uniqueTextLayer));
+    uniqueTextLayer.setCloseButtonCallback(_layerCloseButtonCallback(uniqueTextLayer));
 
     setState(() {
-      addLayer(uniqueTextLayer);
+      _addLayer(uniqueTextLayer);
     });
 
     String originalText = _textEditingController.value.text;
     _uniqueText = await _synonymizer.synonymize(originalText);
 
     setState(() {
-      uniqueTextLayer.setLoadingWidgetEnabled(false);
+      uniqueTextLayer.setLoadingScreenEnabled(false);
       uniqueTextLayer.setText(_uniqueText);
     });
   };
 
-  OnPanUpdateCallback layerOnPanUpdateCallback(MovingLayer layer) => (offset) {
-    if (layer.getMovingEnabled()) {
+  OnPanUpdateCallback _layerOnPanUpdateCallback(MovingLayer layer) => (offset) {
+    if (layer.isMovingEnabled()) {
       Offset newOffset = Offset(0, layer.getOffset().dy + offset.dy);
       double bottomBorder = MediaQuery.of(context).copyWith().size.height - 127;
 
       setState(() {
-        if (_layerList.length < 2 && newOffset.dy >= TitleHeight - TitleContactHeight && newOffset.dy <= bottomBorder) {
+        if (_layerList.length < 2 && newOffset.dy >= layersSetting.titleHeight - layersSetting.titleContactHeight && newOffset.dy <= bottomBorder) {
           layer.setOffset(newOffset);
-        } else if (_layerList.length >= 2 && newOffset.dy >= TitleHeight - TitleContactHeight && !isLayerOutOfBounds(getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
+        } else if (_layerList.length >= 2 && newOffset.dy >= layersSetting.titleHeight - layersSetting.titleContactHeight && !_isLayerOutOfBounds(_getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
           layer.setOffset(newOffset);
         }
 
-        updateLayers();
+        _updateLayers();
       });
     }
   };
 
-  OnPanEndCallback layerOnPanEndCallback(MovingLayer layer) => (offset) {
-    if (layer.getMovingEnabled()) {
+  OnPanEndCallback _layerOnPanEndCallback(MovingLayer layer) => (offset) {
+    if (layer.isMovingEnabled()) {
       double border;
-      int index = getIndex(layer.runtimeType);
+      int index = _getIndex(layer.runtimeType);
 
       if (offset.dy > 0) {
         if (index + 1 != _layerList.length) {
-          border = _layerList[index + 1].getOffset().dy - TitleHeight + TitleContactHeight;
+          border = _layerList[index + 1].getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight;
         } else {
           border = MediaQuery.of(context).copyWith().size.height - 127;
         }
 
-        hideLayer(layer, border);
+        _hideLayer(layer, border);
       } else if (offset.dy < 0) {
         if (index != 0) {
-          border = _layerList[index - 1].getOffset().dy + TitleHeight - TitleContactHeight;
+          border = _layerList[index - 1].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight;
         } else {
-          border = TitleHeight - TitleContactHeight;
+          border = layersSetting.titleHeight - layersSetting.titleContactHeight;
         }
 
-        showLayer(layer, border);
+        _showLayer(layer, border);
       }
     }
   };
 
-  CloseButtonCallback layerCloseButtonCallback(MovingLayer layer) => () {
+  CloseButtonCallback _layerCloseButtonCallback(MovingLayer layer) => () {
     setState(() {
-      deleteLayer(layer.runtimeType);
+      _deleteLayer(layer.runtimeType);
     });
   };
 
-  void addLayer(MovingLayer layer) {
+  void _addLayer(MovingLayer layer) {
     _layerList.add(layer);
-    setLayerDefaultOffset();
-    updateLayers();
+    _setLayerDefaultOffset();
+    _updateLayers();
   }
 
-  void deleteLayer(Type type) {
+  void _deleteLayer(Type type) {
     for (int i = 0; i < _layerList.length; i++) {
       if (_layerList[i].runtimeType == type) {
         _layerList.removeAt(i);
@@ -156,18 +154,18 @@ class _BodyState extends State<Body> {
       }
     }
 
-    updateLayers();
+    _updateLayers();
   }
 
-  void updateLayers() {
-    updateOriginalTextTitleVisible();
-    updateLayersTitleColors();
-    updateLastLayerTitleVisible();
-    updateLayersCloseButtonVisible();
-    updateButtons();
+  void _updateLayers() {
+    _updateOriginalTextTitleVisible();
+    _updateLayersTitleColors();
+    _updateLastLayerTitleVisible();
+    _updateLayersCloseButtonVisible();
+    _updateButtons();
   }
 
-  void updateOriginalTextTitleVisible() {
+  void _updateOriginalTextTitleVisible() {
     if (_layerList.isNotEmpty) {
       _originalText.setTitleVisible(true);
     } else {
@@ -175,7 +173,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void updateLayersTitleColors() {
+  void _updateLayersTitleColors() {
     if (_layerList.isNotEmpty) {
       for (int i = 0; i < _layerList.length - 1; i++) {
         _layerList[i].setTitleColor(_layerList[i].getDefaultColor());
@@ -185,7 +183,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void updateLastLayerTitleVisible() {
+  void _updateLastLayerTitleVisible() {
     _layerList.forEach((element) {
       if (element.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
         element.setTitleVisible(false);
@@ -195,7 +193,7 @@ class _BodyState extends State<Body> {
     });
   }
 
-  void updateLayersCloseButtonVisible() {
+  void _updateLayersCloseButtonVisible() {
     for (int i = 0; i < _layerList.length; i++) {
       if (i == _layerList.length - 1) {
         _layerList[i].setCloseButtonVisible(true);
@@ -205,13 +203,13 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void updateButtons() {
-    updateUpButton();
-    updateCheckButton();
-    updateButtonBarButtonVisible();
+  void _updateButtons() {
+    _updateUpButton();
+    _updateCheckButton();
+    _updateButtonBarButtonVisible();
   }
 
-  void updateCheckButton() {
+  void _updateCheckButton() {
     if (_layerList.isNotEmpty) {
       Type type = _layerList.last.runtimeType;
 
@@ -223,9 +221,9 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void updateUpButton() {
+  void _updateUpButton() {
     if (_layerList.isNotEmpty) {
-      if (isContains(UniqueTextLayer)) {
+      if (_isContains(UniqueTextLayer)) {
         _buttonBar.setSecondButtonVisible(false);
       } else {
         _buttonBar.setSecondButtonVisible(true);
@@ -233,7 +231,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void updateButtonBarButtonVisible() {
+  void _updateButtonBarButtonVisible() {
     if (!_buttonBar.getFirstButtonVisible() && !_buttonBar.getSecondButtonVisible()) {
       _isButtonBarButtonNotVisible = true;
     }
@@ -245,7 +243,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void hideLayer(MovingLayer layer, double border) {
+  void _hideLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
     Timer.periodic(Duration(milliseconds: 5), (timer) {
@@ -258,7 +256,7 @@ class _BodyState extends State<Body> {
           }
 
           layer.setOffset(newOffset);
-          updateLayers();
+          _updateLayers();
         });
       } else {
         layer.setMovingEnabled(true);
@@ -267,7 +265,7 @@ class _BodyState extends State<Body> {
     });
   }
 
-  void showLayer(MovingLayer layer, double border) {
+  void _showLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
     Timer.periodic(Duration(milliseconds: 5), (timer) {
@@ -280,7 +278,7 @@ class _BodyState extends State<Body> {
           }
 
           layer.setOffset(newOffset);
-          updateLayers();
+          _updateLayers();
         });
       } else {
         layer.setMovingEnabled(true);
@@ -289,21 +287,21 @@ class _BodyState extends State<Body> {
     });
   }
 
-  void setLayerDefaultOffset() {
+  void _setLayerDefaultOffset() {
     for (int i = 0; i < _layerList.length; i++) {
       Offset offset;
 
       if (i == 0) {
-        offset = Offset(0, TitleHeight - TitleContactHeight);
+        offset = Offset(0, layersSetting.titleHeight - layersSetting.titleContactHeight);
       } else {
-        offset = Offset(0, _layerList[i - 1].getOffset().dy + TitleHeight - TitleContactHeight);
+        offset = Offset(0, _layerList[i - 1].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight);
       }
 
       _layerList[i].setOffset(offset);
     }
   }
 
-  bool isContains(Type type) {
+  bool _isContains(Type type) {
     bool isContains = false;
 
     _layerList.forEach((element) {
@@ -315,18 +313,18 @@ class _BodyState extends State<Body> {
     return isContains;
   }
 
-  bool isLayerOutOfBounds(int index, Offset newOffset) {
+  bool _isLayerOutOfBounds(int index, Offset newOffset) {
     bool isOutOfBounds = false;
 
     for (int i = index - 1; i >= 0; i--) {
-      if (newOffset.dy < _layerList[i].getOffset().dy + TitleHeight - TitleContactHeight) {
+      if (newOffset.dy < _layerList[i].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
     }
 
     for (int i = index + 1; i < _layerList.length; i++) {
-      if (newOffset.dy > _layerList[i].getOffset().dy - TitleHeight + TitleContactHeight) {
+      if (newOffset.dy > _layerList[i].getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
@@ -336,7 +334,7 @@ class _BodyState extends State<Body> {
   }
 
 
-  int getIndex(Type type) {
+  int _getIndex(Type type) {
     int index = 0;
 
     for (int i = 0; i < _layerList.length; i++) {
@@ -349,7 +347,7 @@ class _BodyState extends State<Body> {
     return index;
   }
 
-  List<Widget> getWidgets() {
+  List<Widget> _getWidgets() {
     List<Widget> widgetList = List<Widget>();
     widgetList.add(_originalText.getWidget());
 
@@ -365,7 +363,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: getWidgets()
+      children: _getWidgets()
     );
   }
 }

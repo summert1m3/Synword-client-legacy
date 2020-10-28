@@ -17,7 +17,7 @@ class TwoTextUniqueCheckWidget extends StatelessWidget {
   );
 
   double _getUniqueCheckLinksHeight(BuildContext context) {
-    double height = (MediaQuery.of(context).copyWith().size.height - 127) - (_offset.dy + TitleContactHeight + TitleHeight + WaveBarHeight + _dividerHeight / 2 + _paddingTop);
+    double height = (MediaQuery.of(context).copyWith().size.height - 127) - (_offset.dy + layersSetting.titleContactHeight + layersSetting.titleHeight + layersSetting.waveBarHeight + _dividerHeight / 2 + _paddingTop);
 
     if (height < 0) {
       height = 0;

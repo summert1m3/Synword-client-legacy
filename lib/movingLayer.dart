@@ -3,75 +3,107 @@ import 'layer.dart';
 import 'types.dart';
 
 abstract class MovingLayer extends Layer {
-  Widget loadingScreen;
-  Offset offset;
-  Color titleColor;
-  OnPanUpdateCallback onPanUpdateCallback;
-  OnPanEndCallback onPanEndCallback;
-  CloseButtonCallback closeButtonCallback;
-  bool isLoadingWidgetEnabled;
-  bool isMovingEnabled;
-  bool isTitleVisible;
-  bool isCloseButtonVisible;
+  Widget _loadingScreen;
+  Offset _offset;
+  Color _titleColor;
+  OnPanUpdateCallback _onPanUpdateCallback;
+  OnPanEndCallback _onPanEndCallback;
+  CloseButtonCallback _closeButtonCallback;
+  bool _isLoadingScreenEnabled;
+  bool _isMovingEnabled;
+  bool _isTitleVisible;
+  bool _isCloseButtonVisible;
 
-  MovingLayer(this.loadingScreen, this.offset, this.titleColor, this.onPanUpdateCallback, this.onPanEndCallback, this.closeButtonCallback, this.isLoadingWidgetEnabled, this.isMovingEnabled, this.isTitleVisible, this.isCloseButtonVisible);
+  MovingLayer(this._loadingScreen, this._offset, this._titleColor, this._onPanUpdateCallback, this._onPanEndCallback, this._closeButtonCallback, this._isLoadingScreenEnabled, this._isMovingEnabled, this._isTitleVisible, this._isCloseButtonVisible);
 
-  void setWaitWidget(Widget value) {
-    loadingScreen = value;
+  void setLoadingScreen(Widget value) {
+    _loadingScreen = value;
     build();
+  }
+
+  Widget getLoadingScreen() {
+    return _loadingScreen;
   }
 
   void setTitleColor(Color value) {
-    titleColor = value;
+    _titleColor = value;
     build();
   }
 
-  void setLoadingWidgetEnabled(bool value) {
-    isLoadingWidgetEnabled = value;
+  Color getTitleColor() {
+    return _titleColor;
+  }
+
+  void setLoadingScreenEnabled(bool value) {
+    _isLoadingScreenEnabled = value;
     build();
   }
 
-  bool getMovingEnabled() {
-    return isMovingEnabled;
+  bool isLoadingScreenEnabled() {
+    return _isLoadingScreenEnabled;
   }
 
   void setMovingEnabled(bool value) {
-    isMovingEnabled = value;
+    _isMovingEnabled = value;
     build();
+  }
+
+  bool isMovingEnabled() {
+    return _isMovingEnabled;
   }
 
   void setTitleVisible(bool value) {
-    isTitleVisible = value;
+    _isTitleVisible = value;
     build();
+  }
+
+  bool isTitleVisible() {
+    return _isTitleVisible;
   }
 
   void setCloseButtonVisible(bool value) {
-    isCloseButtonVisible = value;
+    _isCloseButtonVisible = value;
     build();
+  }
+
+  bool isCloseButtonVisible() {
+    return _isCloseButtonVisible;
   }
 
   void setOnPanUpdateCallback(OnPanUpdateCallback value) {
-    onPanUpdateCallback = value;
+    _onPanUpdateCallback = value;
     build();
+  }
+
+  OnPanUpdateCallback getOnPanUpdateCallback() {
+    return _onPanUpdateCallback;
   }
 
   void setOnPanEndCallback(OnPanEndCallback value) {
-    onPanEndCallback = value;
+    _onPanEndCallback = value;
     build();
+  }
+
+  OnPanEndCallback getOnPanEndCallback() {
+    return _onPanEndCallback;
   }
 
   void setCloseButtonCallback(CloseButtonCallback value) {
-    closeButtonCallback = value;
+    _closeButtonCallback = value;
     build();
   }
 
+  CloseButtonCallback getCloseButtonCallback() {
+    return _closeButtonCallback;
+  }
+
   void setOffset(Offset value) {
-    offset = value;
+    _offset = value;
     build();
   }
 
   Offset getOffset() {
-    return offset;
+    return _offset;
   }
 
   Color getDefaultColor();

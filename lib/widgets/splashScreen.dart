@@ -7,8 +7,8 @@ class SplashScreen extends StatefulWidget {
   final SplashScreenCallback _splashScreenCallback;
 
   SplashScreen(
-      this._splashScreenCallback
-      );
+    this._splashScreenCallback
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -20,8 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   SplashScreenCallback _splashScreenCallback;
 
   _SplashScreenState(
-      this._splashScreenCallback
-      );
+    this._splashScreenCallback
+  );
 
   @override
   void initState() {

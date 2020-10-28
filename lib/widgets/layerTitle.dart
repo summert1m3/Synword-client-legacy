@@ -21,10 +21,9 @@ class LayerTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Container(
           width: MediaQuery.of(context).copyWith().size.width - 20,
-          height: TitleHeight,
+          height: layersSetting.titleHeight,
           decoration: BoxDecoration(
               color: _titleColor,
               borderRadius: BorderRadius.only(

@@ -14,7 +14,7 @@ class TextUniqueCheck extends StatelessWidget {
   );
 
   double _getUniqueCheckLinksHeight(BuildContext context) {
-    double height = (MediaQuery.of(context).copyWith().size.height - 127) - (_offset.dy + TitleHeight + WaveBarHeight - _dividerHeight / 2);
+    double height = (MediaQuery.of(context).copyWith().size.height - 127) - (_offset.dy + layersSetting.titleHeight + layersSetting.waveBarHeight - _dividerHeight / 2);
 
     if (height < 0) {
       height = 0;

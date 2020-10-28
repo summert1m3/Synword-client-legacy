@@ -9,13 +9,13 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
   double _originalProgress;
   double _uniqueProgress;
 
-  TwoTextUniqueCheckLayer.zero() : super(null, Offset.zero, UniqueCheckTitleColor, null, null, null, false, true, true, true) {
+  TwoTextUniqueCheckLayer.zero() : super(null, Offset.zero, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
     _originalProgress = 0;
     _uniqueProgress = 0;
     build();
   }
 
-  TwoTextUniqueCheckLayer.common(Offset offset, this._originalProgress, this._uniqueProgress) : super(null, offset, UniqueCheckTitleColor, null, null, null, false, true, true, true)  {
+  TwoTextUniqueCheckLayer.common(Offset offset, this._originalProgress, this._uniqueProgress) : super(null, offset, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true)  {
     build();
   }
 
@@ -25,16 +25,16 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
   }
 
   void build() {
-    widget = UniqueCheckWidget(
-        isLoadingWidgetEnabled ? loadingScreen : TwoTextUniqueCheckWidget(offset, _originalProgress, _uniqueProgress),
-        offset,
-        titleColor,
-        isTitleVisible,
-        isCloseButtonVisible,
-        onPanUpdateCallback,
-        onPanEndCallback,
-        closeButtonCallback
-    );
+    setWidget(UniqueCheckWidget(
+        isLoadingScreenEnabled() ? getLoadingScreen() : TwoTextUniqueCheckWidget(getOffset(), _originalProgress, _uniqueProgress),
+        getOffset(),
+        getTitleColor(),
+        isTitleVisible(),
+        isCloseButtonVisible(),
+        getOnPanUpdateCallback(),
+        getOnPanEndCallback(),
+        getCloseButtonCallback()
+    ));
   }
 
   void setOriginalProgress(double value) {
@@ -48,6 +48,6 @@ class TwoTextUniqueCheckLayer extends MovingLayer {
   }
 
   Color getDefaultColor() {
-    return UniqueCheckTitleColor;
+    return layersSetting.uniqueCheckTitleColor;
   }
 }

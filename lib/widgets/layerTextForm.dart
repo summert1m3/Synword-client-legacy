@@ -8,15 +8,16 @@ class LayerTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
     return Container(
       margin: EdgeInsets.all(10),
       child: TextFormField(
         controller: _textEditingController,
-        maxLines: MediaQuery.of(context).copyWith().size.height ~/ 20,
+        maxLines: screenSize.height ~/ 20,
         decoration: InputDecoration(
             hintStyle: TextStyle(
                 fontFamily: 'Audrey',
-                fontSize: (screenSize.height/55 + screenSize.width/55),
+                fontSize: (screenSize.height / 55 + screenSize.width / 55),
                 fontWeight: FontWeight.bold),
             hintText: 'Enter your text here',
             fillColor: Colors.white,

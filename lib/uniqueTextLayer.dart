@@ -9,12 +9,12 @@ import 'types.dart';
 class UniqueTextLayer extends MovingLayer {
   String _text;
 
-  UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, UniqueTextTitleColor, null, null, null, false, true, true, true) {
+  UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, layersSetting.uniqueTextTitleColor, null, null, null, false, true, true, true) {
     _text = "";
     build();
   }
 
-  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, UniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
+  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, layersSetting.uniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
     build();
   }
 
@@ -24,20 +24,20 @@ class UniqueTextLayer extends MovingLayer {
   }
 
   void build() {
-    widget = UniqueTextWidget(
-        isLoadingWidgetEnabled ? loadingScreen : UniqueText(_text, offset),
-        offset,
-        titleColor,
-        isTitleVisible,
-        isCloseButtonVisible,
-        onPanUpdateCallback,
-        onPanEndCallback,
-        closeButtonCallback
-    );
+    setWidget(UniqueTextWidget(
+        isLoadingScreenEnabled() ? getLoadingScreen() : UniqueText(_text, getOffset()),
+        getOffset(),
+        getTitleColor(),
+        isTitleVisible(),
+        isCloseButtonVisible(),
+        getOnPanUpdateCallback(),
+        getOnPanEndCallback(),
+        getCloseButtonCallback()
+    ));
   }
 
   Color getDefaultColor() {
-    return UniqueTextTitleColor;
+    return layersSetting.uniqueTextTitleColor;
   }
 
   void setText(String value) {

@@ -6,26 +6,26 @@ import 'package:synword/widgets/uploadButton/uploadButtonWidget.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
+    print(1);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        leadingWidth: (screenSize.height/14) + (screenSize.width/14),
+        leadingWidth: (screenSize.height / 14) + (screenSize.width / 14),
         title: Text(
           'synword',
-          style: TextStyle(fontFamily: 'Waxe', fontSize: (screenSize.height/33 + screenSize.width/33), letterSpacing: 1.5),
+          style: TextStyle(fontFamily: 'Waxe', fontSize: (screenSize.height / 33 + screenSize.width / 33), letterSpacing: 1.5),
         ),
         centerTitle: true,
         leading: IconButton(
           tooltip: 'Menu',
           icon: SvgPicture.asset(
             'icons/menu.svg',
-            height: (screenSize.height/61 + screenSize.width/61),
+            height: (screenSize.height / 61 + screenSize.width / 61),
             color: HexColor('#C70000'),
           ),
             onPressed: () => {
@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
             tooltip: 'Insert file',
             icon: SvgPicture.asset(
               'icons/upload_button.svg',
-              height: (screenSize.height/27 + screenSize.width/27),
+              height: (screenSize.height / 27 + screenSize.width / 27),
               semanticsLabel: 'Upload button',
             ),
             onPressed: () {

@@ -17,10 +17,10 @@ class OriginalTextLayer extends Layer {
   }
 
   void build() {
-    widget = OriginalTextWidget(
+    setWidget(OriginalTextWidget(
         _textEditingController,
         _isTitleVisible
-    );
+    ));
   }
 
   void setTextEditingController(TextEditingController value) {

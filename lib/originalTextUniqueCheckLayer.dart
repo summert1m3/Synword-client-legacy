@@ -8,12 +8,12 @@ import 'types.dart';
 class OriginalTextUniqueCheckLayer extends MovingLayer {
   double _progress;
 
-  OriginalTextUniqueCheckLayer.zero() : super(null, Offset.zero, UniqueCheckTitleColor, null, null, null, false, true, true, true) {
+  OriginalTextUniqueCheckLayer.zero() : super(null, Offset.zero, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
     _progress = 0;
     build();
   }
 
-  OriginalTextUniqueCheckLayer.common(Offset offset, this._progress) : super(null, offset, UniqueCheckTitleColor, null, null, null, false, true, true, true) {
+  OriginalTextUniqueCheckLayer.common(Offset offset, this._progress) : super(null, offset, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
     build();
   }
 
@@ -23,16 +23,16 @@ class OriginalTextUniqueCheckLayer extends MovingLayer {
   }
 
   void build() {
-    widget = UniqueCheckWidget(
-        isLoadingWidgetEnabled ? loadingScreen : TextUniqueCheck(offset, _progress),
-        offset,
-        titleColor,
-        isTitleVisible,
-        isCloseButtonVisible,
-        onPanUpdateCallback,
-        onPanEndCallback,
-        closeButtonCallback
-    );
+    setWidget(UniqueCheckWidget(
+        isLoadingScreenEnabled() ? getLoadingScreen() : TextUniqueCheck(getOffset(), _progress),
+        getOffset(),
+        getTitleColor(),
+        isTitleVisible(),
+        isCloseButtonVisible(),
+        getOnPanUpdateCallback(),
+        getOnPanEndCallback(),
+        getCloseButtonCallback()
+    ));
   }
 
   void setProgress(double value) {
@@ -41,7 +41,7 @@ class OriginalTextUniqueCheckLayer extends MovingLayer {
   }
 
   Color getDefaultColor() {
-    return UniqueCheckTitleColor;
+    return layersSetting.uniqueCheckTitleColor;
   }
 
 }
