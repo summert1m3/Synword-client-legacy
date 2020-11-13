@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    print(1);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       drawer: DrawerMenu(),
-      body: Body(),
+      body: Body(_scaffoldKey),
       backgroundColor: Colors.black,
     );
   }

@@ -1,0 +1,3 @@
+class TextShortLengthException implements Exception {
+  
+}

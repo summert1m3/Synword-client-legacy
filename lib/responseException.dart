@@ -1,0 +1,3 @@
+class ResponseException implements Exception {
+
+}

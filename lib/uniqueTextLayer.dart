@@ -14,12 +14,12 @@ class UniqueTextLayer extends MovingLayer {
     build();
   }
 
-  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(null, offset, layersSetting.uniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
+  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(LoadingScreen(), offset, layersSetting.uniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
     build();
   }
 
   UniqueTextLayer(Offset offset, Color titleColor, this._text, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
-      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
+      : super(LoadingScreen(), offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 

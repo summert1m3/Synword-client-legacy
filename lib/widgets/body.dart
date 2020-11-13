@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:synword/internetChecker.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
 import 'package:synword/buttonBarLayer.dart';
 import 'package:synword/originalTextUniqueCheckLayer.dart';
+import 'package:synword/serverException.dart';
 import 'package:synword/synonymizer.dart';
+import 'package:synword/textLongLengthException.dart';
+import 'package:synword/textShortLengthException.dart';
+import 'package:synword/uniqueCheckData.dart';
+import 'package:synword/uniqueCheckException.dart';
+import 'package:synword/uniqueChecker.dart';
 import 'package:synword/uniqueTextLayer.dart';
 import 'package:synword/uniqueTextUniqueCheckLayer.dart';
 import 'package:synword/twoTextUniqueCheckLayer.dart';
@@ -13,27 +20,39 @@ import 'package:synword/freeSynonymizer.dart';
 import 'dart:async';
 
 class Body extends StatefulWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  Body(
+    this._scaffoldKey
+  );
+
   @override
   State<StatefulWidget> createState() {
-    return _BodyState();
+    return _BodyState(_scaffoldKey);
   }
 }
 
 class _BodyState extends State<Body> {
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
   List<MovingLayer> _layerList;
 
   TextEditingController _textEditingController;
+
   Synonymizer _synonymizer = FreeSynonymizer();
+  UniqueChecker _uniqueChecker = UniqueChecker();
+  UniqueCheckData _originalTextCheckData;
 
-  double _originalTextUniqueness = 40;
-  double _uniqueTextUniqueness = 85;
-
-  OriginalTextLayer _originalText;
-  ButtonBarLayer _buttonBar;
+  OriginalTextLayer _originalTextLayer;
+  ButtonBarLayer _buttonBarLayer;
 
   String _uniqueText;
 
   bool _isButtonBarButtonNotVisible = false;
+
+  _BodyState(
+    this._scaffoldKey
+  );
 
   @override
   void initState() {
@@ -41,55 +60,92 @@ class _BodyState extends State<Body> {
 
     _layerList = List<MovingLayer>();
     _textEditingController = TextEditingController();
-    _originalText = OriginalTextLayer(_textEditingController, false);
-    _buttonBar = ButtonBarLayer(true, true, _buttonBarFirstButtonCallback(), _buttonBarSecondButtonCallback());
+    _originalTextLayer = OriginalTextLayer(_textEditingController, false);
+    _buttonBarLayer = ButtonBarLayer(true, true, _buttonBarFirstButtonCallback(), _buttonBarSecondButtonCallback());
   }
 
   FloatingActionButtonCallback _buttonBarFirstButtonCallback() => () async {
-    setState(() {
-      MovingLayer movingLayer;
-      double originalProgress = _originalTextUniqueness / 100;
-      double uniqueProgress = _uniqueTextUniqueness / 100;
-      Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
+    if (await InternetChecker().isInternetAvailability()) {
+      try {
+        if (_isLayersContains(OriginalTextUniqueCheckLayer) && _isLayersContains(UniqueTextLayer)) {
+          _deleteLayer(OriginalTextUniqueCheckLayer);
 
-      if (_isContains(OriginalTextUniqueCheckLayer) && _isContains(UniqueTextLayer)) {
-        _deleteLayer(OriginalTextUniqueCheckLayer);
-        offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
-        movingLayer = TwoTextUniqueCheckLayer.common(offset, originalProgress, uniqueProgress);
-      } else if (_isContains(UniqueTextLayer)) {
-        movingLayer = UniqueTextUniqueCheckLayer.common(offset, uniqueProgress);
-      } else {
-        movingLayer = OriginalTextUniqueCheckLayer.common(offset, originalProgress);
+          await _createAndAddTwoTextUniqueCheckLayer();
+        } else if (_isLayersContains(UniqueTextLayer)) {
+          await _createAndAddUniqueTextUniqueCheckLayer();
+        } else {
+          await _createAndAddOriginalTextUniqueCheckLayer();
+        }
+      } on UniqueCheckException catch (exception) {
+
+        if (exception.getLayer() != null) {
+          setState(() {
+            _deleteLayer(exception.getLayer().runtimeType);
+          });
+        }
+
+        _showSnackBar('Server error');
+      } on TextShortLengthException {
+        _showSnackBar('Text length less than 100 characters');
+      } on TextLongLengthException {
+        _showSnackBar('Text length over 20000 characters');
       }
-
-      movingLayer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(movingLayer));
-      movingLayer.setOnPanEndCallback(_layerOnPanEndCallback(movingLayer));
-      movingLayer.setCloseButtonCallback(_layerCloseButtonCallback(movingLayer));
-      _addLayer(movingLayer);
-    });
+    } else {
+      _showSnackBar('Check internet availability');
+    }
   };
 
   FloatingActionButtonCallback _buttonBarSecondButtonCallback() => () async {
-    UniqueTextLayer uniqueTextLayer;
-    Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
-    uniqueTextLayer = UniqueTextLayer.zero();
-    uniqueTextLayer.setOffset(offset);
-    uniqueTextLayer.setLoadingScreenEnabled(true);
-    uniqueTextLayer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(uniqueTextLayer));
-    uniqueTextLayer.setOnPanEndCallback(_layerOnPanEndCallback(uniqueTextLayer));
-    uniqueTextLayer.setCloseButtonCallback(_layerCloseButtonCallback(uniqueTextLayer));
-
-    setState(() {
-      _addLayer(uniqueTextLayer);
-    });
-
     String originalText = _textEditingController.value.text;
-    _uniqueText = await _synonymizer.synonymize(originalText);
+    UniqueTextLayer uniqueTextLayer;
 
-    setState(() {
-      uniqueTextLayer.setLoadingScreenEnabled(false);
-      uniqueTextLayer.setText(_uniqueText);
-    });
+      if (await InternetChecker().isInternetAvailability()) {
+        try {
+          if (originalText.length < 100) {
+            throw TextShortLengthException();
+          }
+
+          if (originalText.length > 20000) {
+            throw TextLongLengthException();
+          }
+
+          Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
+          uniqueTextLayer = UniqueTextLayer.zero();
+          uniqueTextLayer.setOffset(offset);
+          uniqueTextLayer.setLoadingScreenEnabled(true);
+          uniqueTextLayer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(uniqueTextLayer));
+          uniqueTextLayer.setOnPanEndCallback(_layerOnPanEndCallback(uniqueTextLayer));
+          uniqueTextLayer.setCloseButtonCallback(_layerCloseButtonCallback(uniqueTextLayer));
+
+          setState(() {
+            _addLayer(uniqueTextLayer);
+          });
+
+          _uniqueText = await _synonymizer.synonymize(originalText);
+
+          if (uniqueTextLayer != null) {
+            setState(() {
+              uniqueTextLayer.setLoadingScreenEnabled(false);
+              uniqueTextLayer.setText(_uniqueText);
+            });
+          }
+        } on ServerException {
+          if (uniqueTextLayer != null) {
+            setState(() {
+
+              _deleteLayer(uniqueTextLayer.runtimeType);
+            });
+          }
+
+          _showSnackBar('Server error');
+        } on TextShortLengthException {
+          _showSnackBar('Text length less than 100 characters');
+        } on TextLongLengthException {
+          _showSnackBar('Text length over 20000 characters');
+        }
+      } else {
+        _showSnackBar('Check internet availability');
+      }
   };
 
   OnPanUpdateCallback _layerOnPanUpdateCallback(MovingLayer layer) => (offset) {
@@ -100,7 +156,7 @@ class _BodyState extends State<Body> {
       setState(() {
         if (_layerList.length < 2 && newOffset.dy >= layersSetting.titleHeight - layersSetting.titleContactHeight && newOffset.dy <= bottomBorder) {
           layer.setOffset(newOffset);
-        } else if (_layerList.length >= 2 && newOffset.dy >= layersSetting.titleHeight - layersSetting.titleContactHeight && !_isLayerOutOfBounds(_getIndex(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
+        } else if (_layerList.length >= 2 && newOffset.dy >= layersSetting.titleHeight - layersSetting.titleContactHeight && !_isLayerOutOfBounds(_getLayerIndexInLayerList(layer.runtimeType), newOffset) && newOffset.dy <= bottomBorder) {
           layer.setOffset(newOffset);
         }
 
@@ -112,7 +168,7 @@ class _BodyState extends State<Body> {
   OnPanEndCallback _layerOnPanEndCallback(MovingLayer layer) => (offset) {
     if (layer.isMovingEnabled()) {
       double border;
-      int index = _getIndex(layer.runtimeType);
+      int index = _getLayerIndexInLayerList(layer.runtimeType);
 
       if (offset.dy > 0) {
         if (index + 1 != _layerList.length) {
@@ -140,9 +196,115 @@ class _BodyState extends State<Body> {
     });
   };
 
+  Future _createAndAddUniqueTextUniqueCheckLayer() async {
+    UniqueTextUniqueCheckLayer uniqueCheckLayer;
+
+    try {
+      Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
+
+      uniqueCheckLayer = UniqueTextUniqueCheckLayer.zero();
+      uniqueCheckLayer.setOffset(offset);
+      uniqueCheckLayer.setLoadingScreenEnabled(true);
+      _setCallbackFunctions(uniqueCheckLayer);
+
+      setState(() {
+        _addLayer(uniqueCheckLayer);
+      });
+
+      UniqueCheckData uniqueCheckData = await _uniqueChecker.check(_uniqueText);
+
+      if (uniqueCheckLayer != null) {
+        setState(() {
+          uniqueCheckLayer.setLoadingScreenEnabled(false);
+          uniqueCheckLayer.setUniqueTextCheckData(uniqueCheckData);
+        });
+      }
+    } on ServerException {
+      throw UniqueCheckException(uniqueCheckLayer);
+    }
+  }
+
+  Future _createAndAddTwoTextUniqueCheckLayer() async {
+    TwoTextUniqueCheckLayer uniqueCheckLayer;
+
+    try {
+      Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
+
+      uniqueCheckLayer = TwoTextUniqueCheckLayer.zero();
+      uniqueCheckLayer.setOffset(offset);
+      uniqueCheckLayer.setLoadingScreenEnabled(true);
+      _setCallbackFunctions(uniqueCheckLayer);
+
+      setState(() {
+        _addLayer(uniqueCheckLayer);
+      });
+
+      UniqueCheckData uniqueUniqueCheckData = await _uniqueChecker.check(_uniqueText);
+
+      setState(() {
+        uniqueCheckLayer.setLoadingScreenEnabled(false);
+        uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
+        uniqueCheckLayer.setUniqueTextCheckData(uniqueUniqueCheckData);
+      });
+    } on ServerException {
+      throw UniqueCheckException(uniqueCheckLayer);
+    }
+  }
+
+  Future _createAndAddOriginalTextUniqueCheckLayer() async {
+    OriginalTextUniqueCheckLayer uniqueCheckLayer;
+    String originalText = _textEditingController.value.text;
+
+    if (originalText.length < 100) {
+      throw TextShortLengthException();
+    }
+
+    if (originalText.length > 20000) {
+      throw TextLongLengthException();
+    }
+
+    try {
+      Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
+
+      uniqueCheckLayer = OriginalTextUniqueCheckLayer.zero();
+      uniqueCheckLayer.setOffset(offset);
+      uniqueCheckLayer.setLoadingScreenEnabled(true);
+      _setCallbackFunctions(uniqueCheckLayer);
+
+      setState(() {
+        _addLayer(uniqueCheckLayer);
+      });
+
+      _originalTextCheckData = await _uniqueChecker.check(originalText);
+
+      if (uniqueCheckLayer != null) {
+        setState(() {
+          uniqueCheckLayer.setLoadingScreenEnabled(false);
+          uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
+        });
+      }
+    } on ServerException {
+      throw UniqueCheckException(uniqueCheckLayer);
+    }
+  }
+
+  void _setCallbackFunctions(MovingLayer layer) {
+    layer.setOnPanUpdateCallback(_layerOnPanUpdateCallback(layer));
+    layer.setOnPanEndCallback(_layerOnPanEndCallback(layer));
+    layer.setCloseButtonCallback(_layerCloseButtonCallback(layer));
+  }
+
+  void _showSnackBar(String message) {
+    SnackBar snackBar = SnackBar(
+        content: Text(message)
+    );
+
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   void _addLayer(MovingLayer layer) {
     _layerList.add(layer);
-    _setLayerDefaultOffset();
+    _setLayersDefaultOffset();
     _updateLayers();
   }
 
@@ -155,92 +317,6 @@ class _BodyState extends State<Body> {
     }
 
     _updateLayers();
-  }
-
-  void _updateLayers() {
-    _updateOriginalTextTitleVisible();
-    _updateLayersTitleColors();
-    _updateLastLayerTitleVisible();
-    _updateLayersCloseButtonVisible();
-    _updateButtons();
-  }
-
-  void _updateOriginalTextTitleVisible() {
-    if (_layerList.isNotEmpty) {
-      _originalText.setTitleVisible(true);
-    } else {
-      _originalText.setTitleVisible(false);
-    }
-  }
-
-  void _updateLayersTitleColors() {
-    if (_layerList.isNotEmpty) {
-      for (int i = 0; i < _layerList.length - 1; i++) {
-        _layerList[i].setTitleColor(_layerList[i].getDefaultColor());
-      }
-
-      _layerList.last.setTitleColor(Colors.white);
-    }
-  }
-
-  void _updateLastLayerTitleVisible() {
-    _layerList.forEach((element) {
-      if (element.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
-        element.setTitleVisible(false);
-      } else {
-        element.setTitleVisible(true);
-      }
-    });
-  }
-
-  void _updateLayersCloseButtonVisible() {
-    for (int i = 0; i < _layerList.length; i++) {
-      if (i == _layerList.length - 1) {
-        _layerList[i].setCloseButtonVisible(true);
-      } else {
-        _layerList[i].setCloseButtonVisible(false);
-      }
-    }
-  }
-
-  void _updateButtons() {
-    _updateUpButton();
-    _updateCheckButton();
-    _updateButtonBarButtonVisible();
-  }
-
-  void _updateCheckButton() {
-    if (_layerList.isNotEmpty) {
-      Type type = _layerList.last.runtimeType;
-
-      if (type == UniqueTextUniqueCheckLayer || type == OriginalTextUniqueCheckLayer || type == TwoTextUniqueCheckLayer) {
-        _buttonBar.setFirstButtonVisible(false);
-      } else if (!_isButtonBarButtonNotVisible) {
-        _buttonBar.setFirstButtonVisible(true);
-      }
-    }
-  }
-
-  void _updateUpButton() {
-    if (_layerList.isNotEmpty) {
-      if (_isContains(UniqueTextLayer)) {
-        _buttonBar.setSecondButtonVisible(false);
-      } else {
-        _buttonBar.setSecondButtonVisible(true);
-      }
-    }
-  }
-
-  void _updateButtonBarButtonVisible() {
-    if (!_buttonBar.getFirstButtonVisible() && !_buttonBar.getSecondButtonVisible()) {
-      _isButtonBarButtonNotVisible = true;
-    }
-
-    if (_layerList.isEmpty) {
-      _buttonBar.setFirstButtonVisible(true);
-      _buttonBar.setSecondButtonVisible(true);
-      _isButtonBarButtonNotVisible = false;
-    }
   }
 
   void _hideLayer(MovingLayer layer, double border) {
@@ -287,7 +363,93 @@ class _BodyState extends State<Body> {
     });
   }
 
-  void _setLayerDefaultOffset() {
+  void _updateLayers() {
+    _updateOriginalTextTitleVisible();
+    _updateLayersTitleColors();
+    _updateLastLayerTitleVisible();
+    _updateLayersCloseButtonVisible();
+    _updateButtons();
+  }
+
+  void _updateOriginalTextTitleVisible() {
+    if (_layerList.isNotEmpty) {
+      _originalTextLayer.setTitleVisible(true);
+    } else {
+      _originalTextLayer.setTitleVisible(false);
+    }
+  }
+
+  void _updateLayersTitleColors() {
+    if (_layerList.isNotEmpty) {
+      for (int i = 0; i < _layerList.length - 1; i++) {
+        _layerList[i].setTitleColor(_layerList[i].getDefaultColor());
+      }
+
+      _layerList.last.setTitleColor(Colors.white);
+    }
+  }
+
+  void _updateLastLayerTitleVisible() {
+    _layerList.forEach((element) {
+      if (element.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
+        element.setTitleVisible(false);
+      } else {
+        element.setTitleVisible(true);
+      }
+    });
+  }
+
+  void _updateLayersCloseButtonVisible() {
+    for (int i = 0; i < _layerList.length; i++) {
+      if (i == _layerList.length - 1) {
+        _layerList[i].setCloseButtonVisible(true);
+      } else {
+        _layerList[i].setCloseButtonVisible(false);
+      }
+    }
+  }
+
+  void _updateButtons() {
+    _updateUpButton();
+    _updateCheckButton();
+    _updateButtonBarButtonVisible();
+  }
+
+  void _updateCheckButton() {
+    if (_layerList.isNotEmpty) {
+      Type type = _layerList.last.runtimeType;
+
+      if (type == UniqueTextUniqueCheckLayer || type == OriginalTextUniqueCheckLayer || type == TwoTextUniqueCheckLayer) {
+        _buttonBarLayer.setFirstButtonVisible(false);
+      } else if (!_isButtonBarButtonNotVisible) {
+        _buttonBarLayer.setFirstButtonVisible(true);
+      }
+    }
+  }
+
+  void _updateUpButton() {
+    if (_layerList.isNotEmpty) {
+      if (_isLayersContains(UniqueTextLayer)) {
+        _buttonBarLayer.setSecondButtonVisible(false);
+      } else {
+        _buttonBarLayer.setSecondButtonVisible(true);
+      }
+    }
+  }
+
+  void _updateButtonBarButtonVisible() {
+    if (!_buttonBarLayer.getFirstButtonVisible() && !_buttonBarLayer.getSecondButtonVisible()) {
+      _isButtonBarButtonNotVisible = true;
+    }
+
+    if (_layerList.isEmpty) {
+      _buttonBarLayer.setFirstButtonVisible(true);
+      _buttonBarLayer.setSecondButtonVisible(true);
+      _isButtonBarButtonNotVisible = false;
+    }
+  }
+
+  void _setLayersDefaultOffset() {
     for (int i = 0; i < _layerList.length; i++) {
       Offset offset;
 
@@ -301,7 +463,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  bool _isContains(Type type) {
+  bool _isLayersContains(Type type) {
     bool isContains = false;
 
     _layerList.forEach((element) {
@@ -333,8 +495,7 @@ class _BodyState extends State<Body> {
     return isOutOfBounds;
   }
 
-
-  int _getIndex(Type type) {
+  int _getLayerIndexInLayerList(Type type) {
     int index = 0;
 
     for (int i = 0; i < _layerList.length; i++) {
@@ -349,13 +510,13 @@ class _BodyState extends State<Body> {
 
   List<Widget> _getWidgets() {
     List<Widget> widgetList = List<Widget>();
-    widgetList.add(_originalText.getWidget());
+    widgetList.add(_originalTextLayer.getWidget());
 
     _layerList.forEach((element) {
       widgetList.add(element.getWidget());
     });
 
-    widgetList.add(_buttonBar.getWidget());
+    widgetList.add(_buttonBarLayer.getWidget());
 
     return widgetList;
   }

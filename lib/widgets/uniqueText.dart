@@ -10,7 +10,7 @@ class UniqueText extends StatelessWidget {
   );
 
   double _getSizedBoxHeight(BuildContext context) {
-    double height = (MediaQuery.of(context).copyWith().size.height - 167) - _offset.dy;
+    double height = (MediaQuery.of(context).copyWith().size.height - 157) - _offset.dy;
 
     if (height < 0) {
       height = 0;

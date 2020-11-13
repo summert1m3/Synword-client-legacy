@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:synword/widgets/waveBar.dart';
 import 'package:synword/widgets/uniqueCheckLinks.dart';
 import 'package:synword/layersSetting.dart';
+import 'package:synword/uniqueCheckData.dart';
 
 class TextUniqueCheck extends StatelessWidget {
+  final UniqueCheckData _uniqueCheckData;
   final Offset _offset;
-  final double _progress;
   final double _dividerHeight = 30;
 
   TextUniqueCheck(
+    this._uniqueCheckData,
     this._offset,
-    this._progress
   );
 
   double _getUniqueCheckLinksHeight(BuildContext context) {
-    double height = (MediaQuery.of(context).copyWith().size.height - 127) - (_offset.dy + layersSetting.titleHeight + layersSetting.waveBarHeight - _dividerHeight / 2);
+    double height = (MediaQuery.of(context).copyWith().size.height - 137) - (_offset.dy + layersSetting.titleHeight + layersSetting.waveBarHeight - _dividerHeight / 2);
 
     if (height < 0) {
       height = 0;
@@ -30,7 +31,7 @@ class TextUniqueCheck extends StatelessWidget {
       child: Column(
         children: [
           WaveBar(
-            _progress
+            _uniqueCheckData.percent / 100
           ),
           Divider(
             color: Colors.grey,
@@ -39,9 +40,14 @@ class TextUniqueCheck extends StatelessWidget {
             indent: 20,
             endIndent: 20,
           ),
-          UniqueCheckLinks(_getUniqueCheckLinksHeight(context))
+          UniqueCheckLinks(
+              _uniqueCheckData,
+              _getUniqueCheckLinksHeight(context)
+          )
         ],
       ),
+      width: MediaQuery.of(context).copyWith().size.width - 20,
+      height: MediaQuery.of(context).copyWith().size.height
     );
   }
 }

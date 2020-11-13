@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:synword/uniqueCheckData.dart';
+import 'package:synword/uniqueCheckLayer.dart';
 import 'package:synword/widgets/layers/uniqueCheckWidget.dart';
 import 'package:synword/widgets/textUniqueCheck.dart';
-import 'movingLayer.dart';
+import 'package:synword/widgets/loadingScreen.dart';
 import 'layersSetting.dart';
 import 'types.dart';
 
-class UniqueTextUniqueCheckLayer extends MovingLayer {
-  double _progress;
-
-  UniqueTextUniqueCheckLayer.zero() : super(null, Offset.zero, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
-    _progress = 0;
+class UniqueTextUniqueCheckLayer extends UniqueCheckLayer {
+  UniqueTextUniqueCheckLayer.zero() : super(LoadingScreen(), Offset.zero, null, null, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
     build();
   }
 
-  UniqueTextUniqueCheckLayer.common(Offset offset, this._progress) : super(null, offset, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
+  UniqueTextUniqueCheckLayer.common(Offset offset, UniqueCheckData uniqueTextCheckData) : super(LoadingScreen(), offset, null, uniqueTextCheckData, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {
     build();
   }
 
-  UniqueTextUniqueCheckLayer(Offset offset, this._progress, Color titleColor, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
-      : super(null, offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
+  UniqueTextUniqueCheckLayer(Offset offset, UniqueCheckData uniqueTextCheckData, Color titleColor, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+      : super(LoadingScreen(), offset, null, uniqueTextCheckData, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     setWidget(UniqueCheckWidget(
-        isLoadingScreenEnabled() ? getLoadingScreen() : TextUniqueCheck(getOffset(), _progress),
+        isLoadingScreenEnabled() ? getLoadingScreen() : TextUniqueCheck(getUniqueTextCheckData(), getOffset()),
         getOffset(),
         getTitleColor(),
         isTitleVisible(),
@@ -33,11 +32,6 @@ class UniqueTextUniqueCheckLayer extends MovingLayer {
         getOnPanEndCallback(),
         getCloseButtonCallback()
     ));
-  }
-
-  void setProgress(double value) {
-    _progress = value;
-    build();
   }
 
   Color getDefaultColor() {

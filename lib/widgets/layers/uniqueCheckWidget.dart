@@ -29,11 +29,7 @@ class UniqueCheckWidget extends StatelessWidget {
     return Positioned(
       top: _offset.dy,
       child: BodyLayer(
-          SizedBox(
-              child: _widget,
-              width: MediaQuery.of(context).copyWith().size.width - 20,
-              height: MediaQuery.of(context).copyWith().size.height,
-          ),
+          _widget,
           LayerTitle(
               Text('Unique check', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
               _titleColor,

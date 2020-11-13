@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:synword/uniqueCheckData.dart';
 
 class UniqueCheckLinks extends StatelessWidget {
+  final UniqueCheckData _uniqueCheckData;
   final double _height;
 
-  UniqueCheckLinks(this._height);
+  UniqueCheckLinks(
+    this._uniqueCheckData,
+    this._height
+  );
+
+  List<Widget> _createLinksItems(UniqueCheckData uniqueCheckData) {
+    List<Widget> linksItems = List<Widget>();
+
+    uniqueCheckData.matches.forEach((element) {
+      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt()));
+    });
+
+    return linksItems;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: _height,
       child: ListView(
-        children: [
-          UniqueCheckLinksItem(
-              'google.com',
-              10
-          ),
-          UniqueCheckLinksItem(
-              'yandex.ru',
-              10
-          ),
-          UniqueCheckLinksItem(
-              'wikipedia.org',
-              5
-          ),
-          UniqueCheckLinksItem(
-              'yahoo.com',
-              5
-          ),
-        ],
+        children: _createLinksItems(_uniqueCheckData),
       )
     );
   }
