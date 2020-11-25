@@ -1,3 +1,5 @@
+import 'package:synword/uniqueUpData.dart';
+
 abstract class Synonymizer {
-  Future<String> synonymize(String text);
+  Future<UniqueUpData> synonymize(String text);
 }

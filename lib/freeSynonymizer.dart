@@ -1,12 +1,13 @@
 import 'package:synword/responseException.dart';
 import 'package:synword/serverException.dart';
+import 'package:synword/uniqueUpData.dart';
 import 'synonymizer.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 
 class FreeSynonymizer extends Synonymizer {
-  Future<String> synonymize(String text) async {
+  Future<UniqueUpData> synonymize(String text) async {
     try {
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
@@ -22,8 +23,11 @@ class FreeSynonymizer extends Synonymizer {
       }
 
       String responseString = await utf8.decoder.bind(response).join();
+      Map<String, dynamic> responseJson = jsonDecode(responseString);
 
-      return responseString;
+      UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
+
+      return uniqueUpData;
     } catch (_) {
       throw ServerException();
     }

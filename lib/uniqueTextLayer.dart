@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:synword/uniqueUpData.dart';
 import 'package:synword/widgets/layers/uniqueTextWidget.dart';
 import 'package:synword/widgets/uniqueText.dart';
 import 'package:synword/widgets/loadingScreen.dart';
@@ -7,25 +8,25 @@ import 'layersSetting.dart';
 import 'types.dart';
 
 class UniqueTextLayer extends MovingLayer {
-  String _text;
+  UniqueUpData _uniqueUpData;
 
   UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, layersSetting.uniqueTextTitleColor, null, null, null, false, true, true, true) {
-    _text = "";
+    _uniqueUpData = null;
     build();
   }
 
-  UniqueTextLayer.common(Offset offset, this._text, bool isLoadingWidgetEnabled) : super(LoadingScreen(), offset, layersSetting.uniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
+  UniqueTextLayer.common(Offset offset, this._uniqueUpData, bool isLoadingWidgetEnabled) : super(LoadingScreen(), offset, layersSetting.uniqueTextTitleColor, null, null, null, isLoadingWidgetEnabled, true, true, true) {
     build();
   }
 
-  UniqueTextLayer(Offset offset, Color titleColor, this._text, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
+  UniqueTextLayer(Offset offset, Color titleColor, this._uniqueUpData, bool isLoadingWidgetEnabled, bool isMovingEnabled, bool isTitleVisible, bool isCloseButtonVisible, OnPanUpdateCallback onPanUpdateCallback, OnPanEndCallback onPanEndCallback, CloseButtonCallback closeButtonCallback)
       : super(LoadingScreen(), offset, titleColor, onPanUpdateCallback, onPanEndCallback, closeButtonCallback, isLoadingWidgetEnabled, isMovingEnabled, isTitleVisible, isCloseButtonVisible) {
     build();
   }
 
   void build() {
     setWidget(UniqueTextWidget(
-        isLoadingScreenEnabled() ? getLoadingScreen() : UniqueText(_text, getOffset()),
+        isLoadingScreenEnabled() ? getLoadingScreen() : UniqueText(_uniqueUpData, getOffset()),
         getOffset(),
         getTitleColor(),
         isTitleVisible(),
@@ -40,8 +41,8 @@ class UniqueTextLayer extends MovingLayer {
     return layersSetting.uniqueTextTitleColor;
   }
 
-  void setText(String value) {
-    _text = value;
+  void setUniqueUpData(UniqueUpData value) {
+    _uniqueUpData = value;
     build();
   }
 }

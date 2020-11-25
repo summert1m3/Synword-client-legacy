@@ -19,6 +19,8 @@ import 'package:synword/layersSetting.dart';
 import 'package:synword/freeSynonymizer.dart';
 import 'dart:async';
 
+import 'package:synword/uniqueUpData.dart';
+
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
@@ -121,12 +123,13 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          _uniqueText = await _synonymizer.synonymize(originalText);
+          UniqueUpData uniqueUpData = await _synonymizer.synonymize(originalText);
+          _uniqueText = uniqueUpData.text;
 
           if (uniqueTextLayer != null) {
             setState(() {
               uniqueTextLayer.setLoadingScreenEnabled(false);
-              uniqueTextLayer.setText(_uniqueText);
+              uniqueTextLayer.setUniqueUpData(uniqueUpData);
             });
           }
         } on ServerException {

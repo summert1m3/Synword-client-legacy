@@ -3,6 +3,7 @@ import 'package:synword/layersSetting.dart';
 import 'splashScreen.dart';
 import 'home.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter/services.dart';
 
 class Application extends StatefulWidget {
   @override
@@ -35,6 +36,11 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     _initializeLayersSetting(context);
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return MaterialApp(
       title: 'SynWord',

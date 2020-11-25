@@ -24,4 +24,9 @@ class MatchedPages {
   MatchedPages.fromJson(Map<String, dynamic> json)
       : url = json['url'],
         percent = json['percent'];
+
+  Map<String, dynamic> toJson() => {
+    'url' : url,
+    'percent' : percent
+  };
 }
