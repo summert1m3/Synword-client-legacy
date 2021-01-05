@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:synword/freeSynonymizer.dart';
 import 'package:synword/internetChecker.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
 import 'package:synword/buttonBarLayer.dart';
 import 'package:synword/originalTextUniqueCheckLayer.dart';
 import 'package:synword/serverException.dart';
+import 'package:synword/synonymizer.dart';
 import 'package:synword/textLongLengthException.dart';
 import 'package:synword/textShortLengthException.dart';
 import 'package:synword/uniqueCheckData.dart';
@@ -16,6 +18,8 @@ import 'package:synword/types.dart';
 import 'package:synword/layersSetting.dart';
 import 'package:synword/widgets/userData/userDataController.dart';
 import 'dart:async';
+
+import 'package:synword/uniqueUpData.dart';
 
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
@@ -43,6 +47,8 @@ class _BodyState extends State<Body> {
   ButtonBarLayer _buttonBarLayer;
 
   String _uniqueText;
+
+  Synonymizer _synonymizer = FreeSynonymizer();
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -117,12 +123,13 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          _uniqueText = await userDataController.uniqueUpRequest(originalText);
+          UniqueUpData uniqueUpData = await _synonymizer.synonymize(originalText);
+          _uniqueText = uniqueUpData.text;
 
           if (uniqueTextLayer != null) {
             setState(() {
               uniqueTextLayer.setLoadingScreenEnabled(false);
-              uniqueTextLayer.setText(_uniqueText);
+              uniqueTextLayer.setUniqueUpData(uniqueUpData);
             });
           }
         } on ServerException {

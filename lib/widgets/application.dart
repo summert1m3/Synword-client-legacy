@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/widgets/drawerMenu/Feedback/feedback.dart';
 import 'package:synword/widgets/googleAuth/googleAuthService.dart';
 import 'package:synword/widgets/userData/userDataController.dart';
+import 'package:flutter/services.dart';
 
 class Application extends StatefulWidget {
   @override
@@ -64,7 +65,6 @@ class _ApplicationState extends State<Application> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     return WiredashApp(
       navigatorKey: _navigatorKey,
       child: MaterialApp(
