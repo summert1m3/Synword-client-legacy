@@ -1,0 +1,17 @@
+{
+  "textFormHintText" : "Enter your text here",
+  "uniqueCheckButton" : "CHECK",
+  "uniqueUpButton": "UP",
+  "originalTextHeader": "Original text",
+  "uniqueTextHeader": "Unique text",
+  "uniqueCheckHeader": "Unique check",
+  "uniqueCheckLayerOriginalWaveBallTitle": "Original",
+  "uniqueCheckLayerUniqueWaveBallTitle": "Unique",
+
+  "drawerCommercial": "COMMERCIAL",
+  "drawerSocial": "SOCIAL",
+  "drawerOther": "OTHER",
+
+  "fileUploadTitle": "File Unique Up",
+  "fileUploadSupportedFiles": "Supported files: docx"
+}

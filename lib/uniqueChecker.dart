@@ -11,7 +11,7 @@ class UniqueChecker {
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.https('10.0.2.2:5001', '/api/uniquecheck'));
+      HttpClientRequest request = await client.postUrl(Uri.https('194.87.146.123', '/api/uniquecheck'));
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
 

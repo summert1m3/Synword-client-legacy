@@ -1,0 +1,17 @@
+{
+  "textFormHintText" : "Введите ваш текст",
+  "uniqueCheckButton" : "ПРОВЕРИТЬ",
+  "uniqueUpButton": "ПОВЫСИТЬ",
+  "originalTextHeader": "Оригинальный текст",
+  "uniqueTextHeader": "Измененный текст",
+  "uniqueCheckHeader": "Проверка уникальности",
+  "uniqueCheckLayerOriginalWaveBallTitle": "Оригинальный",
+  "uniqueCheckLayerUniqueWaveBallTitle": "Измененный",
+
+  "drawerCommercial": "КОММЕРЦИЯ",
+  "drawerSocial": "СОЦ. СЕТИ",
+  "drawerOther": "ДРУГОЕ",
+
+  "fileUploadTitle": "Повышение уникальности",
+  "fileUploadSupportedFiles": "Поддерживаемые файлы: docx"
+}

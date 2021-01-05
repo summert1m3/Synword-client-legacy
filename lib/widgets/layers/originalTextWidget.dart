@@ -3,6 +3,7 @@ import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTextForm.dart';
 import 'package:synword/widgets/layerTitle.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OriginalTextWidget extends StatelessWidget {
   final TextEditingController _textEditingController;
@@ -19,7 +20,7 @@ class OriginalTextWidget extends StatelessWidget {
         child: BodyLayer(
             Expanded(child: LayerTextForm(_textEditingController)),
             LayerTitle(
-                Text('Original text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.white)),
+                Text('originalTextHeader', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)).tr(),
               HexColor('#D45357'),
                 Colors.black.withOpacity(0.0),
                 true,

@@ -28,6 +28,14 @@ dependencies:
   flutter_svg: ^0.19.0
   flutter_launcher_icons: ^0.8.0
   loading_animations: ^2.1.0
+  wiredash: ^0.2.0
+  url_launcher: ^5.7.10
+  easy_localization: ^2.3.3
+  google_sign_in: ^4.5.6
+  file_picker: ^2.1.0
+  dio: ^3.0.10
+  path_provider: ^1.6.24
+  permission_handler: ^5.0.1+1
 
 flutter_icons:
   android: true
@@ -68,6 +76,16 @@ flutter:
     - icons/menu.svg
     - icons/buy_symbols.svg
     - icons/upload_file_button.svg
+    - icons/russia.svg
+    - icons/united-states.svg
+    - icons/premiumPage/crown.svg
+    - icons/premiumPage/first.png
+    - icons/premiumPage/file.png
+    - icons/premiumPage/limit.png
+    - icons/premiumPage/free.png
+    - icons/docx_logo.png
+    - lang/en-US.json
+    - lang/ru-RU.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -95,6 +113,9 @@ flutter:
     - family: Comodo
       fonts:
         - asset: fonts/Comodo.otf
+    - family: Gardens
+      fonts:
+        - asset: fonts/Gardens.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

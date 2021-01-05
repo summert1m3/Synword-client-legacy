@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
 import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:synword/widgets/uploadButton/uploadButtonWidget.dart';
+import 'package:synword/widgets/documentHandle/uploadButtonWidget.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
@@ -11,7 +11,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

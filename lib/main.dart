@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:synword/Widgets/application.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() {
-  runApp(Application());
+  runApp(EasyLocalization(
+      child: Application(),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+      ],
+      path: 'lang'
+  )
+  );
 }

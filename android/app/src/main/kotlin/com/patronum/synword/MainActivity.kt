@@ -1,4 +1,4 @@
-package com.example.synword
+package com.patronum.synword
 
 import io.flutter.embedding.android.FlutterActivity
 

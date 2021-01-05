@@ -5,18 +5,16 @@ import 'package:synword/originalTextLayer.dart';
 import 'package:synword/buttonBarLayer.dart';
 import 'package:synword/originalTextUniqueCheckLayer.dart';
 import 'package:synword/serverException.dart';
-import 'package:synword/synonymizer.dart';
 import 'package:synword/textLongLengthException.dart';
 import 'package:synword/textShortLengthException.dart';
 import 'package:synword/uniqueCheckData.dart';
 import 'package:synword/uniqueCheckException.dart';
-import 'package:synword/uniqueChecker.dart';
 import 'package:synword/uniqueTextLayer.dart';
 import 'package:synword/uniqueTextUniqueCheckLayer.dart';
 import 'package:synword/twoTextUniqueCheckLayer.dart';
 import 'package:synword/types.dart';
 import 'package:synword/layersSetting.dart';
-import 'package:synword/freeSynonymizer.dart';
+import 'package:synword/widgets/userData/userDataController.dart';
 import 'dart:async';
 
 class Body extends StatefulWidget {
@@ -39,8 +37,6 @@ class _BodyState extends State<Body> {
 
   TextEditingController _textEditingController;
 
-  Synonymizer _synonymizer = FreeSynonymizer();
-  UniqueChecker _uniqueChecker = UniqueChecker();
   UniqueCheckData _originalTextCheckData;
 
   OriginalTextLayer _originalTextLayer;
@@ -101,7 +97,7 @@ class _BodyState extends State<Body> {
 
       if (await InternetChecker().isInternetAvailability()) {
         try {
-          if (originalText.length < 100) {
+          if (originalText.length < 10) {
             throw TextShortLengthException();
           }
 
@@ -121,7 +117,7 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          _uniqueText = await _synonymizer.synonymize(originalText);
+          _uniqueText = await userDataController.uniqueUpRequest(originalText);
 
           if (uniqueTextLayer != null) {
             setState(() {
@@ -139,7 +135,7 @@ class _BodyState extends State<Body> {
 
           _showSnackBar('Server error');
         } on TextShortLengthException {
-          _showSnackBar('Text length less than 100 characters');
+          _showSnackBar('Text length less than 10 characters');
         } on TextLongLengthException {
           _showSnackBar('Text length over 20000 characters');
         }
@@ -211,7 +207,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueCheckData = await _uniqueChecker.check(_uniqueText);
+      UniqueCheckData uniqueCheckData = await userDataController.uniqueCheckRequest(_uniqueText);
 
       if (uniqueCheckLayer != null) {
         setState(() {
@@ -239,7 +235,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueUniqueCheckData = await _uniqueChecker.check(_uniqueText);
+      UniqueCheckData uniqueUniqueCheckData = await userDataController.uniqueCheckRequest(_uniqueText);
 
       setState(() {
         uniqueCheckLayer.setLoadingScreenEnabled(false);
@@ -275,7 +271,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      _originalTextCheckData = await _uniqueChecker.check(originalText);
+      _originalTextCheckData = await userDataController.uniqueCheckRequest(originalText);
 
       if (uniqueCheckLayer != null) {
         setState(() {
@@ -295,8 +291,10 @@ class _BodyState extends State<Body> {
   }
 
   void _showSnackBar(String message) {
+    Scaffold.of(context).hideCurrentSnackBar();
     SnackBar snackBar = SnackBar(
-        content: Text(message)
+        content: Text(message),
+        duration: Duration(seconds: 2),
     );
 
     _scaffoldKey.currentState.showSnackBar(snackBar);

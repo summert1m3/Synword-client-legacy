@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wiredash/wiredash.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'dialogs/langDialog.dart';
+import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
+import 'package:synword/widgets/drawerMenu/pages/priceListPage.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -39,13 +46,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
               SizedBox(
                 height: 3,
               ),
-              Text('COMMERCIAL',
+              Text('drawerCommercial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width) / 80,
+                    color: Colors.white, fontSize: (screenSize.height + screenSize.width) / 80,
                   ),
-              ),
+              ).tr(),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 240,
               ),
@@ -56,27 +62,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   'icons/premium.svg',
                   semanticsLabel: 'Premium',
                 ),
-                onPressed: () => {},
+                onPressed: () => Navigator.of(context).push(PremiumPage()),
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Buy symbols',
+                tooltip: 'Buy',
                 icon: SvgPicture.asset(
                   'icons/buy_symbols.svg',
-                  semanticsLabel: 'Buy symbols',
+                  semanticsLabel: 'Buy',
                 ),
-                onPressed: () => {},
+                onPressed: () => Navigator.of(context).push(BuyPage()),
               ),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 160,
               ),
               Text(
-                  'SOCIAL',
+                  'drawerSocial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width) / 80,
+                      color: Colors.white, fontSize: (screenSize.height + screenSize.width) / 80,
                   ),
-              ),
+              ).tr(),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 240,
               ),
@@ -86,7 +92,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 icon: Image(
                   image: AssetImage('icons/instagram.png'),
                 ),
-                onPressed: () => {},
+                onPressed: () => _launchURL('https://www.instagram.com/')
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
@@ -94,17 +100,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 icon: Image(
                   image: AssetImage('icons/vk.png'),
                 ),
-                onPressed: () => {},
+                onPressed: () => _launchURL('https://vk.com/'),
               ),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 160,
               ),
-              Text('OTHER',
+              Text('drawerOther',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: (screenSize.height + screenSize.width)/80,
+                      color: Colors.white, fontSize: (screenSize.height + screenSize.width)/80,
                   ),
-              ),
+              ).tr(),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 240,
               ),
@@ -115,7 +121,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   'icons/language.svg',
                   semanticsLabel: 'Language',
                 ),
-                onPressed: () => {},
+                onPressed: () => _showLangDialog(context),
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
@@ -124,7 +130,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   'icons/feedback.svg',
                   semanticsLabel: 'Feedback',
                 ),
-                onPressed: () => {},
+                onPressed: () => Wiredash.of(context).show(),
               ),
             ],
           ),
@@ -132,4 +138,21 @@ class _DrawerMenuState extends State<DrawerMenu> {
       ),
     );
   }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+Future<void> _showLangDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return LangDialog();
+    },
+  );
 }

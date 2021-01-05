@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:synword/types.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BodyButtonBar extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
@@ -42,6 +43,7 @@ class BodyButtonBar extends StatelessWidget {
                 Container(
                   width: (screenSize.width+screenSize.height)/20,
                   child: FloatingActionButton(
+                    heroTag: "btn1",
                       child: SvgPicture.asset(
                         'icons/check_button.svg',
                         color: Colors.black,
@@ -54,7 +56,7 @@ class BodyButtonBar extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
-                  child: Text('CHECK', style: TextStyle(fontSize: screenSize.height / 60, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  child: Text('uniqueCheckButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )
               ],
             ),
@@ -72,6 +74,7 @@ class BodyButtonBar extends StatelessWidget {
                 Container(
                   width: (screenSize.width+screenSize.height)/20,
                   child: FloatingActionButton(
+                    heroTag: "btn2",
                       child: SvgPicture.asset(
                         'icons/up_button.svg',
                         color: Colors.black,
@@ -84,7 +87,7 @@ class BodyButtonBar extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
-                  child: Text('UP', style: TextStyle(fontSize: screenSize.height / 50, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  child: Text('uniqueUpButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )
               ],
             ),

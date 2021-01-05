@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
 import 'package:synword/types.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UniqueCheckWidget extends StatelessWidget {
   final Widget _widget;
@@ -31,7 +32,7 @@ class UniqueCheckWidget extends StatelessWidget {
       child: BodyLayer(
           _widget,
           LayerTitle(
-              Text('Unique check', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+              Text('uniqueCheckHeader', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
               _titleColor,
               Colors.black.withOpacity(0.4),
               _isTitleVisible,
