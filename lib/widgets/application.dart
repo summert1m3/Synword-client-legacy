@@ -7,9 +7,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/widgets/drawerMenu/Feedback/feedback.dart';
-import 'package:synword/widgets/googleAuth/googleAuthService.dart';
-import 'package:synword/widgets/userData/userDataController.dart';
-import 'package:flutter/services.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/userData/Controller/authorizationController.dart';
+
+import 'package:synword/userData/currentUser.dart';
 
 class Application extends StatefulWidget {
   @override
@@ -46,16 +47,21 @@ class _ApplicationState extends State<Application> {
     googleAuthService.signInSilently();
   }
   void _initializeUserData() async{
+    AuthorizationController authController = AuthorizationController();
+
     if(googleAuthService.googleUser != null){
       try{
-        userDataController.setAuth();
+        authController.setAuth();
       }catch(ex){
-        userDataController.setUnauth();
+        authController.setUnauth();
       }
     }
     else{
-      userDataController.setUnauth();
+      authController.setUnauth();
     }
+    CurrentUser user = CurrentUser();
+    print(user.serverRequest);
+    print(user.userData);
   }
 
   @override

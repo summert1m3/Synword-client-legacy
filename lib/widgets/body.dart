@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:synword/freeSynonymizer.dart';
 import 'package:synword/internetChecker.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
 import 'package:synword/buttonBarLayer.dart';
 import 'package:synword/originalTextUniqueCheckLayer.dart';
 import 'package:synword/serverException.dart';
-import 'package:synword/synonymizer.dart';
 import 'package:synword/textLongLengthException.dart';
 import 'package:synword/textShortLengthException.dart';
 import 'package:synword/uniqueCheckData.dart';
@@ -16,7 +14,7 @@ import 'package:synword/uniqueTextUniqueCheckLayer.dart';
 import 'package:synword/twoTextUniqueCheckLayer.dart';
 import 'package:synword/types.dart';
 import 'package:synword/layersSetting.dart';
-import 'package:synword/widgets/userData/userDataController.dart';
+import 'package:synword/userData/Controller/serverRequestsController.dart';
 import 'dart:async';
 
 import 'package:synword/uniqueUpData.dart';
@@ -48,7 +46,7 @@ class _BodyState extends State<Body> {
 
   String _uniqueText;
 
-  Synonymizer _synonymizer = FreeSynonymizer();
+  ServerRequestsController _serverRequest = ServerRequestsController();
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -123,7 +121,7 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          UniqueUpData uniqueUpData = await _synonymizer.synonymize(originalText);
+          UniqueUpData uniqueUpData = await _serverRequest.uniqueUpRequest(originalText);
           _uniqueText = uniqueUpData.text;
 
           if (uniqueTextLayer != null) {
@@ -214,7 +212,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueCheckData = await userDataController.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueCheckData = await _serverRequest.uniqueCheckRequest(_uniqueText);
 
       if (uniqueCheckLayer != null) {
         setState(() {
@@ -242,7 +240,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueUniqueCheckData = await userDataController.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueUniqueCheckData = await _serverRequest.uniqueCheckRequest(_uniqueText);
 
       setState(() {
         uniqueCheckLayer.setLoadingScreenEnabled(false);
@@ -278,7 +276,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      _originalTextCheckData = await userDataController.uniqueCheckRequest(originalText);
+      _originalTextCheckData = await _serverRequest.uniqueCheckRequest(originalText);
 
       if (uniqueCheckLayer != null) {
         setState(() {

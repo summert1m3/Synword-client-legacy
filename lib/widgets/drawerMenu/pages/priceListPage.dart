@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:synword/widgets/googleAuth/googleAuthService.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
 import '../dialogs/userProfileDialog.dart';
 import 'priceListCard.dart';
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'package:synword/widgets/googleAuth/googleAuthService.dart';
-import 'package:synword/widgets/userData/userDataController.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/userData/Controller/authorizationController.dart';
 
 typedef UpdateAccountIconCallback = void Function();
 
@@ -57,8 +57,11 @@ class UserProfileDialog extends StatelessWidget {
 
 void _signOutCallback(BuildContext context, {Function updateAccountIconCallback}){
   try {
+    AuthorizationController authController = AuthorizationController();
+
     googleAuthService.signOut();
-    userDataController.setUnauth();
+    authController.setUnauth();
+
     Navigator.of(context).pop();
     updateAccountIconCallback();
   }

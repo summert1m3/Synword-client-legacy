@@ -1,55 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:synword/uniqueCheckData.dart';
 import 'package:synword/responseException.dart';
 import 'package:synword/serverException.dart';
-import 'userDataInterface.dart';
+import 'package:synword/userData/interface/serverRequestsInterface.dart';
+import 'package:synword/constants/mainServerData.dart';
 
-class UnauthUserData implements UserDataInterface {
+import 'package:synword/uniqueUpData.dart';
+import 'dart:async';
 
-  UnauthUserData._internal(){
-    isAuthorized = false;
-    isPremium = false;
-
-    uniqueCheckMinSymbolLimit = 100;
-    uniqueUpMinSymbolLimit = 10;
-
-    uniqueCheckMaxSymbolLimit = 20000;
-    uniqueUpMaxSymbolLimit = 20000;
-
-    uniqueCheckRequests = 10;
-    uniqueUpRequests = 1000;
-    documentUniqueUpRequests = 30;
-  }
-
-  static final UnauthUserData _userUnauthorized = UnauthUserData._internal();
-
-  factory UnauthUserData(){
-    return _userUnauthorized;
-  }
-
-  bool isAuthorized;
-
-  bool isPremium;
-
-  int uniqueCheckMinSymbolLimit;
-  int uniqueUpMinSymbolLimit;
-
-  int uniqueCheckMaxSymbolLimit;
-  int uniqueUpMaxSymbolLimit;
-
-  int uniqueCheckRequests;
-  int uniqueUpRequests;
-  int documentUniqueUpRequests;
+class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
   @override
   Future<UniqueCheckData> uniqueCheckRequest(String text) async{
     try {
+      print((MainServerData.IP + MainServerData.unauthUserApi.uniqueCheckApiUrl));
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.http('194.87.146.123', '/api/uniquecheck'));
+      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.uniqueCheckApiUrl));
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
 
@@ -71,27 +43,47 @@ class UnauthUserData implements UserDataInterface {
   }
 
   @override
-  Future<String> uniqueUpRequest(String text) async{
+  Future<UniqueUpData> uniqueUpRequest(String text) async{
     try {
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.http('194.87.146.123', '/api/freesynonymize'));
+      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl));
 
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
       HttpClientResponse response = await request.close();
-      print(response.statusCode);
       if (response.statusCode != 200) {
         throw ResponseException();
       }
       String responseString = await utf8.decoder.bind(response).join();
+      Map<String, dynamic> responseJson = jsonDecode(responseString);
 
-      return responseString;
-    } catch (ex) {
-      print(ex);
+      UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
+
+      return uniqueUpData;
+    } catch (_) {
       throw ServerException();
     }
+  }
+
+  @override
+  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
+    Dio dio = Dio();
+
+    FormData formData = new FormData.fromMap({
+      "files": new MultipartFile.fromBytes(
+          filePickerResult.files.first.bytes.toList(),
+          filename: filePickerResult.names.first),
+    });
+
+    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.docxUniqueUpApiUrl).toString(),
+        data: formData,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ));
+
+    return response;
   }
 
   @override

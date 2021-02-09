@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
+import 'package:synword/userData/Controller/serverRequestsController.dart';
+
 
 class ChoiceCase extends StatefulWidget {
   Function _setStateCallback;
@@ -128,6 +134,27 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwit
     docData.uniqueUp = uniqueUpSwitchValue;
     docData.uniqueCheck = uniqueCheckSwitchValue;
     setStateCallback(state: DialogState.loading);
+
+    var downloadDirectory = await getExternalStorageDirectory();
+
+    if(uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true){
+
+    }
+    else if (uniqueUpSwitchValue == true){
+      ServerRequestsController serverRequest = ServerRequestsController();
+      Response docxUniqueUpResponse = await serverRequest.docxUniqueUpRequest(filePickerResult: docData.file);
+      File file = File(
+        join(downloadDirectory.path, "synword_" + docData.file.names.first),
+      );
+      file.writeAsBytesSync(docxUniqueUpResponse.data);
+    }
+    else if(uniqueCheckSwitchValue == true){
+
+    }
+    else{
+
+    }
+
     await Future.delayed(Duration(seconds: 1));
     setStateCallback(state: DialogState.finish);
 }

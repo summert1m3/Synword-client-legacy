@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../dialogs/userProfileDialog.dart';
-import 'package:synword/widgets/googleAuth/googleAuthService.dart';
-import 'package:synword/widgets/userData/userDataController.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/userData/Controller/authorizationController.dart';
 
 class PremiumPage extends MaterialPageRoute<void> {
   PremiumPage()
@@ -145,7 +145,11 @@ void _showUserProfileDialog(BuildContext context, Function updateAccountIconCall
 Future<void> _subscribeCallback(Function updateAccountIconCallback) async {
   if (googleAuthService.googleUser == null) {
     await googleAuthService.signIn();
-    userDataController.setAuth();
+
+    AuthorizationController authController = AuthorizationController();
+
+    authController.setAuth();
+
     if (googleAuthService.googleUser != null) {
       //монетизация
     }

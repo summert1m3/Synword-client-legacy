@@ -5,7 +5,6 @@ import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'cases/loading.dart';
 import 'package:synword/widgets/documentHandle/cases/results/resultCase.dart';
 
-
 class UploadFileUI extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _UploadFileUIState();
