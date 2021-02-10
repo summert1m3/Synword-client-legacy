@@ -99,6 +99,26 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
+  Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+    Dio dio = Dio();
+
+    FormData formData = new FormData.fromMap({
+      "uID" : googleAuthService.googleAuth.idToken,
+      "files": new MultipartFile.fromBytes(
+          filePickerResult.files.first.bytes.toList(),
+          filename: filePickerResult.names.first),
+    });
+
+    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueUpApiUrl).toString(),
+        data: formData,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ));
+
+    return response;
+  }
+
+  @override
   void fromJson(Map<String, dynamic> json) {
     _userDataInterface.isPremium = json['isPremium'] as bool;
 
@@ -107,6 +127,8 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
     _userDataInterface.uniqueCheckRequests = json['uniqueCheckRequests'] as int;
     _userDataInterface.uniqueUpRequests = json['uniqueUpRequests'] as int;
+
     _userDataInterface.documentUniqueUpRequests = json['documentUniqueUpRequests'] as int;
+    _userDataInterface.documentUniqueCheckRequests = json['documentUniqueCheckRequests'] as int;
   }
 }

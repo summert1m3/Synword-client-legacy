@@ -7,5 +7,6 @@ abstract class ServerRequestsInterface {
   Future<UniqueUpData> uniqueUpRequest(String text);
   Future<UniqueCheckData> uniqueCheckRequest(String text);
   Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult});
+  Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult});
   void fromJson(Map<String, dynamic> json);
 }

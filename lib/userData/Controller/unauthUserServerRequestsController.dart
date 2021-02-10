@@ -87,6 +87,25 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
+  Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+    Dio dio = Dio();
+
+    FormData formData = new FormData.fromMap({
+      "files": new MultipartFile.fromBytes(
+          filePickerResult.files.first.bytes.toList(),
+          filename: filePickerResult.names.first),
+    });
+
+    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.docxUniqueUpApiUrl).toString(),
+        data: formData,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ));
+
+    return response;
+  }
+
+  @override
   void fromJson(Map<String, dynamic> json) {
     // TODO: implement fromJson
   }

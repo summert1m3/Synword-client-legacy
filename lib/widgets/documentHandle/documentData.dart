@@ -4,6 +4,7 @@ class DocumentData{
   FilePickerResult file;
   bool uniqueUp = false;
   bool uniqueCheck = false;
+  static const String downloadPath = "/storage/emulated/0/Download/";
 
   void reset(){
     file = null;

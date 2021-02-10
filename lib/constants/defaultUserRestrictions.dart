@@ -1,7 +1,4 @@
 class DefaultUserRestrictions{
-  static const bool isAuthorized = false;
-  static const bool isPremium = false;
-
   static const int uniqueCheckMinSymbolLimit = 100;
   static const int uniqueUpMinSymbolLimit = 10;
 
@@ -10,5 +7,7 @@ class DefaultUserRestrictions{
 
   static const int uniqueCheckRequests = 10;
   static const int uniqueUpRequests = 1000;
+
   static const int documentUniqueUpRequests = 30;
+  static const int documentUniqueCheckRequests = 0;
 }

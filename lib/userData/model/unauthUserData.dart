@@ -1,4 +1,5 @@
 import '../interface/userDataInterface.dart';
+import 'package:synword/constants/defaultUserRestrictions.dart';
 
 class UnauthUserData implements UserDataInterface {
 
@@ -6,15 +7,14 @@ class UnauthUserData implements UserDataInterface {
     isAuthorized = false;
     isPremium = false;
 
-    uniqueCheckMinSymbolLimit = 100;
-    uniqueUpMinSymbolLimit = 10;
+    uniqueCheckMaxSymbolLimit = DefaultUserRestrictions.uniqueCheckMaxSymbolLimit;
+    uniqueUpMaxSymbolLimit = DefaultUserRestrictions.uniqueUpMaxSymbolLimit;
 
-    uniqueCheckMaxSymbolLimit = 20000;
-    uniqueUpMaxSymbolLimit = 20000;
+    uniqueCheckRequests = DefaultUserRestrictions.uniqueCheckRequests;
+    uniqueUpRequests = DefaultUserRestrictions.uniqueUpRequests;
 
-    uniqueCheckRequests = 10;
-    uniqueUpRequests = 1000;
-    documentUniqueUpRequests = 30;
+    documentUniqueUpRequests = DefaultUserRestrictions.documentUniqueUpRequests;
+    documentUniqueCheckRequests = DefaultUserRestrictions.documentUniqueCheckRequests;
   }
 
   static final UnauthUserData _userUnauthorized = UnauthUserData._internal();
@@ -27,14 +27,12 @@ class UnauthUserData implements UserDataInterface {
 
   bool isPremium;
 
-  int uniqueCheckMinSymbolLimit;
-  int uniqueUpMinSymbolLimit;
-
   int uniqueCheckMaxSymbolLimit;
   int uniqueUpMaxSymbolLimit;
 
   int uniqueCheckRequests;
   int uniqueUpRequests;
-  int documentUniqueUpRequests;
 
+  int documentUniqueUpRequests;
+  int documentUniqueCheckRequests;
 }

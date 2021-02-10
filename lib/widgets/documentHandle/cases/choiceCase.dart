@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:synword/userData/currentUser.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
@@ -106,9 +107,19 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                       activeColor: Colors.blueAccent,
                       value: uniqueCheckSwitchValue,
                       onChanged: (value) {
-                        setState(() {
-                          uniqueCheckSwitchValue = value;
-                        });
+                        CurrentUser user = CurrentUser();
+
+                        if(user.userData.isPremium == false){
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Show Snackbar'),
+                            duration: Duration(seconds: 3),
+                          ));
+                        }
+                        else{
+                          setState(() {
+                            uniqueCheckSwitchValue = value;
+                          });
+                        }
                       }),
                 )),
             SizedBox(
@@ -143,9 +154,11 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwit
     else if (uniqueUpSwitchValue == true){
       ServerRequestsController serverRequest = ServerRequestsController();
       Response docxUniqueUpResponse = await serverRequest.docxUniqueUpRequest(filePickerResult: docData.file);
+
       File file = File(
-        join(downloadDirectory.path, "synword_" + docData.file.names.first),
+        join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
       );
+
       file.writeAsBytesSync(docxUniqueUpResponse.data);
     }
     else if(uniqueCheckSwitchValue == true){
@@ -155,6 +168,5 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwit
 
     }
 
-    await Future.delayed(Duration(seconds: 1));
     setStateCallback(state: DialogState.finish);
 }

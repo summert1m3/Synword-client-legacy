@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:synword/widgets/documentHandle/documentData.dart';
+import 'package:open_file/open_file.dart';
 
 class UniqueUpResult extends StatelessWidget {
   @override
@@ -24,12 +26,15 @@ class UniqueUpResult extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text('docData.file.names.first',
+                Text("synword_" + docData.file.names.first,
                     style: TextStyle(
                         color: Colors.white, fontFamily: 'Roboto')),
               ],
             ),
           ),
+        ),
+        SizedBox(
+          height: 15,
         ),
         Card(
           color: HexColor('#5C5C5C'),
@@ -40,29 +45,35 @@ class UniqueUpResult extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
+                  'Файл сохранен в папку "Загрузки"',
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
                   'Заменено слов: --',
                   style: TextStyle(color: Colors.white),
                 ),
                 Text(
                   'Количество символов: --',
                   style: TextStyle(color: Colors.white),
-                )
+                ),
+
               ],
             ),
           ),
+        ),
+        SizedBox(
+          height: 10,
         ),
         ButtonBar(
           buttonMinWidth: 90,
           alignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
-              color: Colors.blueAccent,
-              onPressed: () => {},
-              child: Text('Сохранить'),
-            ),
-            RaisedButton(
               color: Colors.amber,
-              onPressed: () => {},
+              onPressed: () => OpenFile.open(DocumentData.downloadPath + "synword_" + docData.file.names.first, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
               child: Text('Открыть'),
             )
           ],

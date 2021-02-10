@@ -38,9 +38,15 @@ class _ResultCaseState extends State<ResultCase> {
       backgroundColor: HexColor('#262626'),
       content: Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 1.8,
+        height: MediaQuery.of(context).size.height / 1.62,
         child: result,
       ),
     );
     }
+
+  @override
+  void dispose() {
+    docData.reset();
+    super.dispose();
+  }
 }
