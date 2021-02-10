@@ -70,8 +70,8 @@ flutter:
     - icons/instagram.png
     - icons/language.svg
     - icons/feedback.svg
-    - icons/check_button.svg
-    - icons/up_button.svg
+    - icons/check_button.png
+    - icons/up_button.png
     - icons/upload_button.svg
     - icons/premium.svg
     - icons/menu.svg

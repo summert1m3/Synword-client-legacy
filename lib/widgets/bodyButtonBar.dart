@@ -44,10 +44,8 @@ class BodyButtonBar extends StatelessWidget {
                   width: (screenSize.width+screenSize.height)/20,
                   child: FloatingActionButton(
                     heroTag: "btn1",
-                      child: SvgPicture.asset(
-                        'icons/check_button.svg',
-                        color: Colors.black,
-                        semanticsLabel: 'Check button',
+                      child: Image(
+                        image: AssetImage('icons/check_button.png'),
                       ),
                       backgroundColor: Colors.transparent,
                       elevation: 0.0,
@@ -75,10 +73,8 @@ class BodyButtonBar extends StatelessWidget {
                   width: (screenSize.width+screenSize.height)/20,
                   child: FloatingActionButton(
                     heroTag: "btn2",
-                      child: SvgPicture.asset(
-                        'icons/up_button.svg',
-                        color: Colors.black,
-                        semanticsLabel: 'Up button',
+                      child: Image(
+                        image: AssetImage('icons/up_button.png'),
                       ),
                       backgroundColor: Colors.transparent,
                       elevation: 0.0,

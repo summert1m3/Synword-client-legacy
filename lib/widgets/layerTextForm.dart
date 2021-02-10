@@ -17,7 +17,8 @@ class LayerTextForm extends StatelessWidget {
         controller: _textEditingController,
         maxLines: screenSize.height ~/ 20,
         style: TextStyle(
-          fontFamily: ('Roboto')
+          fontFamily: ('Roboto'),
+          fontSize: 20
         ),
         decoration: InputDecoration(
             hintStyle: TextStyle(
