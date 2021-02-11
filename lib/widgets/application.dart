@@ -25,8 +25,6 @@ class _ApplicationState extends State<Application> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   Widget _createHome() {
-    _googleSignInSilently();
-    _initializeUserData();
     if (isSplashScreenVisible) {
       return SplashScreen(
         () {
@@ -66,6 +64,9 @@ class _ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
+    _googleSignInSilently();
+    _initializeUserData();
+
     _initializeLayersSetting(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

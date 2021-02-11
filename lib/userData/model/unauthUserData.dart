@@ -14,7 +14,6 @@ class UnauthUserData implements UserDataInterface {
     uniqueUpRequests = DefaultUserRestrictions.uniqueUpRequests;
 
     documentUniqueUpRequests = DefaultUserRestrictions.documentUniqueUpRequests;
-    documentUniqueCheckRequests = DefaultUserRestrictions.documentUniqueCheckRequests;
   }
 
   static final UnauthUserData _userUnauthorized = UnauthUserData._internal();
@@ -34,5 +33,4 @@ class UnauthUserData implements UserDataInterface {
   int uniqueUpRequests;
 
   int documentUniqueUpRequests;
-  int documentUniqueCheckRequests;
 }

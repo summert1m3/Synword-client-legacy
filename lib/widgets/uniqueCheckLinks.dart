@@ -49,11 +49,11 @@ class UniqueCheckLinksItem extends StatelessWidget {
         children: [
           Text(
             _website,
-            style: TextStyle(color: Colors.black, fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
           ),
           Container(
-            width: 45,
-            height: 45,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.circular(25.0),
@@ -61,8 +61,8 @@ class UniqueCheckLinksItem extends StatelessWidget {
             ),
             child: Center(
               child: Container(
-                width: 35,
-                height: 35,
+                width: 30,
+                height: 30,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25.0),
@@ -71,7 +71,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
                 child: Center(
                   child: Text(
                     _value.toString(),
-                    style: TextStyle(color: Colors.black, fontSize: 15,  fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.black, fontSize: 13,  fontWeight: FontWeight.bold),
                   )
                 ),
               ),

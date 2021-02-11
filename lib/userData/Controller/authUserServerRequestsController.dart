@@ -80,6 +80,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
   @override
   Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
+    try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
@@ -96,26 +97,40 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
         ));
 
     return response;
+  } catch (_) {
+  throw ServerException();
+  }
   }
 
   @override
-  Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+    try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uID" : googleAuthService.googleAuth.idToken,
-      "files": new MultipartFile.fromBytes(
+      "uId" : googleAuthService.googleAuth.idToken,
+      "Files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),
     });
 
-    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueUpApiUrl).toString(),
+    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueCheckApiUrl).toString(),
         data: formData,
-        options: Options(
-          responseType: ResponseType.bytes,
-        ));
+    );
 
-    return response;
+    if (response.statusCode != 200) {
+      throw new ResponseException();
+    }
+
+    String responseString = response.data;
+
+    Map<String, dynamic> responseJson = jsonDecode(responseString);
+    UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
+
+    return uniqueCheckData;
+  } catch (_) {
+  throw ServerException();
+  }
   }
 
   @override
@@ -129,6 +144,5 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     _userDataInterface.uniqueUpRequests = json['uniqueUpRequests'] as int;
 
     _userDataInterface.documentUniqueUpRequests = json['documentUniqueUpRequests'] as int;
-    _userDataInterface.documentUniqueCheckRequests = json['documentUniqueCheckRequests'] as int;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:synword/widgets/documentHandle/documentData.dart';
+import 'package:synword/widgets/uniqueCheckLinks.dart';
 import 'package:synword/widgets/waveBar.dart';
 
 class UniqueCheckResult extends StatelessWidget {
@@ -18,7 +20,7 @@ class UniqueCheckResult extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                WaveBar(0.5),
+                WaveBar(docData.uniqueCheckData.percent/100),
               ],
             ),
           ),
@@ -31,10 +33,7 @@ class UniqueCheckResult extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Список сайтов',
-                  style: TextStyle(color: Colors.white),
-                ),
+                UniqueCheckLinks(docData.uniqueCheckData, 155),
               ],
             ),
           ),

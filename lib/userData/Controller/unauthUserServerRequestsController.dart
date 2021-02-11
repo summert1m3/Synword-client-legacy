@@ -69,6 +69,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
   @override
   Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
+    try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
@@ -84,10 +85,14 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
         ));
 
     return response;
+  } catch (_) {
+  throw ServerException();
+  }
   }
 
   @override
-  Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+    try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
@@ -102,7 +107,18 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
           responseType: ResponseType.bytes,
         ));
 
-    return response;
+    if (response.statusCode != 200) {
+      throw new ResponseException();
+    }
+
+    String responseString = await utf8.decoder.bind(response.data).join();
+    Map<String, dynamic> responseJson = jsonDecode(responseString);
+
+    UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
+    return uniqueCheckData;
+  } catch (_) {
+  throw ServerException();
+  }
   }
 
   @override

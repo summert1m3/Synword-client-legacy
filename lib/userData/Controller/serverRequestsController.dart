@@ -29,11 +29,23 @@ class ServerRequestsController {
   }
 
   Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
-    return await _currentUser.serverRequest.docxUniqueUpRequest(filePickerResult: filePickerResult);
+    try {
+      return await _currentUser.serverRequest.docxUniqueUpRequest(
+          filePickerResult: filePickerResult);
+    }
+    catch(_){
+      throw ServerException();
+    }
   }
 
- // Future<Response> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
- //
-  //}
+  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+    try {
+      return await _currentUser.serverRequest.docxUniqueCheckRequest(
+          filePickerResult: filePickerResult);
+    }
+    catch(_){
+      throw ServerException();
+    }
+  }
 
 }

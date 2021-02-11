@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:synword/uniqueCheckData.dart';
 import 'package:synword/userData/currentUser.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
@@ -107,19 +108,9 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                       activeColor: Colors.blueAccent,
                       value: uniqueCheckSwitchValue,
                       onChanged: (value) {
-                        CurrentUser user = CurrentUser();
-
-                        if(user.userData.isPremium == false){
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Show Snackbar'),
-                            duration: Duration(seconds: 3),
-                          ));
-                        }
-                        else{
                           setState(() {
                             uniqueCheckSwitchValue = value;
                           });
-                        }
                       }),
                 )),
             SizedBox(
@@ -149,24 +140,31 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwit
     var downloadDirectory = await getExternalStorageDirectory();
 
     if(uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true){
-
+      await uniqueUp();
+      await uniqueCheck();
     }
     else if (uniqueUpSwitchValue == true){
-      ServerRequestsController serverRequest = ServerRequestsController();
-      Response docxUniqueUpResponse = await serverRequest.docxUniqueUpRequest(filePickerResult: docData.file);
-
-      File file = File(
-        join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
-      );
-
-      file.writeAsBytesSync(docxUniqueUpResponse.data);
+      await uniqueUp();
     }
     else if(uniqueCheckSwitchValue == true){
-
-    }
-    else{
-
+      await uniqueCheck();
     }
 
     setStateCallback(state: DialogState.finish);
+}
+
+Future<void> uniqueUp() async{
+  ServerRequestsController serverRequest = ServerRequestsController();
+  Response docxUniqueUpResponse = await serverRequest.docxUniqueUpRequest(filePickerResult: docData.file);
+
+  File file = File(
+    join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
+  );
+
+  file.writeAsBytesSync(docxUniqueUpResponse.data);
+}
+
+Future<void> uniqueCheck() async{
+  ServerRequestsController serverRequest = ServerRequestsController();
+  docData.uniqueCheckData = await serverRequest.docxUniqueCheckRequest(filePickerResult: docData.file);
 }

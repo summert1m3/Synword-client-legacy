@@ -11,5 +11,4 @@ abstract class UserDataInterface {
   int uniqueUpRequests;
 
   int documentUniqueUpRequests;
-  int documentUniqueCheckRequests;
 }
