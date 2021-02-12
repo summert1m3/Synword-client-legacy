@@ -29,7 +29,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueCheckApiUrl));
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
 
-      AuthUniqueCheckModel uniqueCheckModel = AuthUniqueCheckModel(googleAuthService.googleAuth.idToken, text);
+      AuthUniqueCheckModel uniqueCheckModel = AuthUniqueCheckModel(googleAuthService.googleAuth.idToken.split('.').first, text);
 
       request.write(jsonEncode(uniqueCheckModel.toJson()));
 
@@ -60,7 +60,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
 
-      AuthUniqueUpModel uniqueUpModel = AuthUniqueUpModel(googleAuthService.googleAuth.idToken, text);
+      AuthUniqueUpModel uniqueUpModel = AuthUniqueUpModel(googleAuthService.googleAuth.idToken.split('.').first, text);
       request.write(jsonEncode(uniqueUpModel.toJson()));
 
       HttpClientResponse response = await request.close();
@@ -84,7 +84,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uID" : googleAuthService.googleAuth.idToken,
+      "uID" : googleAuthService.googleAuth.idToken.split('.').first,
       "files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),
@@ -108,7 +108,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uId" : googleAuthService.googleAuth.idToken,
+      "uId" : googleAuthService.googleAuth.idToken.split('.').first,
       "Files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),

@@ -46,7 +46,6 @@ class _ApplicationState extends State<Application> {
   }
   void _initializeUserData() async{
     AuthorizationController authController = AuthorizationController();
-
     if(googleAuthService.googleUser != null){
       try{
         authController.setAuth();

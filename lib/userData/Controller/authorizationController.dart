@@ -16,9 +16,7 @@ class AuthorizationController {
   void setAuth() async{
       _currentUser.userData = AuthUserData();
       _currentUser.serverRequest = AuthUserServerRequestsController();
-      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken);
-      var q = googleAuthService.googleAuth.accessToken;
-      print(q);
+      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken.split('.').first);
       print('User authorized successfully');
       print('isAuthorized: ${_currentUser.userData.isAuthorized}');
   }
