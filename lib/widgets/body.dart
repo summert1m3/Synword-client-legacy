@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/internetChecker.dart';
 import 'package:synword/movingLayer.dart';
 import 'package:synword/originalTextLayer.dart';
@@ -84,14 +85,14 @@ class _BodyState extends State<Body> {
           });
         }
 
-        _showSnackBar('Server error');
+        _showSnackBar('serverError');
       } on TextShortLengthException {
-        _showSnackBar('Text length less than 100 characters');
+        _showSnackBar('uniqueCheckTextShortLengthException');
       } on TextLongLengthException {
-        _showSnackBar('Text length over 20000 characters');
+        _showSnackBar('textLongLengthException');
       }
     } else {
-      _showSnackBar('Check internet availability');
+      _showSnackBar('noInternet');
     }
   };
 
@@ -138,14 +139,14 @@ class _BodyState extends State<Body> {
             });
           }
 
-          _showSnackBar('Server error');
+          _showSnackBar('serverError');
         } on TextShortLengthException {
-          _showSnackBar('Text length less than 10 characters');
+          _showSnackBar('textShortLengthException');
         } on TextLongLengthException {
-          _showSnackBar('Text length over 20000 characters');
+          _showSnackBar('textLongLengthException');
         }
       } else {
-        _showSnackBar('Check internet availability');
+        _showSnackBar('noInternet');
       }
   };
 
@@ -298,7 +299,7 @@ class _BodyState extends State<Body> {
   void _showSnackBar(String message) {
     Scaffold.of(context).hideCurrentSnackBar();
     SnackBar snackBar = SnackBar(
-        content: Text(message),
+        content: Text(message.tr()),
         duration: Duration(seconds: 2),
     );
 

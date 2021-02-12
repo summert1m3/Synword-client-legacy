@@ -33,10 +33,10 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       request.write(jsonEncode(uniqueCheckModel.toJson()));
 
-      HttpClientResponse response = await request.close();
+      HttpClientResponse response = await request.close().timeout(Duration(seconds: 10));
 
       if (response.statusCode != 200) {
-        throw new ResponseException();
+        throw ResponseException();
       }
 
       String responseString = await utf8.decoder.bind(response).join();
@@ -46,7 +46,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       return uniqueCheckData;
     } catch (_) {
-      throw new ServerException();
+      throw ServerException();
     }
   }
 
@@ -56,7 +56,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueUpApiUrl));
+      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueUpApiUrl)).timeout(Duration(seconds: 10));
 
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
 
@@ -94,7 +94,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
         data: formData,
         options: Options(
           responseType: ResponseType.bytes,
-        ));
+        )).timeout(Duration(seconds: 60));
 
     return response;
   } catch (_) {
@@ -116,7 +116,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
     Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueCheckApiUrl).toString(),
         data: formData,
-    );
+    ).timeout(Duration(seconds: 60));
 
     if (response.statusCode != 200) {
       throw new ResponseException();

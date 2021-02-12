@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../dialogs/userProfileDialog.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
@@ -100,14 +102,18 @@ class PremiumPage extends MaterialPageRoute<void> {
                     SizedBox(
                       height: 30,
                     ),
-                    RaisedButton(
-                      color: HexColor('#E1B34F'),
-                      onPressed: () {
-                        _subscribeCallback( () {
-                          setState(() {});
-                        });
-                      },
-                      child: const Text('Подписаться за 200р/месяц'),
+                    Builder(
+                      builder: (context) => RaisedButton(
+                        color: HexColor('#E1B34F'),
+                        onPressed: () {
+                          _subscribeCallback( () {
+                            setState(() {});
+                          },
+                          context
+                          );
+                        },
+                        child: const Text('Подписаться за 200р/месяц'),
+                      ),
                     ),
                   ],
                 ),
@@ -142,19 +148,37 @@ void _showUserProfileDialog(BuildContext context, Function updateAccountIconCall
   );
 }
 
-Future<void> _subscribeCallback(Function updateAccountIconCallback) async {
-  if (googleAuthService.googleUser == null) {
-    await googleAuthService.signIn();
+Future<void> _subscribeCallback(Function updateAccountIconCallback, BuildContext context) async {
+  try {
+    if (googleAuthService.googleUser == null) {
+      await googleAuthService.signIn();
 
-    AuthorizationController authController = AuthorizationController();
+      AuthorizationController authController = AuthorizationController();
 
-    authController.setAuth();
+      authController.setAuth();
 
-    if (googleAuthService.googleUser != null) {
+      if (googleAuthService.googleUser != null) {
+        //монетизация
+      }
+    } else {
       //монетизация
     }
-  } else {
-    //монетизация
+    updateAccountIconCallback();
+  } on PlatformException{
+    final snackBar = SnackBar(
+        content: Text('noInternet'.tr()),
+        duration: Duration(seconds: 3),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
   }
-  updateAccountIconCallback();
+  catch(ex){
+    print(ex);
+    final snackBar = SnackBar(
+      content: Text('serverError'.tr()),
+      duration: Duration(seconds: 3),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
 }

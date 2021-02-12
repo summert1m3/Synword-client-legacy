@@ -7,27 +7,20 @@ import 'package:synword/userData/model/authUserData.dart';
 import 'package:synword/userData/model/unauthUserData.dart';
 import 'package:synword/constants/mainServerData.dart';
 import '../../responseException.dart';
-import '../../serverException.dart';
 import 'package:synword/userData/Controller/authUserServerRequestsController.dart';
 import 'package:synword/userData/Controller/unauthUserServerRequestsController.dart';
 
 class AuthorizationController {
   CurrentUser _currentUser = CurrentUser();
 
-  void setAuth() {
-    try{
-      print("1");
+  void setAuth() async{
       _currentUser.userData = AuthUserData();
-      print(_currentUser.serverRequest);
       _currentUser.serverRequest = AuthUserServerRequestsController();
-      print(_currentUser.serverRequest);
-      _getAllUserDataFromServer(googleAuthService.googleAuth.idToken);
+      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken);
+      var q = googleAuthService.googleAuth.accessToken;
+      print(q);
       print('User authorized successfully');
       print('isAuthorized: ${_currentUser.userData.isAuthorized}');
-    }
-    catch(_){
-      throw ServerException();
-    }
   }
 
   void setUnauth(){
@@ -39,10 +32,9 @@ class AuthorizationController {
   }
 
   Future<void> _getAllUserDataFromServer(String uId) async{
-    try{
       var url = MainServerData.protocol + MainServerData.IP + MainServerData.authUserApi.getAllUserData;
 
-      var response = await http.post(Uri.encodeFull(url), body: jsonEncode(uId), headers: {'Content-Type':'application/json'});
+      var response = await http.post(Uri.encodeFull(url), body: jsonEncode(uId), headers: {'Content-Type':'application/json'}).timeout(Duration(seconds: 5));
       print(response.body);
       print('Response status: ${response.statusCode}');
 
@@ -64,9 +56,5 @@ class AuthorizationController {
 
       print("documentUniqueUpRequests: " + _currentUser.userData.documentUniqueUpRequests.toString());
 
-    }
-    catch(ex){
-      throw ResponseException();
-    }
   }
 }

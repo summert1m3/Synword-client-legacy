@@ -9,11 +9,11 @@ import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 
 class StartCase extends StatefulWidget {
-  Function _setStateCallback;
+  final Function _setStateCallback;
 
-  StartCase(Function setStateCallback) {
-    this._setStateCallback = setStateCallback;
-  }
+  StartCase(
+      this._setStateCallback
+      );
 
   @override
   State<StatefulWidget> createState() => _StartCaseState(_setStateCallback);
@@ -21,11 +21,11 @@ class StartCase extends StatefulWidget {
 
 class _StartCaseState extends State<StartCase> {
   FilePickerResult _file;
-  Function _setStateCallback;
+  final Function _setStateCallback;
 
-  _StartCaseState(Function setStateCallback) {
-    this._setStateCallback = setStateCallback;
-  }
+  _StartCaseState(
+      this._setStateCallback
+      );
 
   @override
   void initState() {

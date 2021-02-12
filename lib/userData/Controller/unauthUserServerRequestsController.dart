@@ -13,16 +13,21 @@ import 'package:synword/uniqueUpData.dart';
 import 'dart:async';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
-
   @override
-  Future<UniqueCheckData> uniqueCheckRequest(String text) async{
+  Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     try {
-      print((MainServerData.IP + MainServerData.unauthUserApi.uniqueCheckApiUrl));
+      print(
+          (MainServerData.IP + MainServerData.unauthUserApi.uniqueCheckApiUrl));
       HttpClient client = HttpClient();
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.uniqueCheckApiUrl));
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
+      HttpClientRequest request = await client
+          .postUrl(Uri.http(MainServerData.IP,
+              MainServerData.unauthUserApi.uniqueCheckApiUrl))
+          .timeout(Duration(seconds: 10));
+      request.headers.set(
+          HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
 
       HttpClientResponse response = await request.close();
@@ -38,19 +43,24 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       return uniqueCheckData;
     } catch (ex) {
-      throw new ServerException();
+      throw ServerException();
     }
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(String text) async{
+  Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
       HttpClient client = HttpClient();
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
 
-      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl));
+      HttpClientRequest request = await client
+          .postUrl(Uri.http(
+              MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl))
+          .timeout(Duration(seconds: 10));
 
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
+      request.headers.set(
+          HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
       HttpClientResponse response = await request.close();
       if (response.statusCode != 200) {
@@ -62,63 +72,75 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
 
       return uniqueUpData;
+    } catch (ex) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Response> docxUniqueUpRequest(
+      {FilePickerResult filePickerResult}) async {
+    try {
+      Dio dio = Dio();
+
+      FormData formData = new FormData.fromMap({
+        "files": new MultipartFile.fromBytes(
+            filePickerResult.files.first.bytes.toList(),
+            filename: filePickerResult.names.first),
+      });
+
+      Response response = await dio
+          .post(
+              Uri.http(MainServerData.IP,
+                      MainServerData.unauthUserApi.docxUniqueUpApiUrl)
+                  .toString(),
+              data: formData,
+              options: Options(
+                responseType: ResponseType.bytes,
+              ))
+          .timeout(Duration(seconds: 1));
+
+      return response;
     } catch (_) {
       throw ServerException();
     }
   }
 
   @override
-  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
-    try{
-    Dio dio = Dio();
+  Future<UniqueCheckData> docxUniqueCheckRequest(
+      {FilePickerResult filePickerResult}) async {
+    try {
+      Dio dio = Dio();
 
-    FormData formData = new FormData.fromMap({
-      "files": new MultipartFile.fromBytes(
-          filePickerResult.files.first.bytes.toList(),
-          filename: filePickerResult.names.first),
-    });
+      FormData formData = new FormData.fromMap({
+        "files": new MultipartFile.fromBytes(
+            filePickerResult.files.first.bytes.toList(),
+            filename: filePickerResult.names.first),
+      });
 
-    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.docxUniqueUpApiUrl).toString(),
-        data: formData,
-        options: Options(
-          responseType: ResponseType.bytes,
-        ));
+      Response response = await dio
+          .post(
+              Uri.http(MainServerData.IP,
+                      MainServerData.unauthUserApi.docxUniqueUpApiUrl)
+                  .toString(),
+              data: formData,
+              options: Options(
+                responseType: ResponseType.bytes,
+              ))
+          .timeout(Duration(seconds: 60));
 
-    return response;
-  } catch (_) {
-  throw ServerException();
-  }
-  }
+      if (response.statusCode != 200) {
+        throw new ResponseException();
+      }
 
-  @override
-  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
-    try{
-    Dio dio = Dio();
+      String responseString = await utf8.decoder.bind(response.data).join();
+      Map<String, dynamic> responseJson = jsonDecode(responseString);
 
-    FormData formData = new FormData.fromMap({
-      "files": new MultipartFile.fromBytes(
-          filePickerResult.files.first.bytes.toList(),
-          filename: filePickerResult.names.first),
-    });
-
-    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.unauthUserApi.docxUniqueUpApiUrl).toString(),
-        data: formData,
-        options: Options(
-          responseType: ResponseType.bytes,
-        ));
-
-    if (response.statusCode != 200) {
-      throw new ResponseException();
+      UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
+      return uniqueCheckData;
+    } catch (_) {
+      throw ServerException();
     }
-
-    String responseString = await utf8.decoder.bind(response.data).join();
-    Map<String, dynamic> responseJson = jsonDecode(responseString);
-
-    UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
-    return uniqueCheckData;
-  } catch (_) {
-  throw ServerException();
-  }
   }
 
   @override

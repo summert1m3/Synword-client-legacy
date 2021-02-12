@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
-import 'package:synword/uniqueCheckData.dart';
-import 'package:synword/userData/currentUser.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
@@ -13,11 +10,11 @@ import 'package:synword/userData/Controller/serverRequestsController.dart';
 
 
 class ChoiceCase extends StatefulWidget {
-  Function _setStateCallback;
+  final Function _setStateCallback;
 
-  ChoiceCase(Function setStateCallback) {
-    this._setStateCallback = setStateCallback;
-  }
+  ChoiceCase(
+      this._setStateCallback
+      );
 
   @override
   State<StatefulWidget> createState() => _ChoiceCaseState(_setStateCallback);
@@ -26,11 +23,11 @@ class ChoiceCase extends StatefulWidget {
 class _ChoiceCaseState extends State<ChoiceCase> {
   bool uniqueUpSwitchValue = true;
   bool uniqueCheckSwitchValue = false;
-  Function _setStateCallback;
+  final Function _setStateCallback;
 
-  _ChoiceCaseState(Function setStateCallback) {
-    this._setStateCallback = setStateCallback;
-  }
+  _ChoiceCaseState(
+      this._setStateCallback
+      );
 
   @override
   void initState() {
@@ -136,8 +133,6 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwit
     docData.uniqueUp = uniqueUpSwitchValue;
     docData.uniqueCheck = uniqueCheckSwitchValue;
     setStateCallback(state: DialogState.loading);
-
-    var downloadDirectory = await getExternalStorageDirectory();
 
     if(uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true){
       await uniqueUp();

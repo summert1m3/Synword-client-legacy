@@ -13,5 +13,11 @@
   "drawerOther": "ДРУГОЕ",
 
   "fileUploadTitle": "Повышение уникальности",
-  "fileUploadSupportedFiles": "Поддерживаемые файлы: docx"
+  "fileUploadSupportedFiles": "Поддерживаемые файлы: docx",
+
+  "noInternet": "Проверьте подключение к Интернету",
+  "serverError": "Ошибка. Сервис в данный момент недоступен",
+  "textShortLengthException": "Пожалуйста, введите как минимум 10 символов",
+  "uniqueCheckTextShortLengthException": "Пожалуйста, введите как минимум 100 символов",
+  "textLongLengthException": "Ограничение: 20.000 символов"
 }

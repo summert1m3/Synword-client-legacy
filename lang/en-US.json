@@ -13,5 +13,11 @@
   "drawerOther": "OTHER",
 
   "fileUploadTitle": "File Unique Up",
-  "fileUploadSupportedFiles": "Supported files: docx"
+  "fileUploadSupportedFiles": "Supported files: docx",
+
+  "noInternet": "Check your internet connection",
+  "serverError": "Error. Service is currently unavailable",
+  "textShortLengthException": "Please enter at least 10 characters",
+  "uniqueCheckTextShortLengthException": "Please enter at least 100 characters",
+  "textLongLengthException": "Limit: 20,000 characters"
 }

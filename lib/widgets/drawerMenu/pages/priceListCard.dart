@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/Controller/authorizationController.dart';
 
@@ -30,17 +33,19 @@ class PriceListCard extends StatelessWidget {
         dense: true,
         trailing: SizedBox(
           height: double.infinity,
-          child: RaisedButton(
-            splashColor: Colors.white,
-            color: Colors.red,
-            onPressed: ()=>subscribeCallback(updateAccountIconCallback),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.account_balance_wallet, color: Colors.white,),
-                Text(price, style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
-              ],
+          child: Builder(
+            builder: (context)=> RaisedButton(
+              splashColor: Colors.white,
+              color: Colors.red,
+              onPressed: ()=> _subscribeCallback(updateAccountIconCallback, context),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.account_balance_wallet, color: Colors.white,),
+                  Text(price, style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
+                ],
+              ),
             ),
           ),
         ),
@@ -49,20 +54,37 @@ class PriceListCard extends StatelessWidget {
   }
 }
 
-Future<void> subscribeCallback(Function updateAccountIconCallback) async {
-  if (googleAuthService.googleUser == null) {
+Future<void> _subscribeCallback(Function updateAccountIconCallback, BuildContext context) async {
+  try {
+    if (googleAuthService.googleUser == null) {
+      await googleAuthService.signIn();
 
-    await googleAuthService.signIn();
+      AuthorizationController authController = AuthorizationController();
+      authController.setAuth();
 
-    AuthorizationController authController = AuthorizationController();
-    authController.setAuth();
-
-    if (googleAuthService.googleUser != null) {
+      if (googleAuthService.googleUser != null) {
+        //монетизация
+      }
+    } else {
       //монетизация
     }
-  } else {
-    //монетизация
+    updateAccountIconCallback();
+  } on PlatformException{
+    final snackBar = SnackBar(
+      content: Text('noInternet'.tr()),
+      duration: Duration(seconds: 3),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
   }
-  updateAccountIconCallback();
+  catch(ex){
+    print(ex);
+    final snackBar = SnackBar(
+      content: Text('serverError'.tr()),
+      duration: Duration(seconds: 3),
+    );
+
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
 }
 

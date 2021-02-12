@@ -51,6 +51,7 @@ class _ApplicationState extends State<Application> {
       try{
         authController.setAuth();
       }catch(ex){
+        print(ex);
         authController.setUnauth();
       }
     }

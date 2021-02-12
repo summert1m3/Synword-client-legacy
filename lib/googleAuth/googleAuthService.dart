@@ -13,13 +13,8 @@ class GoogleAuthService {
   GoogleSignInAuthentication googleAuth;
 
   Future<void> signIn() async {
-    try {
       googleUser = await _googleSignIn.signIn();
       googleAuth = await googleUser.authentication;
-    }
-    catch(error){
-      print(error);
-    }
   }
 
   Future<void> signInSilently() async {

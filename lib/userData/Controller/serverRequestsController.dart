@@ -1,51 +1,43 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:synword/constants/mainServerData.dart';
 import 'package:synword/serverException.dart';
 import 'package:synword/uniqueCheckData.dart';
 import 'package:synword/uniqueUpData.dart';
 import 'package:synword/userData/currentUser.dart';
-
-
+import 'package:http/http.dart' as http;
 class ServerRequestsController {
   CurrentUser _currentUser = CurrentUser();
 
   Future<UniqueUpData> uniqueUpRequest(String text) async {
+    return await _currentUser.serverRequest.uniqueUpRequest(text);
+  }
+
+  Future<UniqueCheckData> uniqueCheckRequest(String text) async {
+    return await _currentUser.serverRequest.uniqueCheckRequest(text);
+  }
+
+  Future<Response> docxUniqueUpRequest(
+      {FilePickerResult filePickerResult}) async {
+    return await _currentUser.serverRequest
+        .docxUniqueUpRequest(filePickerResult: filePickerResult);
+  }
+
+  Future<UniqueCheckData> docxUniqueCheckRequest(
+      {FilePickerResult filePickerResult}) async {
+    return await _currentUser.serverRequest
+        .docxUniqueCheckRequest(filePickerResult: filePickerResult);
+  }
+}
+
+class ServerIsDown{
+  static Future<void> check() async{
     try{
-
-      return await _currentUser.serverRequest.uniqueUpRequest(text);
+      var response = await http.get(MainServerData.protocol + MainServerData.IP).timeout(Duration(seconds: 1));
+      print(response.body);
     }
-    catch(_){
+    catch(ex){
       throw ServerException();
     }
   }
-
-  Future<UniqueCheckData> uniqueCheckRequest(String text) async{
-    try{
-      return await _currentUser.serverRequest.uniqueCheckRequest(text);
-    }
-    catch(_){
-      throw ServerException();
-    }
-  }
-
-  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
-    try {
-      return await _currentUser.serverRequest.docxUniqueUpRequest(
-          filePickerResult: filePickerResult);
-    }
-    catch(_){
-      throw ServerException();
-    }
-  }
-
-  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
-    try {
-      return await _currentUser.serverRequest.docxUniqueCheckRequest(
-          filePickerResult: filePickerResult);
-    }
-    catch(_){
-      throw ServerException();
-    }
-  }
-
 }
