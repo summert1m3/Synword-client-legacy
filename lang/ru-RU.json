@@ -15,6 +15,34 @@
   "fileUploadTitle": "Повышение уникальности",
   "fileUploadSupportedFiles": "Поддерживаемые файлы: docx",
 
+  "premiumPageFirstCardTitle": "Номер один",
+  "premiumPageFirstCardContent": "Всегда первый в очереди",
+  "premiumPageSecondCardTitle": "Ограничения",
+  "premiumPageSecondCardContent": "Ограничения на ввод до 40.000 символов",
+  "premiumPageThirdCardTitle": "Повышение уникальности",
+  "premiumPageThirdCardContent": "Безлимит по запросам",
+  "premiumPageFourthCardTitle": "Проверка уникальности",
+  "premiumPageFourthCardContent": "20 запросов в день бесплатно",
+  "premiumPageSubscribeButton": "Подписаться за 200р/месяц",
+
+  "priceListPageTitle": "Проверка уникальности",
+  "priceListPageUniqueCheckCardContent": "запросов",
+  "priceListPageFirstCardPrice": "99 руб",
+  "priceListPageSecondCardPrice": "279 руб",
+  "priceListPageThirdCardPrice": "500 руб",
+  "priceListPageFourthCardPrice": "799 руб",
+
+  "documentHandleChoiceCaseUniqueCheck": "Проверить уникальность",
+  "documentHandleChoiceCaseUniqueUp": "Повысить уникальность",
+  "documentHandleChoiceCaseButton": "ЗАГРУЗИТЬ",
+  "documentHandleLoadingCaseTitle": "Пожалуйста подождите.",
+  "documentHandleLoadingCaseSubtitle": "Среднее время ожидания: 10 секунд",
+
+  "documentHandleFinishCaseSavedFile":"Файл сохранен в папку Загрузки",
+  "documentHandleFinishCaseUniqueUpButton":"Открыть",
+
+  "googleSignOut": "Выйти",
+
   "noInternet": "Проверьте подключение к Интернету",
   "serverError": "Ошибка. Сервис в данный момент недоступен",
   "textShortLengthException": "Пожалуйста, введите как минимум 10 символов",

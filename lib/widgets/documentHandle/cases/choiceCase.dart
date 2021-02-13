@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
@@ -80,8 +81,8 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                   dense: true,
                   title: Center(
                       child: Text(
-                        'Повысить уникальность',
-                        style: TextStyle(color: Colors.white),
+                        'documentHandleChoiceCaseUniqueUp'.tr(),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
                       )),
                   trailing: Switch(
                       activeColor: Colors.blue,
@@ -98,8 +99,8 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                   dense: true,
                   title: Center(
                       child: Text(
-                        'Проверить уникальность',
-                        style: TextStyle(color: Colors.white),
+                        'documentHandleChoiceCaseUniqueCheck'.tr(),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
                       )),
                   trailing: Switch(
                       activeColor: Colors.blueAccent,
@@ -117,9 +118,9 @@ class _ChoiceCaseState extends State<ChoiceCase> {
               disabledColor: Colors.grey,
               color: Colors.blueAccent,
               onPressed: uniqueCheckSwitchValue == true || uniqueUpSwitchValue == true ? () => onClickButtonHandler(uniqueUpSwitchValue, uniqueCheckSwitchValue, _setStateCallback) : null,
-              child: const Text(
-                'ЗАГРУЗИТЬ',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                'documentHandleChoiceCaseButton'.tr(),
+                style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
               ),
             )
           ],

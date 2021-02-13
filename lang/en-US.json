@@ -1,10 +1,10 @@
 {
   "textFormHintText" : "Enter your text here",
   "uniqueCheckButton" : "CHECK",
-  "uniqueUpButton": "UP",
+  "uniqueUpButton": "REPHRASE",
   "originalTextHeader": "Original text",
-  "uniqueTextHeader": "Unique text",
-  "uniqueCheckHeader": "Unique check",
+  "uniqueTextHeader": "Modified text",
+  "uniqueCheckHeader": "Plagiarism Checker",
   "uniqueCheckLayerOriginalWaveBallTitle": "Original",
   "uniqueCheckLayerUniqueWaveBallTitle": "Unique",
 
@@ -14,6 +14,35 @@
 
   "fileUploadTitle": "File Unique Up",
   "fileUploadSupportedFiles": "Supported files: docx",
+
+  "premiumPageFirstCardTitle": "Number one",
+  "premiumPageFirstCardContent": "Always first in line",
+  "premiumPageSecondCardTitle": "Restrictions",
+  "premiumPageSecondCardContent": "Restrictions on entering up to 40,000 characters",
+  "premiumPageThirdCardTitle": "Rephrase",
+  "premiumPageThirdCardContent": "Unlimited requests",
+  "premiumPageFourthCardTitle": "Plagiarism Checker",
+  "premiumPageFourthCardContent": "20 requests per day for free",
+  "premiumPageSubscribeButton": "Subscribe for $10 per month",
+
+  "priceListPageTitle": "Plagiarism Checker",
+  "priceListPageUniqueCheckCardContent": "requests",
+  "priceListPageFirstCardPrice": "$",
+  "priceListPageSecondCardPrice": "$",
+  "priceListPageThirdCardPrice": "$",
+  "priceListPageFourthCardPrice": "$",
+
+  "documentHandleChoiceCaseUniqueCheck": "Plagiarism Checker",
+  "documentHandleChoiceCaseUniqueUp": "Rephrase",
+  "documentHandleChoiceCaseButton": "UPLOAD",
+
+  "documentHandleLoadingCaseTitle": "Please wait.",
+  "documentHandleLoadingCaseSubtitle": "Average waiting time: 10 seconds",
+
+  "documentHandleFinishCaseSavedFile":"The file is saved to the Downloads folder",
+  "documentHandleFinishCaseUniqueUpButton":"Open",
+
+  "googleSignOut": "Sign Out",
 
   "noInternet": "Check your internet connection",
   "serverError": "Error. Service is currently unavailable",

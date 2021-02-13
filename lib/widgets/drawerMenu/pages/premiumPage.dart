@@ -51,8 +51,8 @@ class PremiumPage extends MaterialPageRoute<void> {
                           image: AssetImage('icons/premiumPage/first.png'),
                           color: Colors.red,
                         ),
-                        title: Text('Номер один'),
-                        subtitle: Text('Всегда первый в очереди'),
+                        title: Text('premiumPageFirstCardTitle', style: TextStyle(fontFamily: 'Roboto')).tr(),
+                        subtitle: Text('premiumPageFirstCardContent', style: TextStyle(fontFamily: 'Roboto')).tr(),
                       ),
                     ),
                     Card(
@@ -65,9 +65,8 @@ class PremiumPage extends MaterialPageRoute<void> {
                           image: AssetImage('icons/premiumPage/limit.png'),
                           color: Colors.red,
                         ),
-                        title: Text('Ограничения'),
-                        subtitle:
-                            Text('Ограничение на ввод до 50.000 символов'),
+                        title: Text('premiumPageSecondCardTitle', style: TextStyle(fontFamily: 'Roboto')).tr(),
+                        subtitle: Text('premiumPageSecondCardContent', style: TextStyle(fontFamily: 'Roboto')).tr(),
                       ),
                     ),
                     Card(
@@ -80,9 +79,8 @@ class PremiumPage extends MaterialPageRoute<void> {
                           image: AssetImage('icons/premiumPage/file.png'),
                           color: Colors.red,
                         ),
-                        title: Text('Документы'),
-                        subtitle: Text(
-                            'Максимум символов - 80.000 Безлимит по запросам'),
+                        title: Text('premiumPageThirdCardTitle', style: TextStyle(fontFamily: 'Roboto')).tr(),
+                        subtitle: Text('premiumPageThirdCardContent', style: TextStyle(fontFamily: 'Roboto')).tr(),
                       ),
                     ),
                     Card(
@@ -95,8 +93,8 @@ class PremiumPage extends MaterialPageRoute<void> {
                           image: AssetImage('icons/premiumPage/free.png'),
                           color: Colors.red,
                         ),
-                        title: Text('Проверка уникальности'),
-                        subtitle: Text('Бесплатно 20 запросов в день'),
+                        title: Text('premiumPageFourthCardTitle', style: TextStyle(fontFamily: 'Roboto')).tr(),
+                        subtitle: Text('premiumPageFourthCardContent', style: TextStyle(fontFamily: 'Roboto')).tr(),
                       ),
                     ),
                     SizedBox(
@@ -112,7 +110,7 @@ class PremiumPage extends MaterialPageRoute<void> {
                           context
                           );
                         },
-                        child: const Text('Подписаться за 200р/месяц'),
+                        child: const Text('premiumPageSubscribeButton', style: TextStyle(fontFamily: 'Roboto')).tr(),
                       ),
                     ),
                   ],

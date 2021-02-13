@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class LoadingCase extends StatelessWidget{
   @override
@@ -25,11 +27,11 @@ class LoadingCase extends StatelessWidget{
               SizedBox(
                 height: 40,
               ),
-              Text('Пожалуйста подождите.', style: TextStyle(color: Colors.white),),
+              Text('documentHandleLoadingCaseTitle'.tr(), style: TextStyle(color: Colors.white),),
               SizedBox(
                 height: 15,
               ),
-              Text('Среднее время ожидания: 10 секунд', style: TextStyle(color: Colors.white, fontSize: 15),),
+              Text('documentHandleLoadingCaseSubtitle'.tr(), style: TextStyle(color: Colors.white, fontSize: 15),),
             ],
           ),
         ),

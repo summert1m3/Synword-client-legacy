@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/Controller/authorizationController.dart';
@@ -45,7 +46,7 @@ class UserProfileDialog extends StatelessWidget {
             RaisedButton(
               color: HexColor('#E1B34F'),
               onPressed: () => _signOutCallback(context, updateAccountIconCallback: _updateAccountIconCallback),
-              child: const Text('Sign Out', style: TextStyle(fontFamily: 'Roboto')),
+              child: const Text('googleSignOut', style: TextStyle(fontFamily: 'Roboto')).tr(),
             )
           ],
         ),

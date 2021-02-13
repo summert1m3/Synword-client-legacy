@@ -8,6 +8,7 @@ import 'package:synword/userData/Controller/authorizationController.dart';
 class PriceListCard extends StatelessWidget {
   final Icon leadingIcon;
   final String title;
+  final String titleTr;
   final String subtitle;
   final String price;
   final Function updateAccountIconCallback;
@@ -15,6 +16,7 @@ class PriceListCard extends StatelessWidget {
   PriceListCard(
     this.leadingIcon,
     this.title,
+    this.titleTr,
     this.price,
     this.updateAccountIconCallback,
     {this.subtitle}
@@ -28,7 +30,7 @@ class PriceListCard extends StatelessWidget {
       child: ListTile(
         onTap: ()=>{},
         leading: leadingIcon,
-        title: Text(title, style: TextStyle(fontFamily: 'Roboto',fontSize: 17),),
+        title: Text(title + titleTr.tr(), style: TextStyle(fontFamily: 'Roboto',fontSize: 17),),
         subtitle: this.subtitle == null ? null : Text(subtitle, style: TextStyle(color: Colors.grey, fontFamily: 'Roboto')),
         dense: true,
         trailing: SizedBox(
@@ -43,7 +45,7 @@ class PriceListCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.account_balance_wallet, color: Colors.white,),
-                  Text(price, style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
+                  Text(price, style: TextStyle(color: Colors.white, fontFamily: 'Roboto')).tr(),
                 ],
               ),
             ),

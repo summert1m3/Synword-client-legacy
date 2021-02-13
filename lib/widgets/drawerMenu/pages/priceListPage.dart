@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/googleAuth/googleAuthService.dart';
 import '../dialogs/userProfileDialog.dart';
@@ -42,24 +43,29 @@ class BuyPage extends MaterialPageRoute<void> {
                     SizedBox(
                       height: 15,
                     ),
-                    Text('Проверка уникальности',
+                    Text('priceListPageTitle',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto'
+                        )).tr(),
                     SizedBox(
                       height: 10,
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
-                      '100 запросов',
-                      '99 руб',
+                      '100 ',
+                      'priceListPageUniqueCheckCardContent',
+                      'priceListPageFirstCardPrice',
                             () {
                           setState(() {});
                         }
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
-                      '300 запросов',
-                      '279 руб',
+                      '300 ',
+                      'priceListPageUniqueCheckCardContent',
+                      'priceListPageSecondCardPrice',
                           () {
                         setState(() {});
                       },
@@ -67,8 +73,9 @@ class BuyPage extends MaterialPageRoute<void> {
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
-                      '600 запросов',
-                      '510 руб',
+                      '600 ',
+                      'priceListPageUniqueCheckCardContent',
+                      'priceListPageThirdCardPrice',
                           () {
                         setState(() {});
                       },
@@ -76,23 +83,13 @@ class BuyPage extends MaterialPageRoute<void> {
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
-                      '1000 запросов',
-                      '799 руб',
+                      '1000 ',
+                      'priceListPageUniqueCheckCardContent',
+                      'priceListPageFourthCardPrice',
                           () {
                         setState(() {});
                       },
                       subtitle: 'выгода 20%',
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Align(
-                      alignment: Alignment(-0.62, 0),
-                      child: Text('Бесплатных проверок в день:'),
-                    ),
-                    Align(
-                      alignment: Alignment(-0.71, 0),
-                      child: Text('Осталось проверок:'),
                     ),
                   ],
                 ),

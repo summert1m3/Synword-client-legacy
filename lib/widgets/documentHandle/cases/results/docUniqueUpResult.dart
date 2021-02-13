@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:open_file/open_file.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UniqueUpResult extends StatelessWidget {
   @override
@@ -45,21 +46,9 @@ class UniqueUpResult extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Файл сохранен в папку "Загрузки"',
-                  style: TextStyle(color: Colors.white),
+                  'documentHandleFinishCaseSavedFile'.tr(),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Заменено слов: --',
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  'Количество символов: --',
-                  style: TextStyle(color: Colors.white),
-                ),
-
               ],
             ),
           ),
@@ -74,7 +63,7 @@ class UniqueUpResult extends StatelessWidget {
             RaisedButton(
               color: Colors.amber,
               onPressed: () => OpenFile.open(DocumentData.downloadPath + "synword_" + docData.file.names.first, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
-              child: Text('Открыть'),
+              child: Text('documentHandleFinishCaseUniqueUpButton', style: TextStyle(fontFamily: 'Roboto'),).tr(),
             )
           ],
         )

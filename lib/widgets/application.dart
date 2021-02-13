@@ -49,6 +49,7 @@ class _ApplicationState extends State<Application> {
     if(googleAuthService.googleUser != null){
       try{
         authController.setAuth();
+        print('1');
       }catch(ex){
         print(ex);
         authController.setUnauth();

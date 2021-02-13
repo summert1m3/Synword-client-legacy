@@ -42,7 +42,6 @@ class AuthorizationController {
 
       _currentUser.serverRequest.fromJson(jsonDecode(response.body));
 
-
       print("isAuthorized: " + _currentUser.userData.isAuthorized.toString());
       print("isPremium: " + _currentUser.userData.isPremium.toString());
 
