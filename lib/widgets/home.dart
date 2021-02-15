@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:synword/userData/Controller/authorizationController.dart';
 import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
 import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,11 @@ import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  Home(){
+    AuthorizationController user = AuthorizationController();
+    user.authorization();
+  }
 
   @override
   Widget build(BuildContext context) {

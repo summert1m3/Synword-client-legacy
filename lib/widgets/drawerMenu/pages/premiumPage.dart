@@ -151,9 +151,8 @@ Future<void> _subscribeCallback(Function updateAccountIconCallback, BuildContext
     if (googleAuthService.googleUser == null) {
       await googleAuthService.signIn();
 
-      AuthorizationController authController = AuthorizationController();
-
-      authController.setAuth();
+      AuthorizationController user = AuthorizationController();
+      await user.authorization();
 
       if (googleAuthService.googleUser != null) {
         //монетизация

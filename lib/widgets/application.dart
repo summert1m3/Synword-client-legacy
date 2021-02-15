@@ -7,10 +7,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/widgets/drawerMenu/Feedback/feedback.dart';
-import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/Controller/authorizationController.dart';
-
-import 'package:synword/userData/currentUser.dart';
 
 class Application extends StatefulWidget {
   @override
@@ -41,33 +37,10 @@ class _ApplicationState extends State<Application> {
   void _initializeLayersSetting(BuildContext context) {
     layersSetting = LayersSetting.initialize(70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
   }
-  void _googleSignInSilently(){
-    googleAuthService.signInSilently();
-  }
-  void _initializeUserData() async{
-    AuthorizationController authController = AuthorizationController();
-    if(googleAuthService.googleUser != null){
-      try{
-        authController.setAuth();
-        print('1');
-      }catch(ex){
-        print(ex);
-        authController.setUnauth();
-      }
-    }
-    else{
-      authController.setUnauth();
-    }
-    CurrentUser user = CurrentUser();
-    print(user.serverRequest);
-    print(user.userData);
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    _googleSignInSilently();
-    _initializeUserData();
-
     _initializeLayersSetting(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

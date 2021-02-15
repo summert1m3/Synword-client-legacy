@@ -55,12 +55,12 @@ class UserProfileDialog extends StatelessWidget {
   }
 }
 
-void _signOutCallback(BuildContext context, {Function updateAccountIconCallback}){
+Future<void> _signOutCallback(BuildContext context, {Function updateAccountIconCallback}) async{
   try {
-    AuthorizationController authController = AuthorizationController();
+    AuthorizationController user = AuthorizationController();
 
-    googleAuthService.signOut();
-    authController.setUnauth();
+    await googleAuthService.signOut();
+    await user.authorization();
 
     Navigator.of(context).pop();
     updateAccountIconCallback();

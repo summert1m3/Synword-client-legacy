@@ -13,20 +13,42 @@ import 'package:synword/userData/Controller/unauthUserServerRequestsController.d
 class AuthorizationController {
   CurrentUser _currentUser = CurrentUser();
 
-  void setAuth() async{
+  Future<void> authorization() async{
+    if(googleAuthService.googleUser == null){
+      await googleAuthService.signInSilently();
+    }
+    if (googleAuthService.googleUser != null){
+      await _setAuth();
+    }
+    else{
+      _setUnauth();
+    }
+  }
+
+  Future<void> _setAuth() async{
+    try {
       _currentUser.userData = AuthUserData();
       _currentUser.serverRequest = AuthUserServerRequestsController();
-      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken.split('.').first);
+      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken
+          .split('.')
+          .first);
+    }
+    catch(ex){
+      print(ex);
+      _setUnauth();
+      rethrow;
+    }
       print('User authorized successfully');
       print('isAuthorized: ${_currentUser.userData.isAuthorized}');
   }
 
-  void setUnauth(){
+  void _setUnauth(){
     _currentUser.userData = UnauthUserData();
     _currentUser.serverRequest = UnauthUserServerRequestsController();
 
     print('User deauthorized successfully');
     print('isAuthorized: ${_currentUser.userData.isAuthorized}');
+
   }
 
   Future<void> _getAllUserDataFromServer(String uId) async{

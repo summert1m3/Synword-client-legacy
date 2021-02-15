@@ -84,7 +84,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       Dio dio = Dio();
 
       FormData formData = new FormData.fromMap({
-        "files": new MultipartFile.fromBytes(
+        "Files": new MultipartFile.fromBytes(
             filePickerResult.files.first.bytes.toList(),
             filename: filePickerResult.names.first),
       });
@@ -98,7 +98,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
               options: Options(
                 responseType: ResponseType.bytes,
               ))
-          .timeout(Duration(seconds: 1));
+          .timeout(Duration(seconds: 60));
 
       return response;
     } catch (_) {
@@ -113,7 +113,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       Dio dio = Dio();
 
       FormData formData = new FormData.fromMap({
-        "files": new MultipartFile.fromBytes(
+        "Files": new MultipartFile.fromBytes(
             filePickerResult.files.first.bytes.toList(),
             filename: filePickerResult.names.first),
       });

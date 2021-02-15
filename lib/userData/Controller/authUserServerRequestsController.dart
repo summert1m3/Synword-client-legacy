@@ -84,8 +84,8 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uID" : googleAuthService.googleAuth.idToken.split('.').first,
-      "files": new MultipartFile.fromBytes(
+      "uId" : googleAuthService.googleAuth.idToken.split('.').first,
+      "Files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),
     });
