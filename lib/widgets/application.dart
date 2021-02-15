@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:synword/layersSetting.dart';
+import 'package:synword/layers/layersSetting.dart';
 import 'splashScreen.dart';
 import 'home.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:synword/widgets/drawerMenu/Feedback/feedback.dart';
 
 class Application extends StatefulWidget {

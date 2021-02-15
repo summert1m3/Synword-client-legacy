@@ -1,6 +1,7 @@
-import 'package:synword/responseException.dart';
-import 'package:synword/serverException.dart';
-import 'package:synword/uniqueUpData.dart';
+import 'package:synword/exceptions/responseException.dart';
+import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/model/json/uniqueUpData.dart';
+
 import 'synonymizer.dart';
 import 'dart:io';
 import 'dart:convert';

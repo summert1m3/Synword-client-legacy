@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'layer.dart';
-import 'types.dart';
+import 'package:synword/layers/layer.dart';
+import 'package:synword/types.dart';
 
 abstract class MovingLayer extends Layer {
   Widget _loadingScreen;

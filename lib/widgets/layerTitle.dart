@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:synword/layersSetting.dart';
+import 'package:synword/layers/layersSetting.dart';
 import 'package:synword/types.dart';
 
 class LayerTitle extends StatelessWidget {

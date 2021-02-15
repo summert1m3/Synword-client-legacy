@@ -1,5 +1,5 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:synword/uniqueCheckData.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
 
 class DocumentData{
   FilePickerResult file;

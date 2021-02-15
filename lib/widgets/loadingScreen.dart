@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:synword/layersSetting.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:synword/layers/layersSetting.dart';
 
 class LoadingScreen extends StatelessWidget {
 

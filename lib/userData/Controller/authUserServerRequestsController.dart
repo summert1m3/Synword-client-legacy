@@ -2,18 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:synword/exceptions/responseException.dart';
+import 'package:synword/exceptions/serverException.dart';
 import 'dart:async';
-
-import 'package:synword/uniqueCheckData.dart';
-import 'package:synword/responseException.dart';
-import 'package:synword/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
+import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/userData/interface/userDataInterface.dart';
 import 'package:synword/userData/model/apiParams/authUniqueCheck.dart';
 import 'package:synword/userData/model/apiParams/authUniqueUp.dart';
 import 'package:synword/userData/model/authUserData.dart';
-import 'package:synword/uniqueUpData.dart';
 import 'package:synword/constants/mainServerData.dart';
 
 class AuthUserServerRequestsController implements ServerRequestsInterface{
@@ -21,7 +20,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   UserDataInterface _userDataInterface = AuthUserData();
 
   @override
-  Future<UniqueCheckData> uniqueCheckRequest(String text) async{
+  Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     try {
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
@@ -51,7 +50,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(String text) async{
+  Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
       HttpClient client = HttpClient();
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
@@ -79,7 +78,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
-  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async{
+  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async {
     try{
     Dio dio = Dio();
 
@@ -103,7 +102,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
-  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async{
+  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async {
     try{
     Dio dio = Dio();
 

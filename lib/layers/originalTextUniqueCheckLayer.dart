@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:synword/uniqueCheckData.dart';
-import 'package:synword/uniqueCheckLayer.dart';
+import 'package:synword/layers/uniqueCheckLayer.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/widgets/layers/uniqueCheckWidget.dart';
 import 'package:synword/widgets/textUniqueCheck.dart';
 import 'package:synword/widgets/loadingScreen.dart';
 import 'layersSetting.dart';
-import 'types.dart';
+import 'package:synword/types.dart';
 
 class OriginalTextUniqueCheckLayer extends UniqueCheckLayer {
   OriginalTextUniqueCheckLayer.zero() : super(LoadingScreen(), Offset.zero, null, null, layersSetting.uniqueCheckTitleColor, null, null, null, false, true, true, true) {

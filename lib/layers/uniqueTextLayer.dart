@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:synword/uniqueUpData.dart';
+import 'package:synword/layers/layersSetting.dart';
+import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/widgets/layers/uniqueTextWidget.dart';
 import 'package:synword/widgets/uniqueText.dart';
 import 'package:synword/widgets/loadingScreen.dart';
 import 'movingLayer.dart';
-import 'layersSetting.dart';
-import 'types.dart';
+import 'package:synword/types.dart';
 
 class UniqueTextLayer extends MovingLayer {
   UniqueUpData _uniqueUpData;

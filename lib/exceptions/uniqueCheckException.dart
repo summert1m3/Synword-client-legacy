@@ -1,4 +1,4 @@
-import 'package:synword/uniqueCheckLayer.dart';
+import 'package:synword/layers/uniqueCheckLayer.dart';
 
 class UniqueCheckException implements Exception {
   UniqueCheckLayer _layer;

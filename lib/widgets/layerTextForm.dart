@@ -3,8 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 class LayerTextForm extends StatelessWidget {
   final TextEditingController _textEditingController;
+  final bool _isReadOnly;
 
-  LayerTextForm(this._textEditingController);
+  LayerTextForm(this._textEditingController, this._isReadOnly);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class LayerTextForm extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       child: TextFormField(
+        readOnly: _isReadOnly,
         controller: _textEditingController,
         maxLines: screenSize.height ~/ 20,
         style: TextStyle(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/Controller/authorizationController.dart';
 

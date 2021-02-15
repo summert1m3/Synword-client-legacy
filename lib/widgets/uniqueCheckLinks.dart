@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:synword/uniqueCheckData.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
 
 class UniqueCheckLinks extends StatelessWidget {
   final UniqueCheckData _uniqueCheckData;

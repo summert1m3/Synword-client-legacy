@@ -1,9 +1,9 @@
-import 'package:synword/responseException.dart';
-import 'package:synword/serverException.dart';
-import 'package:synword/uniqueCheckData.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
+import 'package:synword/exceptions/responseException.dart';
+import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
 
 class UniqueChecker {
   Future<UniqueCheckData> check(String text) async {

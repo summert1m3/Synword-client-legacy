@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:synword/internetChecker.dart';
-import 'package:synword/movingLayer.dart';
-import 'package:synword/originalTextLayer.dart';
-import 'package:synword/buttonBarLayer.dart';
-import 'package:synword/originalTextUniqueCheckLayer.dart';
-import 'package:synword/serverException.dart';
-import 'package:synword/textLongLengthException.dart';
-import 'package:synword/textShortLengthException.dart';
-import 'package:synword/uniqueCheckData.dart';
-import 'package:synword/uniqueCheckException.dart';
-import 'package:synword/uniqueTextLayer.dart';
-import 'package:synword/uniqueTextUniqueCheckLayer.dart';
-import 'package:synword/twoTextUniqueCheckLayer.dart';
+import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/exceptions/textLongLengthException.dart';
+import 'package:synword/exceptions/textShortLengthException.dart';
+import 'package:synword/exceptions/uniqueCheckException.dart';
+import 'package:synword/layers/buttonBarLayer.dart';
+import 'package:synword/layers/layersSetting.dart';
+import 'package:synword/layers/movingLayer.dart';
+import 'package:synword/layers/originalTextLayer.dart';
+import 'package:synword/layers/originalTextUniqueCheckLayer.dart';
+import 'package:synword/layers/twoTextUniqueCheckLayer.dart';
+import 'package:synword/layers/uniqueCheckLayer.dart';
+import 'package:synword/layers/uniqueTextLayer.dart';
+import 'package:synword/layers/uniqueTextUniqueCheckLayer.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
+import 'package:synword/model/json/uniqueUpData.dart';
+import 'package:synword/network/internetChecker.dart';
 import 'package:synword/types.dart';
-import 'package:synword/layersSetting.dart';
 import 'package:synword/userData/Controller/serverRequestsController.dart';
 import 'dart:async';
-
-import 'package:synword/uniqueUpData.dart';
 
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
@@ -61,14 +61,14 @@ class _BodyState extends State<Body> {
 
     _layerList = List<MovingLayer>();
     _textEditingController = TextEditingController();
-    _originalTextLayer = OriginalTextLayer(_textEditingController, false);
+    _originalTextLayer = OriginalTextLayer(_textEditingController, false, false);
     _buttonBarLayer = ButtonBarLayer(true, true, _buttonBarFirstButtonCallback(), _buttonBarSecondButtonCallback());
   }
 
   FloatingActionButtonCallback _buttonBarFirstButtonCallback() => () async {
     if (await InternetChecker().isInternetAvailability()) {
       try {
-        if (_isLayersContains(OriginalTextUniqueCheckLayer) && _isLayersContains(UniqueTextLayer)) {
+        if (_isLayersContains(OriginalTextUniqueCheckLayer) && _isLayersContains(UniqueCheckLayer)) {
           _deleteLayer(OriginalTextUniqueCheckLayer);
 
           await _createAndAddTwoTextUniqueCheckLayer();
@@ -368,11 +368,20 @@ class _BodyState extends State<Body> {
   }
 
   void _updateLayers() {
+    _updateOriginalTextReadOnly();
     _updateOriginalTextTitleVisible();
     _updateLayersTitleColors();
     _updateLastLayerTitleVisible();
     _updateLayersCloseButtonVisible();
     _updateButtons();
+  }
+
+  void _updateOriginalTextReadOnly() {
+    if (_layerList.isEmpty) {
+      _originalTextLayer.setIsReadOnly(false);
+    } else {
+      _originalTextLayer.setIsReadOnly(true);
+    }
   }
 
   void _updateOriginalTextTitleVisible() {

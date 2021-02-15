@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:synword/uniqueCheckData.dart';
+import 'package:synword/layers/layersSetting.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/widgets/waveBar.dart';
 import 'package:synword/widgets/uniqueCheckLinks.dart';
-import 'package:synword/layersSetting.dart';
 
 class TwoTextUniqueCheckWidget extends StatelessWidget {
   final UniqueCheckData _originalUniqueCheckData;

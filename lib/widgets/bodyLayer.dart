@@ -39,6 +39,9 @@ class BodyLayer extends StatelessWidget {
             )
           ],
         ),
+        onPanDown: (details) {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         onPanUpdate: (details) {
           if (_isGestureDetectorEnable) {
             _onPanUpdateCallback(Offset(details.delta.dx, details.delta.dy));

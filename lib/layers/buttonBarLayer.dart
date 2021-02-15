@@ -1,6 +1,6 @@
+import 'package:synword/layers/layer.dart';
 import 'package:synword/widgets/layers/buttonBarWidget.dart';
-import 'layer.dart';
-import 'types.dart';
+import 'package:synword/types.dart';
 
 class ButtonBarLayer extends Layer {
   bool _isFirstButtonVisible;

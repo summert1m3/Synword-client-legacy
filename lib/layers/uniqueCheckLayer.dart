@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:synword/movingLayer.dart';
-import 'package:synword/uniqueCheckData.dart';
-import 'types.dart';
+import 'package:synword/layers/movingLayer.dart';
+import 'package:synword/model/json/uniqueCheckData.dart';
+import 'package:synword/types.dart';
 
 abstract class UniqueCheckLayer extends MovingLayer {
   UniqueCheckData _originalTextCheckData;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:synword/uniqueUpData.dart';
+import 'package:synword/model/json/uniqueUpData.dart';
 
 class UniqueText extends StatelessWidget {
   final UniqueUpData _uniqueUpData;

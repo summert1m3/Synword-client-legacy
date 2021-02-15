@@ -8,17 +8,19 @@ import 'package:easy_localization/easy_localization.dart';
 class OriginalTextWidget extends StatelessWidget {
   final TextEditingController _textEditingController;
   final bool _isTitleVisible;
+  final bool _isReadOnly;
 
   OriginalTextWidget(
     this._textEditingController,
-    this._isTitleVisible
+    this._isTitleVisible,
+    this._isReadOnly
   );
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
         child: BodyLayer(
-            Expanded(child: LayerTextForm(_textEditingController)),
+            Expanded(child: LayerTextForm(_textEditingController, _isReadOnly)),
             LayerTitle(
                 Text('originalTextHeader', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)).tr(),
               HexColor('#D45357'),
