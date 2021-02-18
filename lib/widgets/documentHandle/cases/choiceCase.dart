@@ -7,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
-import 'package:synword/userData/Controller/serverRequestsController.dart';
+import 'package:synword/userData/controller/serverRequestsController.dart';
 
 
 class ChoiceCase extends StatefulWidget {

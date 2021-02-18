@@ -6,7 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../dialogs/userProfileDialog.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/Controller/authorizationController.dart';
+import 'package:synword/userData/controller/authorizationController.dart';
 
 class PremiumPage extends MaterialPageRoute<void> {
   PremiumPage()

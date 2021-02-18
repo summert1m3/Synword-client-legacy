@@ -46,10 +46,6 @@ class _StartCaseState extends State<StartCase> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'fileUploadTitle',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ).tr(),
             SizedBox(
               height: 20,
             ),
@@ -74,7 +70,7 @@ class _StartCaseState extends State<StartCase> {
             ),
             Text(
               'fileUploadSupportedFiles',
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ).tr(),
           ],
         ),

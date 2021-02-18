@@ -17,7 +17,7 @@ import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/network/internetChecker.dart';
 import 'package:synword/types.dart';
-import 'package:synword/userData/Controller/serverRequestsController.dart';
+import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'dart:async';
 
 class Body extends StatefulWidget {

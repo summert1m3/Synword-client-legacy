@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'dart:async';
+
 import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
-import 'dart:async';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
   @override

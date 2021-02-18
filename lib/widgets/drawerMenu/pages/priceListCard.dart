@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/Controller/authorizationController.dart';
+import 'package:synword/userData/controller/authorizationController.dart';
 
 class PriceListCard extends StatelessWidget {
   final Icon leadingIcon;

@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'dart:async';
+
 import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
-import 'dart:async';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';

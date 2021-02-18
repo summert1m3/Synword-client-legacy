@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/currentUser.dart';
 import 'package:synword/userData/model/authUserData.dart';
 import 'package:synword/userData/model/unauthUserData.dart';
 import 'package:synword/constants/mainServerData.dart';
-import 'package:synword/userData/Controller/authUserServerRequestsController.dart';
-import 'package:synword/userData/Controller/unauthUserServerRequestsController.dart';
+import 'package:synword/userData/controller/authUserServerRequestsController.dart';
+import 'package:synword/userData/controller/unauthUserServerRequestsController.dart';
 
 class AuthorizationController {
   CurrentUser _currentUser = CurrentUser();
