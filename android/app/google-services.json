@@ -1,42 +1,78 @@
 {
   "project_info": {
-    "project_number": "12727494059",
-    "firebase_url": "https://synword-5c392.firebaseio.com",
-    "project_id": "synword-5c392",
-    "storage_bucket": "synword-5c392.appspot.com"
+    "project_number": "1010623977473",
+    "project_id": "synword-com",
+    "storage_bucket": "synword-com.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:12727494059:android:62307d91b2c1d98cd7deee",
+        "mobilesdk_app_id": "1:1010623977473:android:797cf52d0692a106008800",
         "android_client_info": {
           "package_name": "com.patronum.synword"
         }
       },
       "oauth_client": [
         {
-          "client_id": "12727494059-io8b7358p1ikldoj3ppojacukompos3u.apps.googleusercontent.com",
+          "client_id": "1010623977473-1pb2qrv2q4fjq0crjrtmvdpq8e0g295r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.patronum.synword",
-            "certificate_hash": "cc2d838507b6dae9e818eb0ee5a5aa78b1feb934"
+            "certificate_hash": "ecb04a29517b084244b473bcd9f9e34c836fd554"
           }
         },
         {
-          "client_id": "12727494059-07hv7cbj6mofhughv4f3octrtnd2qa1e.apps.googleusercontent.com",
+          "client_id": "1010623977473-aiemk4ga5f1ujrm4nq1ho3b00l8t7fg0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWBnIUz-5WY7W6f56Xj9MYuJk_VAaJLr8"
+          "current_key": "AIzaSyDBqOYRBWfV7Hsior_o8cjnTTzQXex_lm4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "12727494059-07hv7cbj6mofhughv4f3octrtnd2qa1e.apps.googleusercontent.com",
+              "client_id": "1010623977473-aiemk4ga5f1ujrm4nq1ho3b00l8t7fg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010623977473:android:15b799e906250ff5008800",
+        "android_client_info": {
+          "package_name": "com.patronum.synword.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010623977473-s3qpg0svljsk03q3kipj5hsa4958mfhv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.patronum.synword.debug",
+            "certificate_hash": "0f05e5f9e5b2635b1ec5a4144f5e067acd6729fb"
+          }
+        },
+        {
+          "client_id": "1010623977473-aiemk4ga5f1ujrm4nq1ho3b00l8t7fg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBqOYRBWfV7Hsior_o8cjnTTzQXex_lm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010623977473-aiemk4ga5f1ujrm4nq1ho3b00l8t7fg0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

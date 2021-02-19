@@ -161,7 +161,8 @@ Future<void> _subscribeCallback(Function updateAccountIconCallback, BuildContext
       //монетизация
     }
     updateAccountIconCallback();
-  } on PlatformException{
+  } on PlatformException catch(ex){
+    print(ex);
     final snackBar = SnackBar(
         content: Text('noInternet'.tr()),
         duration: Duration(seconds: 3),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:hexcolor/hexcolor.dart';
+
 typedef SplashScreenCallback = void Function();
 
 class SplashScreen extends StatefulWidget {
@@ -34,10 +36,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         body: Center(
           child: Image.asset(
-            'icons/logo.png', scale: 5,
+            'icons/logo.png', scale: 7,
           ),
         ),
-        backgroundColor: Colors.white
+        backgroundColor: HexColor('#140A21'),
     );
   }
 }
