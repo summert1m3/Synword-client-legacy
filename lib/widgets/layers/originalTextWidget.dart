@@ -23,26 +23,28 @@ class OriginalTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         child: BodyLayer(
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Visibility(
-                  visible: _textEditingController.text.isNotEmpty,
-                  child: Container(
-                      padding: const EdgeInsets.only(right: 15, top: 15),
-                      child: Text(
-                          _textEditingController.text.length.toString() + '/' + DefaultUserRestrictions.uniqueUpMaxSymbolLimit.toString(),
-                          style: TextStyle(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Visibility(
+                    visible: _textEditingController.text.isNotEmpty,
+                    child: Container(
+                        padding: const EdgeInsets.only(right: 15, top: 15),
+                        child: Text(
+                            _textEditingController.text.length.toString() + '/' + DefaultUserRestrictions.uniqueUpMaxSymbolLimit.toString(),
+                            style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.normal,
                               color: _textEditingController.text.length > DefaultUserRestrictions.uniqueUpMaxSymbolLimit ? Colors.red : Colors.black.withOpacity(0.8),
                               fontFamily: 'Roboto',
-                          )
-                      )
+                            )
+                        )
+                    ),
                   ),
-                ),
-                Expanded(child: LayerTextForm(_textEditingController, _isReadOnly, _onChangedCallback)),
-              ],
+                  Expanded(child: LayerTextForm(_textEditingController, _isReadOnly, _onChangedCallback)),
+                ],
+              ),
             ),
             LayerTitle(
                 Text('originalTextHeader', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)).tr(),

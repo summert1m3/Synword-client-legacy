@@ -36,10 +36,8 @@ class BodyLayer extends StatelessWidget {
               child: _title,
               visible: _isTitleVisible,
             ),
-            Expanded(
-              child: Container(
-                child: _widget,
-              ),
+            Container(
+              child: _widget,
             )
           ],
         ),
