@@ -61,12 +61,15 @@ class UniqueText extends StatelessWidget {
     return SizedBox(
         child: Container(
           margin: EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: RichText(
-              textDirection: TextDirection.ltr,
-              text: TextSpan(
-                  style: TextStyle(fontSize: 20),
-                  children: _getTextSpans()
+          child: Scrollbar(
+            thickness: 5,
+            radius: Radius.circular(10),
+            child: SingleChildScrollView(
+              child: SelectableText.rich(
+                  TextSpan(
+                      style: TextStyle(fontSize: 20),
+                      children: _getTextSpans()
+                  )
               ),
             ),
           ),

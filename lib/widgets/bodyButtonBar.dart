@@ -52,6 +52,10 @@ class BodyButtonBar extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)
+                  ),
                   padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
                   child: Text('uniqueCheckButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )
@@ -81,6 +85,10 @@ class BodyButtonBar extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(3)
+                  ),
                   padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
                   child: Text('uniqueUpButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )

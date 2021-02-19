@@ -3,9 +3,11 @@ import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
 import 'package:synword/types.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 class UniqueTextWidget extends StatelessWidget {
   final Widget _widget;
+  final String _uniqueText;
   final Offset _offset;
   final Color _titleColor;
   final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
@@ -16,6 +18,7 @@ class UniqueTextWidget extends StatelessWidget {
 
   UniqueTextWidget(
     this._widget,
+    this._uniqueText,
     this._offset,
     this._titleColor,
     this._isTitleVisible,
@@ -38,11 +41,25 @@ class UniqueTextWidget extends StatelessWidget {
               _isTitleVisible,
               _isCloseButtonVisible,
               _closeButtonCallback,
+              additionalButton: Material(
+                color: Colors.transparent,
+                child: IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  splashRadius: 23,
+                  icon: Icon(Icons.content_copy),
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: _uniqueText ?? ''));
+                  }
+                ),
+              )
           ),
           true,
           true,
           _gestureDetectorOnPanUpdateCallback,
-          _gestureDetectorOnPanEndCallback
+          _gestureDetectorOnPanEndCallback,
+          (details) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
       ),
     );
   }

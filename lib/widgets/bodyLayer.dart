@@ -9,6 +9,7 @@ class BodyLayer extends StatelessWidget {
   final bool _isGestureDetectorEnable;
   final OnPanUpdateCallback _onPanUpdateCallback;
   final OnPanEndCallback _onPanEndCallback;
+  final OnPanDownCallback _onPanDownCallback;
 
   BodyLayer(
     this._widget,
@@ -16,7 +17,8 @@ class BodyLayer extends StatelessWidget {
     this._isTitleVisible,
     this._isGestureDetectorEnable,
     this._onPanUpdateCallback,
-    this._onPanEndCallback
+    this._onPanEndCallback,
+    this._onPanDownCallback
   );
 
   @override
@@ -34,14 +36,14 @@ class BodyLayer extends StatelessWidget {
               child: _title,
               visible: _isTitleVisible,
             ),
-            Container(
-              child: _widget,
+            Expanded(
+              child: Container(
+                child: _widget,
+              ),
             )
           ],
         ),
-        onPanDown: (details) {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
+        onPanDown: _onPanDownCallback,
         onPanUpdate: (details) {
           if (_isGestureDetectorEnable) {
             _onPanUpdateCallback(Offset(details.delta.dx, details.delta.dy));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UniqueCheckLinks extends StatelessWidget {
   final UniqueCheckData _uniqueCheckData;
@@ -24,8 +25,12 @@ class UniqueCheckLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: _height,
-      child: ListView(
-        children: _createLinksItems(_uniqueCheckData),
+      child: Scrollbar(
+        thickness: 5,
+        radius: Radius.circular(10),
+        child: ListView(
+          children: _createLinksItems(_uniqueCheckData),
+        ),
       )
     );
   }
@@ -40,6 +45,14 @@ class UniqueCheckLinksItem extends StatelessWidget {
     this._value
   );
 
+  Future _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,9 +60,14 @@ class UniqueCheckLinksItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            _website,
-            style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
+          TextButton(
+            child: Text(
+              _website,
+              style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
+            ),
+            onPressed: () async {
+              await _launchURL(_website);
+            },
           ),
           Container(
             width: 40,

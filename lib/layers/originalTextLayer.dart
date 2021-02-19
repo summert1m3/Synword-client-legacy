@@ -6,15 +6,17 @@ class OriginalTextLayer extends Layer {
   TextEditingController _textEditingController;
   bool _isTitleVisible;
   bool _isReadOnly;
+  void Function() _onChangedCallback;
 
   OriginalTextLayer.zero() {
     _textEditingController = null;
     _isTitleVisible = false;
     _isReadOnly = false;
+    _onChangedCallback = null;
     build();
   }
 
-  OriginalTextLayer(this._textEditingController, this._isTitleVisible, this._isReadOnly) {
+  OriginalTextLayer(this._textEditingController, this._isTitleVisible, this._isReadOnly, this._onChangedCallback) {
     build();
   }
 
@@ -22,7 +24,8 @@ class OriginalTextLayer extends Layer {
     setWidget(OriginalTextWidget(
       _textEditingController,
       _isTitleVisible,
-      _isReadOnly
+      _isReadOnly,
+      _onChangedCallback
     ));
   }
 
@@ -38,6 +41,11 @@ class OriginalTextLayer extends Layer {
 
   void setIsReadOnly(bool value) {
     _isReadOnly = value;
+    build();
+  }
+
+  void setOnChangedCallback(void Function() onChanged) {
+    _onChangedCallback = onChanged;
     build();
   }
 }

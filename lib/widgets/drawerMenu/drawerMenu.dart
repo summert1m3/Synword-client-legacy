@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wiredash/wiredash.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'dialogs/langDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
 import 'package:synword/widgets/drawerMenu/pages/priceListPage.dart';

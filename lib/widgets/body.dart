@@ -61,14 +61,18 @@ class _BodyState extends State<Body> {
 
     _layerList = List<MovingLayer>();
     _textEditingController = TextEditingController();
-    _originalTextLayer = OriginalTextLayer(_textEditingController, false, false);
+    _originalTextLayer = OriginalTextLayer(_textEditingController, false, false, () {
+      setState(() {
+        _originalTextLayer.build();
+      });
+    });
     _buttonBarLayer = ButtonBarLayer(true, true, _buttonBarFirstButtonCallback(), _buttonBarSecondButtonCallback());
   }
 
   FloatingActionButtonCallback _buttonBarFirstButtonCallback() => () async {
     if (await InternetChecker().isInternetAvailability()) {
       try {
-        if (_isLayersContains(OriginalTextUniqueCheckLayer) && _isLayersContains(UniqueCheckLayer)) {
+        if (_isLayersContains(OriginalTextUniqueCheckLayer) && _isLayersContains(UniqueTextLayer)) {
           _deleteLayer(OriginalTextUniqueCheckLayer);
 
           await _createAndAddTwoTextUniqueCheckLayer();

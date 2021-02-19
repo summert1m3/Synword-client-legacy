@@ -42,7 +42,10 @@ class UniqueCheckWidget extends StatelessWidget {
           true,
           true,
           _gestureDetectorOnPanUpdateCallback,
-          _gestureDetectorOnPanEndCallback
+          _gestureDetectorOnPanEndCallback,
+          (details) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
       ),
     );
   }

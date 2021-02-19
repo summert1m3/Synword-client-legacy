@@ -27,6 +27,7 @@ class UniqueTextLayer extends MovingLayer {
   void build() {
     setWidget(UniqueTextWidget(
         isLoadingScreenEnabled() ? getLoadingScreen() : UniqueText(_uniqueUpData, getOffset()),
+        _uniqueUpData?.text,
         getOffset(),
         getTitleColor(),
         isTitleVisible(),
