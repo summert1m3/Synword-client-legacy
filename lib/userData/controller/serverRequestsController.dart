@@ -12,33 +12,38 @@ class ServerRequestsController {
   CurrentUser _currentUser = CurrentUser();
 
   Future<UniqueUpData> uniqueUpRequest(String text) async {
+    await ServerStatus.check();
     return await _currentUser.serverRequest.uniqueUpRequest(text);
   }
 
   Future<UniqueCheckData> uniqueCheckRequest(String text) async {
+    await ServerStatus.check();
     return await _currentUser.serverRequest.uniqueCheckRequest(text);
   }
 
   Future<Response> docxUniqueUpRequest(
       {FilePickerResult filePickerResult}) async {
+    await ServerStatus.check();
     return await _currentUser.serverRequest
         .docxUniqueUpRequest(filePickerResult: filePickerResult);
   }
 
   Future<UniqueCheckData> docxUniqueCheckRequest(
       {FilePickerResult filePickerResult}) async {
+    await ServerStatus.check();
     return await _currentUser.serverRequest
         .docxUniqueCheckRequest(filePickerResult: filePickerResult);
   }
 }
 
-class ServerIsDown{
+class ServerStatus{
   static Future<void> check() async{
-    try{
-      var response = await http.get(MainServerData.protocol + MainServerData.IP).timeout(Duration(seconds: 1));
+    try {
+      var response = await http.get(MainServerData.protocol + MainServerData.IP)
+          .timeout(Duration(seconds: 3));
       print(response.body);
     }
-    catch(ex){
+    catch(_){
       throw ServerException();
     }
   }

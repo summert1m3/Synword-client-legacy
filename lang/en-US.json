@@ -32,6 +32,7 @@
   "priceListPageFourthCardPrice": "$",
 
   "documentHandleChoiceCaseUniqueCheck": "Plagiarism Checker",
+  "documentHandleChoiceCaseUniqueCheckSubtitle": "Premium feature",
   "documentHandleChoiceCaseUniqueUp": "Rephrase",
   "documentHandleChoiceCaseButton": "UPLOAD",
 
@@ -47,5 +48,8 @@
   "serverError": "Error. Service is currently unavailable",
   "textShortLengthException": "Please enter at least 10 characters",
   "uniqueCheckTextShortLengthException": "Please enter at least 100 characters",
-  "textLongLengthException": "Limit: 20,000 characters"
+  "textLongLengthException": "Limit: 20,000 characters",
+
+  "dailyLimitReached": "You have used all available queries for today",
+  "maxSymbolLimitReached": "Your text is too big"
 }

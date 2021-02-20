@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:synword/exceptions/dailyLimitReachedException.dart';
 import 'dart:async';
 
 import 'package:synword/exceptions/responseException.dart';
@@ -23,7 +24,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       HttpClientRequest request = await client
           .postUrl(Uri.http(MainServerData.IP,
-              MainServerData.unauthUserApi.uniqueCheckApiUrl))
+          MainServerData.unauthUserApi.uniqueCheckApiUrl))
           .timeout(Duration(seconds: 10));
       request.headers.set(
           HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
@@ -31,17 +32,22 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       HttpClientResponse response = await request.close();
 
-      if (response.statusCode != 200) {
-        throw new ResponseException();
+      if (response.statusCode == 500) {
+        throw new ServerException();
       }
 
       String responseString = await utf8.decoder.bind(response).join();
+
+      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
+        throw new DailyLimitReachedException();
+      }
+
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
       UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
 
       return uniqueCheckData;
-    } catch (ex) {
+    } on TimeoutException {
       throw ServerException();
     }
   }
@@ -62,16 +68,23 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
           HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
       HttpClientResponse response = await request.close();
-      if (response.statusCode != 200) {
-        throw ResponseException();
+
+      if (response.statusCode == 500) {
+        throw new ServerException();
       }
+
       String responseString = await utf8.decoder.bind(response).join();
+
+      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
+        throw new DailyLimitReachedException();
+      }
+
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
       UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
 
       return uniqueUpData;
-    } catch (ex) {
+    } on TimeoutException {
       throw ServerException();
     }
   }
@@ -99,8 +112,16 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
               ))
           .timeout(Duration(seconds: 60));
 
+      if (response.statusCode == 500) {
+        throw new ServerException();
+      }
+
+      if (response.statusCode == 400 && response.data == "dailyLimitReached") {
+        throw new DailyLimitReachedException();
+      }
+
       return response;
-    } catch (_) {
+    } on TimeoutException {
       throw ServerException();
     }
   }
@@ -137,7 +158,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
       return uniqueCheckData;
-    } catch (_) {
+    } on TimeoutException {
       throw ServerException();
     }
   }

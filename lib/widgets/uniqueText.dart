@@ -67,7 +67,7 @@ class UniqueText extends StatelessWidget {
             child: SingleChildScrollView(
               child: SelectableText.rich(
                   TextSpan(
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
                       children: _getTextSpans()
                   )
               ),

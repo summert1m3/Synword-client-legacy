@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:async';
 
+import 'package:synword/exceptions/dailyLimitReachedException.dart';
 import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
@@ -35,17 +36,22 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       HttpClientResponse response = await request.close().timeout(Duration(seconds: 10));
 
-      if (response.statusCode != 200) {
-        throw ResponseException();
+      if (response.statusCode == 500) {
+        throw new ServerException();
       }
 
       String responseString = await utf8.decoder.bind(response).join();
+
+      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
+        throw new DailyLimitReachedException();
+      }
+
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
       UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
 
       return uniqueCheckData;
-    } catch (_) {
+    } on TimeoutException {
       throw ServerException();
     }
   }
@@ -64,16 +70,23 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       request.write(jsonEncode(uniqueUpModel.toJson()));
 
       HttpClientResponse response = await request.close();
-      if (response.statusCode != 200) {
-        throw ResponseException();
+
+      if (response.statusCode == 500) {
+        throw new ServerException();
       }
+
       String responseString = await utf8.decoder.bind(response).join();
+
+      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
+        throw new DailyLimitReachedException();
+      }
+
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
       UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
 
       return uniqueUpData;
-    } catch (_) {
+    } on TimeoutException {
       throw ServerException();
     }
   }
@@ -96,10 +109,18 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
           responseType: ResponseType.bytes,
         )).timeout(Duration(seconds: 60));
 
+    if (response.statusCode == 500) {
+      throw new ServerException();
+    }
+
+    if (response.statusCode == 400 && response.data == "dailyLimitReached") {
+      throw new DailyLimitReachedException();
+    }
+
     return response;
-  } catch (_) {
-  throw ServerException();
-  }
+    } on TimeoutException {
+      throw ServerException();
+    }
   }
 
   @override
@@ -118,8 +139,12 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
         data: formData,
     ).timeout(Duration(seconds: 60));
 
-    if (response.statusCode != 200) {
-      throw new ResponseException();
+    if (response.statusCode == 500) {
+      throw new ServerException();
+    }
+
+    if (response.statusCode == 400 && response.data == "dailyLimitReached") {
+      throw new DailyLimitReachedException();
     }
 
     String responseString = response.data;
@@ -128,9 +153,9 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
 
     return uniqueCheckData;
-  } catch (_) {
-  throw ServerException();
-  }
+    } on TimeoutException {
+      throw ServerException();
+    }
   }
 
   @override

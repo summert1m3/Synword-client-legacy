@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/exceptions/dailyLimitReachedException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/exceptions/textLongLengthException.dart';
 import 'package:synword/exceptions/textShortLengthException.dart';
@@ -89,7 +90,7 @@ class _BodyState extends State<Body> {
           });
         }
 
-        _showSnackBar('serverError');
+        _showSnackBar(exception.getErrorMessage());
       } on TextShortLengthException {
         _showSnackBar('uniqueCheckTextShortLengthException');
       } on TextLongLengthException {
@@ -135,19 +136,14 @@ class _BodyState extends State<Body> {
               uniqueTextLayer.setUniqueUpData(uniqueUpData);
             });
           }
-        } on ServerException {
+        } catch(ex){
           if (uniqueTextLayer != null) {
             setState(() {
 
               _deleteLayer(uniqueTextLayer.runtimeType);
             });
           }
-
-          _showSnackBar('serverError');
-        } on TextShortLengthException {
-          _showSnackBar('textShortLengthException');
-        } on TextLongLengthException {
-          _showSnackBar('textLongLengthException');
+          _showSnackBar(ex.toString());
         }
       } else {
         _showSnackBar('noInternet');
@@ -225,8 +221,10 @@ class _BodyState extends State<Body> {
           uniqueCheckLayer.setUniqueTextCheckData(uniqueCheckData);
         });
       }
-    } on ServerException {
-      throw UniqueCheckException(uniqueCheckLayer);
+    } on ServerException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+    } on DailyLimitReachedException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
   }
 
@@ -252,8 +250,10 @@ class _BodyState extends State<Body> {
         uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
         uniqueCheckLayer.setUniqueTextCheckData(uniqueUniqueCheckData);
       });
-    } on ServerException {
-      throw UniqueCheckException(uniqueCheckLayer);
+    } on ServerException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+    } on DailyLimitReachedException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
   }
 
@@ -289,8 +289,10 @@ class _BodyState extends State<Body> {
           uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
         });
       }
-    } on ServerException {
-      throw UniqueCheckException(uniqueCheckLayer);
+    } on ServerException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+    } on DailyLimitReachedException catch(ex){
+      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
   }
 
