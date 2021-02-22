@@ -1,12 +1,12 @@
 class AuthUniqueCheckModel {
-  AuthUniqueCheckModel(this._uId,this._text);
+  AuthUniqueCheckModel(this._accessToken,this._text);
 
-  String _uId;
+  String _accessToken;
   String _text;
 
   Map<String, dynamic> toJson() =>
       {
-        'uId': _uId,
+        'accessToken': _accessToken,
         'text': _text,
       };
 }

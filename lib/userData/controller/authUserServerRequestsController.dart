@@ -30,7 +30,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueCheckApiUrl));
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
 
-      AuthUniqueCheckModel uniqueCheckModel = AuthUniqueCheckModel(googleAuthService.googleAuth.idToken.split('.').first, text);
+      AuthUniqueCheckModel uniqueCheckModel = AuthUniqueCheckModel(googleAuthService.googleAuth.accessToken, text);
 
       request.write(jsonEncode(uniqueCheckModel.toJson()));
 
@@ -66,7 +66,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
 
-      AuthUniqueUpModel uniqueUpModel = AuthUniqueUpModel(googleAuthService.googleAuth.idToken.split('.').first, text);
+      AuthUniqueUpModel uniqueUpModel = AuthUniqueUpModel(googleAuthService.googleAuth.accessToken, text);
       request.write(jsonEncode(uniqueUpModel.toJson()));
 
       HttpClientResponse response = await request.close();
@@ -97,7 +97,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uId" : googleAuthService.googleAuth.idToken.split('.').first,
+      "accessToken" : googleAuthService.googleAuth.accessToken,
       "Files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),
@@ -129,7 +129,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
-      "uId" : googleAuthService.googleAuth.idToken.split('.').first,
+      "accessToken" : googleAuthService.googleAuth.accessToken,
       "Files": new MultipartFile.fromBytes(
           filePickerResult.files.first.bytes.toList(),
           filename: filePickerResult.names.first),

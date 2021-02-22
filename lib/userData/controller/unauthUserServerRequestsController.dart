@@ -127,40 +127,9 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueCheckData> docxUniqueCheckRequest(
-      {FilePickerResult filePickerResult}) async {
-    try {
-      Dio dio = Dio();
-
-      FormData formData = new FormData.fromMap({
-        "Files": new MultipartFile.fromBytes(
-            filePickerResult.files.first.bytes.toList(),
-            filename: filePickerResult.names.first),
-      });
-
-      Response response = await dio
-          .post(
-              Uri.http(MainServerData.IP,
-                      MainServerData.unauthUserApi.docxUniqueUpApiUrl)
-                  .toString(),
-              data: formData,
-              options: Options(
-                responseType: ResponseType.bytes,
-              ))
-          .timeout(Duration(seconds: 60));
-
-      if (response.statusCode != 200) {
-        throw new ResponseException();
-      }
-
-      String responseString = await utf8.decoder.bind(response.data).join();
-      Map<String, dynamic> responseJson = jsonDecode(responseString);
-
-      UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
-      return uniqueCheckData;
-    } on TimeoutException {
-      throw ServerException();
-    }
+  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) {
+    // TODO: implement docxUniqueCheckRequest
+    throw UnimplementedError();
   }
 
   @override

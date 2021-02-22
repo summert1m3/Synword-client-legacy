@@ -46,7 +46,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
       backgroundColor: HexColor('#262626'),
       content: Container(
         width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 1.7,
+        height: MediaQuery.of(context).size.height / 1.5,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

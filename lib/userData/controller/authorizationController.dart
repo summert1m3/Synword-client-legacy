@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:synword/exceptions/responseException.dart';
+import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/currentUser.dart';
 import 'package:synword/userData/model/authUserData.dart';
@@ -29,9 +30,7 @@ class AuthorizationController {
     try {
       _currentUser.userData = AuthUserData();
       _currentUser.serverRequest = AuthUserServerRequestsController();
-      await _getAllUserDataFromServer(googleAuthService.googleAuth.idToken
-          .split('.')
-          .first);
+      await _getAllUserDataFromServer(googleAuthService.googleAuth.accessToken);
     }
     catch(ex){
       print(ex);
@@ -50,15 +49,15 @@ class AuthorizationController {
     print('isAuthorized: ${_currentUser.userData.isAuthorized}');
   }
 
-  Future<void> _getAllUserDataFromServer(String uId) async {
+  Future<void> _getAllUserDataFromServer(String accessToken) async {
       var url = MainServerData.protocol + MainServerData.IP + MainServerData.authUserApi.getAllUserData;
 
-      var response = await http.post(Uri.encodeFull(url), body: jsonEncode(uId), headers: {'Content-Type':'application/json'}).timeout(Duration(seconds: 5));
+      var response = await http.post(Uri.encodeFull(url), body: jsonEncode(accessToken), headers: {'Content-Type':'application/json'}).timeout(Duration(seconds: 5));
       print(response.body);
       print('Response status: ${response.statusCode}');
 
       if (response.statusCode != 200) {
-        throw ResponseException();
+        throw ServerException();
       }
 
       _currentUser.serverRequest.fromJson(jsonDecode(response.body));
