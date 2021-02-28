@@ -46,17 +46,17 @@ class _LangDialogState extends State<LangDialog> {
       backgroundColor: HexColor('#262626'),
       content: Container(
         width: MediaQuery.of(context).size.width / 3.2,
-        height: MediaQuery.of(context).size.height / 4.5,
+        height: MediaQuery.of(context).size.height / 3.2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Card(
-                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: (screenSize.width + screenSize.height) / 300),
                 color: HexColor('#4D4D4D'),
                 child: ListTile(
-                  contentPadding: EdgeInsets.only(left: 20),
-                  title: Text('English', style: TextStyle(color: Colors.white, fontFamily: 'Gardens')),
+                  contentPadding: EdgeInsets.only(left: (screenSize.width + screenSize.height) / 90),
+                  title: Text('English', style: TextStyle(color: Colors.white, fontFamily: 'Gardens', fontSize: (screenSize.width + screenSize.height) / 53)),
                   leading: SvgPicture.asset(
                     'icons/united-states.svg',
                     width: (screenSize.height / 30 + screenSize.width / 30),
@@ -75,11 +75,11 @@ class _LangDialogState extends State<LangDialog> {
                 height: 10
               ),
               Card(
-                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: (screenSize.width + screenSize.height) / 300),
                 color: HexColor('#4D4D4D'),
                 child: ListTile(
-                  contentPadding: EdgeInsets.only(left: 20),
-                  title: Text('Русский', style: TextStyle(color: Colors.white, fontFamily: 'Gardens')),
+                  contentPadding: EdgeInsets.only(left: (screenSize.width + screenSize.height) / 90),
+                  title: Text('Русский', style: TextStyle(color: Colors.white, fontFamily: 'Gardens', fontSize: (screenSize.width + screenSize.height) / 53)),
                   leading: SvgPicture.asset(
                     'icons/russia.svg',
                     width: (screenSize.height / 30 + screenSize.width / 30),
