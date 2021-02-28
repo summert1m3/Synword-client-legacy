@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/constants/googleProductId.dart';
 
 import 'package:synword/googleAuth/googleAuthService.dart';
 import '../dialogs/userProfileDialog.dart';
@@ -57,6 +58,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '100 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageFirstCardPrice',
+                        GoogleProductId.plagiarism_check_100,
                             () {
                           setState(() {});
                         }
@@ -66,6 +68,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '300 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageSecondCardPrice',
+                      GoogleProductId.plagiarism_check_300,
                           () {
                         setState(() {});
                       },
@@ -76,6 +79,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '600 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageThirdCardPrice',
+                      GoogleProductId.plagiarism_check_600,
                           () {
                         setState(() {});
                       },
@@ -86,6 +90,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '1000 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageFourthCardPrice',
+                      GoogleProductId.plagiarism_check_1000,
                           () {
                         setState(() {});
                       },

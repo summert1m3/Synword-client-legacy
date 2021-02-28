@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/layers/layersSetting.dart';
+import 'package:synword/userData/controller/authorizationController.dart';
 import 'splashScreen.dart';
 import 'home.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -21,6 +23,7 @@ class _ApplicationState extends State<Application> {
 
   Widget _createHome() {
     if (isSplashScreenVisible) {
+      _authorization();
       return SplashScreen(
         () {
          setState(() {
@@ -37,6 +40,10 @@ class _ApplicationState extends State<Application> {
     layersSetting = LayersSetting.initialize(70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
   }
 
+  Future<void> _authorization() async {
+    await googleAuthService.signInSilently();
+    await authController.authorization();
+  }
 
   @override
   Widget build(BuildContext context) {

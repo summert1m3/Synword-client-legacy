@@ -11,3 +11,5 @@ class CurrentUser {
   ServerRequestsInterface serverRequest;
   UserDataInterface userData;
 }
+
+CurrentUser currentUser = CurrentUser();

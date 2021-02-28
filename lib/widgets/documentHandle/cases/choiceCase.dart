@@ -81,7 +81,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                 color: HexColor('#5C5C5C'),
                 child: ListTile(
                   leading: Icon(Icons.loop, color: Colors.white),
-                  dense: false,
+                  dense: true,
                   title: Text(
                         'documentHandleChoiceCaseUniqueUp'.tr(),
                         style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 15),

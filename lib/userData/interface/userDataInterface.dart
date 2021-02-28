@@ -2,6 +2,8 @@ abstract class UserDataInterface {
 
   bool isAuthorized;
 
+  String uId;
+
   bool isPremium;
 
   int uniqueCheckMaxSymbolLimit;

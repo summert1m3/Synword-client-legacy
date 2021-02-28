@@ -7,6 +7,8 @@ class UnauthUserData implements UserDataInterface {
     isAuthorized = false;
     isPremium = false;
 
+    uId = 'unauthUser';
+
     uniqueCheckMaxSymbolLimit = DefaultUserRestrictions.uniqueCheckMaxSymbolLimit;
     uniqueUpMaxSymbolLimit = DefaultUserRestrictions.uniqueUpMaxSymbolLimit;
 
@@ -23,6 +25,8 @@ class UnauthUserData implements UserDataInterface {
   }
 
   bool isAuthorized;
+
+  String uId;
 
   bool isPremium;
 

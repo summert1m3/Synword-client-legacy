@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/monetization/purchases.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:synword/widgets/drawerMenu/drawerMenu.dart';
 import 'package:synword/widgets/body.dart';
@@ -8,10 +13,24 @@ import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  StreamSubscription<List<PurchaseDetails>> _subscription;
 
   Home(){
-    AuthorizationController user = AuthorizationController();
-    user.authorization();
+    iap.initialize();
+
+    final Stream purchaseUpdates =
+        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    _subscription = purchaseUpdates.listen((purchases) async {
+        for (PurchaseDetails purchase in purchases) {
+          if(purchase.productID != null) {
+            print('NEW PURCHASE');
+            await iap.verifyAndDeliverPurchase(purchase);
+            await authController.getAllUserDataFromServer(
+                googleAuthService.googleAuth.accessToken);
+            print('PURCHASE COMPLETED');
+          }
+        }
+    });
   }
 
   @override

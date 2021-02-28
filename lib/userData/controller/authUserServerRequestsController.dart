@@ -160,6 +160,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
   @override
   void fromJson(Map<String, dynamic> json) {
+    _userDataInterface.uId = json['uId'] as String;
     _userDataInterface.isPremium = json['isPremium'] as bool;
 
     _userDataInterface.uniqueCheckMaxSymbolLimit = json['uniqueCheckMaxSymbolLimit'] as int;

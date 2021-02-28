@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/currentUser.dart';
@@ -10,18 +9,25 @@ import 'package:synword/userData/model/unauthUserData.dart';
 import 'package:synword/constants/mainServerData.dart';
 import 'package:synword/userData/controller/authUserServerRequestsController.dart';
 import 'package:synword/userData/controller/unauthUserServerRequestsController.dart';
+import 'package:synword/network/ServerStatus.dart';
 
 class AuthorizationController {
   CurrentUser _currentUser = CurrentUser();
 
   Future<void> authorization() async {
-    if(googleAuthService.googleUser == null){
-      await googleAuthService.signInSilently();
+    try {
+      await ServerStatus.check();
+      if (googleAuthService.googleUser == null) {
+        await googleAuthService.signInSilently();
+      }
+      if (googleAuthService.googleUser != null) {
+        await _setAuth();
+      }
+      else {
+        _setUnauth();
+      }
     }
-    if (googleAuthService.googleUser != null){
-      await _setAuth();
-    }
-    else{
+    catch(ex){
       _setUnauth();
     }
   }
@@ -30,7 +36,7 @@ class AuthorizationController {
     try {
       _currentUser.userData = AuthUserData();
       _currentUser.serverRequest = AuthUserServerRequestsController();
-      await _getAllUserDataFromServer(googleAuthService.googleAuth.accessToken);
+      await getAllUserDataFromServer(googleAuthService.googleAuth.accessToken);
     }
     catch(ex){
       print(ex);
@@ -49,7 +55,7 @@ class AuthorizationController {
     print('isAuthorized: ${_currentUser.userData.isAuthorized}');
   }
 
-  Future<void> _getAllUserDataFromServer(String accessToken) async {
+  Future<void> getAllUserDataFromServer(String accessToken) async {
       var url = MainServerData.protocol + MainServerData.IP + MainServerData.authUserApi.getAllUserData;
 
       var response = await http.post(Uri.encodeFull(url), body: jsonEncode(accessToken), headers: {'Content-Type':'application/json'}).timeout(Duration(seconds: 5));
@@ -74,3 +80,5 @@ class AuthorizationController {
       print("documentUniqueUpRequests: " + _currentUser.userData.documentUniqueUpRequests.toString());
   }
 }
+
+AuthorizationController authController = AuthorizationController();

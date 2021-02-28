@@ -13,6 +13,8 @@ class AuthUserData implements UserDataInterface{
 
   bool isAuthorized;
 
+  String uId;
+
   bool isPremium;
 
   int uniqueCheckMaxSymbolLimit;
