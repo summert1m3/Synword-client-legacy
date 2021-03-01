@@ -24,8 +24,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       HttpClientRequest request = await client
           .postUrl(Uri.http(MainServerData.IP,
-          MainServerData.unauthUserApi.uniqueCheckApiUrl))
-          .timeout(Duration(seconds: 10));
+          MainServerData.unauthUserApi.uniqueCheckApiUrl));
       request.headers.set(
           HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
       request.write(jsonEncode(text));
@@ -61,8 +60,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       HttpClientRequest request = await client
           .postUrl(Uri.http(
-              MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl))
-          .timeout(Duration(seconds: 10));
+              MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl));
 
       request.headers.set(
           HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
@@ -110,7 +108,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
               options: Options(
                 responseType: ResponseType.bytes,
               ))
-          .timeout(Duration(seconds: 60));
+          .timeout(Duration(seconds: 80));
 
       if (response.statusCode == 500) {
         throw new ServerException();
