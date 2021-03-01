@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:synword/constants/defaultUserRestrictions.dart';
+import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTextForm.dart';
 import 'package:synword/widgets/layerTitle.dart';
@@ -32,7 +33,7 @@ class OriginalTextWidget extends StatelessWidget {
                     child: Container(
                         padding: const EdgeInsets.only(right: 15, top: 15),
                         child: Text(
-                            _textEditingController.text.length.toString() + '/' + DefaultUserRestrictions.uniqueUpMaxSymbolLimit.toString(),
+                            _textEditingController.text.length.toString() + '/' + currentUser.userData.uniqueUpMaxSymbolLimit.toString(),
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.normal,

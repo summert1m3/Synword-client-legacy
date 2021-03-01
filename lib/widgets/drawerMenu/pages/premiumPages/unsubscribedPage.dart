@@ -7,11 +7,8 @@ import 'package:synword/constants/googleProductId.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
-import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/drawerMenu/dialogs/userProfileDialog.dart';
 import 'package:synword/monetization/purchases.dart';
-import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedListPageCard.dart';
 
 class UnsubscribedPage extends StatelessWidget {
@@ -72,8 +69,7 @@ class UnsubscribedPage extends StatelessWidget {
                   SizedBox(
                     height: (screenSize.height + screenSize.width ) / 50,
                   ),
-                  Container(
-                    height: (screenSize.height + screenSize.width ) / 50,
+                  Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Builder(
                       builder: (context) => RaisedButton(

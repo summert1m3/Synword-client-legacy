@@ -35,7 +35,7 @@ class Purchase {
 
     if (_available) {
       await _getProducts();
-      await _getPastPurchases();
+      //await _getPastPurchases();
 
       // Verify and deliver a purchase with your own business logic
       if (_purchases.isNotEmpty) {

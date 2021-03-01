@@ -42,7 +42,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
 
   UniqueCheckLinksItem(
     this._website,
-    this._value
+    this._value,
   );
 
   Future _launchURL(String url) async {
@@ -62,7 +62,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
         children: [
           TextButton(
             child: Text(
-              _website,
+              Uri.parse(_website).scheme + '://' + Uri.parse(_website).host,
               style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
             ),
             onPressed: () async {

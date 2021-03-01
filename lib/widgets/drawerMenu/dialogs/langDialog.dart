@@ -43,7 +43,7 @@ class _LangDialogState extends State<LangDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      backgroundColor: HexColor('#262626'),
+      backgroundColor: HexColor('#2B2B2B'),
       content: Container(
         width: MediaQuery.of(context).size.width / 3.2,
         height: MediaQuery.of(context).size.height / 3.2,
@@ -53,7 +53,7 @@ class _LangDialogState extends State<LangDialog> {
             children: <Widget>[
               Card(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: (screenSize.width + screenSize.height) / 300),
-                color: HexColor('#4D4D4D'),
+                color: HexColor('#3C4042'),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: (screenSize.width + screenSize.height) / 90),
                   title: Text('English', style: TextStyle(color: Colors.white, fontFamily: 'Gardens', fontSize: (screenSize.width + screenSize.height) / 53)),
@@ -62,6 +62,7 @@ class _LangDialogState extends State<LangDialog> {
                     width: (screenSize.height / 30 + screenSize.width / 30),
                   ),
                   trailing: Radio<String>(
+                    activeColor: HexColor('#C70000'),
                     value: 'en',
                     groupValue: langCode,
                     onChanged: (val){
@@ -76,7 +77,7 @@ class _LangDialogState extends State<LangDialog> {
               ),
               Card(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: (screenSize.width + screenSize.height) / 300),
-                color: HexColor('#4D4D4D'),
+                color: HexColor('#3C4042'),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: (screenSize.width + screenSize.height) / 90),
                   title: Text('Русский', style: TextStyle(color: Colors.white, fontFamily: 'Gardens', fontSize: (screenSize.width + screenSize.height) / 53)),
@@ -85,6 +86,7 @@ class _LangDialogState extends State<LangDialog> {
                     width: (screenSize.height / 30 + screenSize.width / 30),
                   ),
                   trailing: Radio<String>(
+                    activeColor: HexColor('#C70000'),
                     value: 'ru',
                     groupValue: langCode,
                     onChanged: (val){

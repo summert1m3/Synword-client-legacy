@@ -29,7 +29,7 @@ class UniqueCheckResult extends StatelessWidget {
           color: HexColor('#5C5C5C'),
           child: Padding(
             padding: const EdgeInsets.only(
-                left: 16, top: 16, right: 16, bottom: 16),
+                left: 0, top: 16, right: 16, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

@@ -9,7 +9,7 @@ import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
-
+import 'package:sizer/sizer.dart';
 
 class ChoiceCase extends StatefulWidget {
   final Function _setStateCallback;
@@ -52,7 +52,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 20,
+              height: 3.0.h,
             ),
             Card(
               color: HexColor('#366CCA'),
@@ -62,10 +62,10 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                   children: [
                     Image(
                       image: AssetImage('icons/docx_logo.png'),
-                      height: 90,
+                      height: 15.0.h,
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 1.0.h,
                     ),
                     Text(docData.file.names.first,
                         style: TextStyle(
@@ -75,16 +75,16 @@ class _ChoiceCaseState extends State<ChoiceCase> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 2.0.h,
             ),
             Card(
                 color: HexColor('#5C5C5C'),
                 child: ListTile(
-                  leading: Icon(Icons.loop, color: Colors.white),
-                  dense: true,
+                  //leading: Icon(Icons.loop, color: Colors.white, size: 5.0.h,),
+                  dense: false,
                   title: Text(
                         'documentHandleChoiceCaseUniqueUp'.tr(),
-                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 15),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 12.0.sp),
                       ),
                   trailing: Switch(
                       activeColor: Colors.blue,
@@ -98,32 +98,33 @@ class _ChoiceCaseState extends State<ChoiceCase> {
             Card(
                 color: HexColor('#5C5C5C'),
                 child: ListTile(
-                  leading: Icon(Icons.check_circle, color: Colors.white),
+                  //leading: Icon(Icons.check_circle, color: Colors.white, size: 5.0.h),
                   dense: true,
                   title: Text(
                         'documentHandleChoiceCaseUniqueCheck'.tr(),
-                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 13),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 12.0.sp),
                       ),
                   subtitle: Text(
                     'documentHandleChoiceCaseUniqueCheckSubtitle'.tr(),
-                    style: TextStyle(color: Colors.amber, fontFamily: 'Roboto'),
+                    style: TextStyle(color: Colors.amber, fontFamily: 'Roboto', fontSize: 9.0.sp),
                   ),
-                  trailing: Switch(
-                      activeColor: Colors.blueAccent,
-                      value: uniqueCheckSwitchValue,
-                      onChanged: (value) {
-                        if(user.userData.isPremium == true){
-                          setState(() {
-                            uniqueCheckSwitchValue = value;
-                          });
-                        }
-                        else{
-
-                        }
-                      }),
+                  trailing: ButtonTheme(
+                    minWidth: 5.0.w,
+                    height: 5.0.h,
+                    child: Switch(
+                          activeColor: Colors.blueAccent,
+                          value: uniqueCheckSwitchValue,
+                          onChanged: (value) {
+                            if(user.userData.isPremium == true){
+                              setState(() {
+                                uniqueCheckSwitchValue = value;
+                              });
+                            }
+                          }),
+                  ),
                 )),
             SizedBox(
-              height: 15,
+              height: 2.0.h,
             ),
             RaisedButton(
               disabledColor: Colors.grey,

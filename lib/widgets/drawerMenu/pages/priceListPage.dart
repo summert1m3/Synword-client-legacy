@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/constants/googleProductId.dart';
@@ -72,7 +71,7 @@ class BuyPage extends MaterialPageRoute<void> {
                           () {
                         setState(() {});
                       },
-                      subtitle: 'выгода 10%',
+                      subtitle: '10% save',
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
@@ -83,7 +82,7 @@ class BuyPage extends MaterialPageRoute<void> {
                           () {
                         setState(() {});
                       },
-                      subtitle: 'выгода 15%',
+                      subtitle: '15% save',
                     ),
                     PriceListCard(
                       Icon(Icons.account_balance),
@@ -94,7 +93,7 @@ class BuyPage extends MaterialPageRoute<void> {
                           () {
                         setState(() {});
                       },
-                      subtitle: 'выгода 20%',
+                      subtitle: '20% save',
                     ),
                   ],
                 ),

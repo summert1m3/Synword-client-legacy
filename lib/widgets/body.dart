@@ -21,6 +21,8 @@ import 'package:synword/types.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'dart:async';
 
+import 'package:synword/userData/currentUser.dart';
+
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
@@ -111,7 +113,7 @@ class _BodyState extends State<Body> {
             throw TextShortLengthException();
           }
 
-          if (originalText.length > 20000) {
+          if (originalText.length > currentUser.userData.uniqueUpMaxSymbolLimit) {
             throw TextLongLengthException();
           }
 
@@ -265,7 +267,7 @@ class _BodyState extends State<Body> {
       throw TextShortLengthException();
     }
 
-    if (originalText.length > 20000) {
+    if (originalText.length > currentUser.userData.uniqueCheckMaxSymbolLimit) {
       throw TextLongLengthException();
     }
 

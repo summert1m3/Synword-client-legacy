@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screen_util.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class UnsubscribedListPageCard extends StatelessWidget {

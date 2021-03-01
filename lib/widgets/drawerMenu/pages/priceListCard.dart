@@ -7,6 +7,7 @@ import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/monetization/purchases.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
+import 'package:sizer/sizer.dart';
 
 class PriceListCard extends StatelessWidget {
   final Icon leadingIcon;
@@ -25,40 +26,45 @@ class PriceListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      margin: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+      margin: EdgeInsets.only(top: 3.0.h, left: 30.0, right: 30.0),
       child: ListTile(
         onTap: () => {},
         leading: leadingIcon,
         title: Text(
           title + titleTr.tr(),
-          style: TextStyle(fontFamily: 'Roboto', fontSize: 17),
+          style: TextStyle(fontFamily: 'Roboto', fontSize: 13.0.sp),
         ),
         subtitle: this.subtitle == null
             ? null
             : Text(subtitle,
-                style: TextStyle(color: Colors.grey, fontFamily: 'Roboto')),
+                style: TextStyle(color: Colors.grey, fontFamily: 'Roboto', fontSize: 10.0.sp)),
         dense: true,
         trailing: SizedBox(
           height: double.infinity,
           child: Builder(
-            builder: (context) => RaisedButton(
-              splashColor: Colors.white,
-              color: Colors.red,
-              onPressed: () =>
-                  _subscribeCallback(updateAccountIconCallback, context, productId),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.account_balance_wallet,
-                    color: Colors.white,
-                  ),
-                  Text(price,
-                          style: TextStyle(
-                              color: Colors.white, fontFamily: 'Roboto'))
-                      .tr(),
-                ],
+            builder: (context) => ButtonTheme(
+              minWidth: 20.0.w,
+              height: 10.0.h,
+              child: RaisedButton(
+                splashColor: Colors.white,
+                color: Colors.red,
+                onPressed: () =>
+                    _subscribeCallback(updateAccountIconCallback, context, productId),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.account_balance_wallet,
+                      color: Colors.white,
+                      //size: 3.0.h,
+                    ),
+                    Text(price,
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'Roboto', fontSize: 10.0.sp))
+                        .tr(),
+                  ],
+                ),
               ),
             ),
           ),

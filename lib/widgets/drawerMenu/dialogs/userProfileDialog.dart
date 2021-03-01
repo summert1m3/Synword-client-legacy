@@ -20,7 +20,7 @@ class UserProfileDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      backgroundColor: HexColor('#262626'),
+      backgroundColor: HexColor('#2B2B2B'),
       content: Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 3.5,

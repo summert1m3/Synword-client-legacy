@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer_util.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/layers/layersSetting.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
@@ -52,25 +53,35 @@ class _ApplicationState extends State<Application> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return WiredashApp(
-      navigatorKey: _navigatorKey,
-      child: MaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        navigatorKey: _navigatorKey,
-        title: 'SynWord',
-        home: _createHome(),
-        builder: (context,navigator){
-          var lang = EasyLocalization.of(context).locale.languageCode;
-          return Theme(
-            data: ThemeData(
-                fontFamily: lang == 'ru' ? 'Gardens' : 'Audrey'
-            ),
-            child: navigator,
-          );
-        },
-      ),
+    return LayoutBuilder(                           //return LayoutBuilder
+      builder: (context, constraints) {
+        return OrientationBuilder(                  //return OrientationBuilder
+          builder: (context, orientation) {
+            //initialize SizerUtil()
+            SizerUtil().init(constraints, orientation);  //initialize SizerUtil
+            return WiredashApp(
+              navigatorKey: _navigatorKey,
+              child: MaterialApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                navigatorKey: _navigatorKey,
+                title: 'SynWord',
+                home: _createHome(),
+                builder: (context,navigator){
+                  var lang = EasyLocalization.of(context).locale.languageCode;
+                  return Theme(
+                    data: ThemeData(
+                        fontFamily: lang == 'ru' ? 'Gardens' : 'Audrey'
+                    ),
+                    child: navigator,
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
