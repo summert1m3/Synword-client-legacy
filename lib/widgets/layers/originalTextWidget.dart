@@ -33,7 +33,7 @@ class OriginalTextWidget extends StatelessWidget {
                     child: Container(
                         padding: const EdgeInsets.only(right: 15, top: 15),
                         child: Text(
-                            _textEditingController.text.length.toString() + '/' + currentUser.userData.uniqueUpMaxSymbolLimit.toString(),
+                            _textEditingController.text.length.toString() + '/' + DefaultUserRestrictions.uniqueUpMaxSymbolLimit.toString(),
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.normal,
