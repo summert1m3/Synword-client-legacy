@@ -18,7 +18,7 @@ class ButtonBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: MediaQuery.of(context).copyWith().size.height - 170,
+        top: MediaQuery.of(context).copyWith().size.height - 175,
         child: BodyButtonBar(
             _isFirstFloatingActionButtonVisible,
             _isSecondFloatingActionButtonVisible,

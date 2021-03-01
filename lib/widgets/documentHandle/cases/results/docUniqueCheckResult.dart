@@ -7,38 +7,44 @@ import 'package:synword/widgets/waveBar.dart';
 class UniqueCheckResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        Card(
-          color: HexColor('#505050'),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                WaveBar(docData.uniqueCheckData.percent/100),
-              ],
+    final Size screenSize = MediaQuery.of(context).size;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Card(
+            color: HexColor('#505050'),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  WaveBar(docData.uniqueCheckData.percent / 100),
+                ],
+              ),
             ),
           ),
-        ),
-        Card(
-          color: HexColor('#5C5C5C'),
-          child: Padding(
+          Padding(
             padding: const EdgeInsets.only(
-                left: 0, top: 16, right: 16, bottom: 16),
+                left: 0, top: 16.0, right: 0, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                UniqueCheckLinks(docData.uniqueCheckData, 155),
+                UniqueCheckLinks(
+                  docData.uniqueCheckData,
+                  screenSize.height - (screenSize.height / 1.3),
+                  textColor: Colors.white,
+                  axis: Axis.horizontal,
+                ),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

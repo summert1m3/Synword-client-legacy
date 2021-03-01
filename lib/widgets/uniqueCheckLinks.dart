@@ -5,17 +5,23 @@ import 'package:url_launcher/url_launcher.dart';
 class UniqueCheckLinks extends StatelessWidget {
   final UniqueCheckData _uniqueCheckData;
   final double _height;
+  final Color _textColor;
+  final Axis _axis;
 
   UniqueCheckLinks(
     this._uniqueCheckData,
-    this._height
-  );
+    this._height, {
+      Color textColor = Colors.black,
+      Axis axis = Axis.vertical
+    }
+  ) : _textColor = textColor,
+      _axis = axis;
 
   List<Widget> _createLinksItems(UniqueCheckData uniqueCheckData) {
     List<Widget> linksItems = List<Widget>();
 
     uniqueCheckData.matches.forEach((element) {
-      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt()));
+      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt(), _textColor));
     });
 
     return linksItems;
@@ -29,7 +35,14 @@ class UniqueCheckLinks extends StatelessWidget {
         thickness: 5,
         radius: Radius.circular(10),
         child: ListView(
-          children: _createLinksItems(_uniqueCheckData),
+          children: [
+            SingleChildScrollView(
+              scrollDirection: _axis,
+              child: Column(
+                children: _createLinksItems(_uniqueCheckData),
+              ),
+            )
+          ],
         ),
       )
     );
@@ -39,10 +52,12 @@ class UniqueCheckLinks extends StatelessWidget {
 class UniqueCheckLinksItem extends StatelessWidget {
   final String _website;
   final int _value;
+  final Color _textColor;
 
   UniqueCheckLinksItem(
     this._website,
     this._value,
+    this._textColor
   );
 
   Future _launchURL(String url) async {
@@ -55,6 +70,8 @@ class UniqueCheckLinksItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 10),
       child: Row(
@@ -63,7 +80,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
           TextButton(
             child: Text(
               Uri.parse(_website).scheme + '://' + Uri.parse(_website).host,
-              style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
+              style: TextStyle(color: _textColor, fontSize: (screenSize.height + screenSize.width) / 50, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
             ),
             onPressed: () async {
               await _launchURL(_website);
