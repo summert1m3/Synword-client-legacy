@@ -39,7 +39,6 @@ class UniqueCheckResult extends StatelessWidget {
                     docData.uniqueCheckData,
                     screenSize.height - (screenSize.height / 1.3),
                     textColor: Colors.white,
-                    axis: Axis.horizontal,
                     scheme: false,
                   ),
                 ],

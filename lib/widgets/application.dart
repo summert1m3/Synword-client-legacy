@@ -24,7 +24,6 @@ class _ApplicationState extends State<Application> {
 
   Widget _createHome() {
     if (isSplashScreenVisible) {
-      _authorization();
       return SplashScreen(
         () {
          setState(() {
@@ -39,11 +38,6 @@ class _ApplicationState extends State<Application> {
 
   void _initializeLayersSetting(BuildContext context) {
     layersSetting = LayersSetting.initialize(70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
-  }
-
-  Future<void> _authorization() async {
-    await googleAuthService.signInSilently();
-    await authController.authorization();
   }
 
   @override

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:hexcolor/hexcolor.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/userData/controller/authorizationController.dart';
 
 typedef SplashScreenCallback = void Function();
 
@@ -28,7 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _authorization();
     Timer(Duration(seconds: 3), () => _splashScreenCallback());
+  }
+
+  Future<void> _authorization() async {
+    await googleAuthService.signInSilently();
+    await authController.authorization();
   }
 
   @override
