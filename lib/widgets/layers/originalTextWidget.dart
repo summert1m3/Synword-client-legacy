@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:synword/constants/defaultUserRestrictions.dart';
-import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTextForm.dart';
 import 'package:synword/widgets/layerTitle.dart';

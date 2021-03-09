@@ -7,6 +7,4 @@ class DefaultUserRestrictions{
 
   static const int uniqueCheckRequests = 10;
   static const int uniqueUpRequests = 1000;
-
-  static const int documentUniqueUpRequests = 30;
 }

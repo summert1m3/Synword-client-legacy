@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:synword/constants/googleProductId.dart';
 
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/monetization/purchases.dart';
@@ -83,11 +82,11 @@ Future<void> _subscribeCallback(
       if (googleAuthService.googleUser != null) {
         await authController.authorization();
         //монетизация
-        await iap.buyConsumableProduct(productId);
+        await monetization.buyConsumableProduct(productId);
       }
     } else {
       //монетизация
-      await iap.buyConsumableProduct(productId);
+      await monetization.buyConsumableProduct(productId);
     }
     updateAccountIconCallback();
   } on PlatformException catch (ex) {

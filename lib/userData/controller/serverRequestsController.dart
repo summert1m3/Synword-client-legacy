@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/userData/currentUser.dart';
@@ -19,16 +19,16 @@ class ServerRequestsController {
   }
 
   Future<Response> docxUniqueUpRequest(
-      {FilePickerResult filePickerResult}) async {
+      {FileData file}) async {
     await ServerStatus.check();
     return await _currentUser.serverRequest
-        .docxUniqueUpRequest(filePickerResult: filePickerResult);
+        .docxUniqueUpRequest(file: file);
   }
 
   Future<UniqueCheckData> docxUniqueCheckRequest(
-      {FilePickerResult filePickerResult}) async {
+      {FileData file}) async {
     await ServerStatus.check();
     return await _currentUser.serverRequest
-        .docxUniqueCheckRequest(filePickerResult: filePickerResult);
+        .docxUniqueCheckRequest(file: file);
   }
 }

@@ -7,21 +7,24 @@ class UniqueCheckLinks extends StatelessWidget {
   final double _height;
   final Color _textColor;
   final Axis _axis;
+  final bool _scheme;
 
   UniqueCheckLinks(
     this._uniqueCheckData,
     this._height, {
       Color textColor = Colors.black,
-      Axis axis = Axis.vertical
+      Axis axis = Axis.vertical,
+        bool scheme = true
     }
   ) : _textColor = textColor,
-      _axis = axis;
+      _axis = axis,
+      _scheme = scheme;
 
   List<Widget> _createLinksItems(UniqueCheckData uniqueCheckData) {
     List<Widget> linksItems = List<Widget>();
 
     uniqueCheckData.matches.forEach((element) {
-      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt(), _textColor));
+      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt(), _textColor, _scheme));
     });
 
     return linksItems;
@@ -53,11 +56,13 @@ class UniqueCheckLinksItem extends StatelessWidget {
   final String _website;
   final int _value;
   final Color _textColor;
+  final bool _scheme;
 
   UniqueCheckLinksItem(
     this._website,
     this._value,
-    this._textColor
+    this._textColor,
+    this._scheme
   );
 
   Future _launchURL(String url) async {
@@ -79,7 +84,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
         children: [
           TextButton(
             child: Text(
-              Uri.parse(_website).scheme + '://' + Uri.parse(_website).host,
+              _scheme == true ? Uri.parse(_website).scheme + '://' + Uri.parse(_website).host : Uri.parse(_website).host,
               style: TextStyle(color: _textColor, fontSize: (screenSize.height + screenSize.width) / 50, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
             ),
             onPressed: () async {

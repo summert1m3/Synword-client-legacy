@@ -1,79 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/controller/authorizationController.dart';
+import 'package:synword/widgets/drawerMenu/dialogs/authProfileDialog.dart';
+import 'package:synword/widgets/drawerMenu/dialogs/unauthProfileDialog.dart';
 
-typedef UpdateAccountIconCallback = void Function();
+class UserProfileDialog extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _UserProfileDialogState();
+}
 
-class UserProfileDialog extends StatelessWidget {
-  final UpdateAccountIconCallback _updateAccountIconCallback;
-
-  UserProfileDialog(
-      this._updateAccountIconCallback
-      );
+class _UserProfileDialogState extends State<UserProfileDialog> {
+  static Function _setUserProfileState;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      backgroundColor: HexColor('#2B2B2B'),
-      content: Container(
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 3.5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              color: Colors.indigoAccent,
-              child: ListTile(
-                leading: GoogleUserCircleAvatar(
-                  identity: googleAuthService.googleUser,
-                  placeholderPhotoUrl: googleAuthService.googleUser.photoUrl,
-                ),
-                title: Text(googleAuthService.googleUser.displayName ?? '', style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
-                subtitle: Text(googleAuthService.googleUser.email ?? '', style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            RaisedButton(
-              color: HexColor('#E1B34F'),
-              onPressed: () => _signOutCallback(context, updateAccountIconCallback: _updateAccountIconCallback),
-              child: const Text('googleSignOut', style: TextStyle(fontFamily: 'Roboto')).tr(),
-            )
-          ],
-        ),
-      ),
-    );
+    _setUserProfileState = () => setState(() {});
+    return
+      googleAuthService.googleUser != null ? AuthProfileDialog(_setUserProfileState) : UnauthProfileDialog(_setUserProfileState);
   }
-}
-
-Future<void> _signOutCallback(BuildContext context, {Function updateAccountIconCallback}) async{
-  try {
-    AuthorizationController user = AuthorizationController();
-
-    await googleAuthService.signOut();
-    await user.authorization();
-
-    Navigator.of(context).pop();
-    updateAccountIconCallback();
-  }
-  catch(error){
-    print(error);
-  }
-}
-
-void showUserProfileDialog(BuildContext context, Function updateAccountIconCallback) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return UserProfileDialog(updateAccountIconCallback);
-    },
-  );
 }

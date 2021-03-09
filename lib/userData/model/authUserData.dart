@@ -22,6 +22,4 @@ class AuthUserData implements UserDataInterface{
 
   int uniqueCheckRequests;
   int uniqueUpRequests;
-
-  int documentUniqueUpRequests;
 }

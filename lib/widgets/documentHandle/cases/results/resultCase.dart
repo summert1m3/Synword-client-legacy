@@ -7,7 +7,6 @@ import 'docUniqueCheckResult.dart';
 import 'docUpAndCheckResult.dart';
 
 class ResultCase extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _ResultCaseState();
 }
@@ -42,12 +41,5 @@ class _ResultCaseState extends State<ResultCase> {
         child: result,
       ),
     );
-    }
-
-  @override
-  void dispose() {
-    print('reset');
-    docData.reset();
-    super.dispose();
   }
 }

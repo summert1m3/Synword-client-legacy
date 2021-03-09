@@ -51,5 +51,7 @@
   "textLongLengthException": "Limit: 20,000 characters",
 
   "dailyLimitReached": "You have used all available queries for today",
-  "maxSymbolLimitReached": "Your text is too big"
+  "maxSymbolLimitReached": "Your text is too big",
+
+  "unauthProfileDialogTitle": "Sign in with:"
 }

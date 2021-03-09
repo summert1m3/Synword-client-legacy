@@ -51,5 +51,7 @@
   "textLongLengthException": "Ограничение: 20.000 символов",
 
   "dailyLimitReached": "Вы использовали все доступные запросы на сегодня",
-  "maxSymbolLimitReached": "Ваш текст слишком большой"
+  "maxSymbolLimitReached": "Ваш текст слишком большой",
+
+  "unauthProfileDialogTitle": "Войдите с помощью:"
 }

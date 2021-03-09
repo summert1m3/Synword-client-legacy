@@ -11,7 +11,6 @@ import 'package:synword/layers/movingLayer.dart';
 import 'package:synword/layers/originalTextLayer.dart';
 import 'package:synword/layers/originalTextUniqueCheckLayer.dart';
 import 'package:synword/layers/twoTextUniqueCheckLayer.dart';
-import 'package:synword/layers/uniqueCheckLayer.dart';
 import 'package:synword/layers/uniqueTextLayer.dart';
 import 'package:synword/layers/uniqueTextUniqueCheckLayer.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
@@ -224,7 +223,7 @@ class _BodyState extends State<Body> {
         });
       }
     } on ServerException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
     } on DailyLimitReachedException catch(ex){
       throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
@@ -253,7 +252,7 @@ class _BodyState extends State<Body> {
         uniqueCheckLayer.setUniqueTextCheckData(uniqueUniqueCheckData);
       });
     } on ServerException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
     } on DailyLimitReachedException catch(ex){
       throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
@@ -292,7 +291,7 @@ class _BodyState extends State<Body> {
         });
       }
     } on ServerException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
     } on DailyLimitReachedException catch(ex){
       throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }

@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:synword/constants/googleProductId.dart';
 import 'package:synword/constants/mainServerData.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/currentUser.dart';
 import 'package:synword/userData/model/apiParams/purchaseModel.dart';
 
 class Purchase {
@@ -24,10 +21,6 @@ class Purchase {
   /// Past purchases
   List<PurchaseDetails> _purchases = [];
 
-  /// Updates to purchases
-  StreamSubscription _subscription;
-
-
   /// Initialize data
   void initialize() async {
     // Check availability of In App Purchases
@@ -35,7 +28,7 @@ class Purchase {
 
     if (_available) {
       await _getProducts();
-      //await _getPastPurchases();
+      await _getPastPurchases();
 
       // Verify and deliver a purchase with your own business logic
       if (_purchases.isNotEmpty) {
@@ -48,7 +41,13 @@ class Purchase {
 
   /// Get all products available for sale
   Future<void> _getProducts() async {
-    Set<String> ids = Set.from([GoogleProductId.premium, GoogleProductId.plagiarism_check_100, GoogleProductId.plagiarism_check_300, GoogleProductId.plagiarism_check_600, GoogleProductId.plagiarism_check_1000]);
+    Set<String> ids = Set.from([
+      GoogleProductId.premium,
+      GoogleProductId.plagiarism_check_100,
+      GoogleProductId.plagiarism_check_300,
+      GoogleProductId.plagiarism_check_600,
+      GoogleProductId.plagiarism_check_1000
+    ]);
     ProductDetailsResponse response = await _iap.queryProductDetails(ids);
 
     _products = response.productDetails;
@@ -60,7 +59,8 @@ class Purchase {
     await _iap.queryPastPurchases();
 
     for (PurchaseDetails purchase in response.pastPurchases) {
-      verifyAndDeliverPurchase(purchase); // Verify the purchase following the best practices for each storefront.
+      verifyAndDeliverPurchase(
+          purchase); // Verify the purchase following the best practices for each storefront.
       if (Platform.isIOS) {
         // Mark that you've delivered the purchase. Only the App Store requires
         // this final confirmation.
@@ -103,20 +103,32 @@ class Purchase {
   }
 
   Future<void> buyNonConsumableProduct(String productId) async {
-    Set<String> id = Set.from([productId]);
-    ProductDetailsResponse response = await _iap.queryProductDetails(id);
-    PurchaseParam purchaseParam = PurchaseParam(productDetails: response.productDetails.first);
+    if (await _iap.isAvailable()) {
+      Set<String> id = Set.from([productId]);
+      ProductDetailsResponse response = await _iap.queryProductDetails(id);
+      PurchaseParam purchaseParam = PurchaseParam(
+          productDetails: response.productDetails.first);
 
-    await InAppPurchaseConnection.instance.buyNonConsumable(purchaseParam: purchaseParam);
+      await InAppPurchaseConnection.instance.buyNonConsumable(
+          purchaseParam: purchaseParam);
+    } else {
+      throw Exception();
+    }
   }
 
   Future<void> buyConsumableProduct(String productId) async {
-    Set<String> id = Set.from([productId]);
-    ProductDetailsResponse response = await _iap.queryProductDetails(id);
-    PurchaseParam purchaseParam = PurchaseParam(productDetails: response.productDetails.first);
+    if (await _iap.isAvailable()) {
+      Set<String> id = Set.from([productId]);
+      ProductDetailsResponse response = await _iap.queryProductDetails(id);
+      PurchaseParam purchaseParam = PurchaseParam(
+          productDetails: response.productDetails.first);
 
-    await InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+      await InAppPurchaseConnection.instance.buyConsumable(
+          purchaseParam: purchaseParam);
+    } else {
+      throw Exception();
+    }
   }
 }
 
-Purchase iap = Purchase();
+Purchase monetization = Purchase();

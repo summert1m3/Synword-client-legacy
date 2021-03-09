@@ -76,8 +76,6 @@ class AuthorizationController {
 
       print("uniqueUpMaxSymbolLimit: " + _currentUser.userData.uniqueUpMaxSymbolLimit.toString());
       print("uniqueCheckMaxSymbolLimit: " + _currentUser.userData.uniqueCheckMaxSymbolLimit.toString());
-
-      print("documentUniqueUpRequests: " + _currentUser.userData.documentUniqueUpRequests.toString());
   }
 }
 

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/constants/googleProductId.dart';
 
-import 'package:synword/googleAuth/googleAuthService.dart';
-import '../dialogs/userProfileDialog.dart';
+import 'functions/functions.dart';
 import 'priceListCard.dart';
 
 class BuyPage extends MaterialPageRoute<void> {
@@ -23,10 +22,10 @@ class BuyPage extends MaterialPageRoute<void> {
                 backgroundColor: Colors.black,
                 centerTitle: true,
                 actions: [
-                  _accountButtonVisibility(context,
-                        () {
-                    setState(() {});
-                  },
+                  IconButton(
+                    icon: Icon(Icons.account_circle),
+                    iconSize: 40,
+                    onPressed: () => showUserProfileDialog(context),
                   )
                 ],
               ),
@@ -44,31 +43,29 @@ class BuyPage extends MaterialPageRoute<void> {
                       height: 15,
                     ),
                     Text('priceListPageTitle',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto'
-                        )).tr(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto'))
+                        .tr(),
                     SizedBox(
                       height: 10,
                     ),
                     PriceListCard(
-                      Icon(Icons.account_balance),
-                      '100 ',
-                      'priceListPageUniqueCheckCardContent',
-                      'priceListPageFirstCardPrice',
-                        GoogleProductId.plagiarism_check_100,
-                            () {
-                          setState(() {});
-                        }
-                    ),
+                        Icon(Icons.account_balance),
+                        '100 ',
+                        'priceListPageUniqueCheckCardContent',
+                        'priceListPageFirstCardPrice',
+                        GoogleProductId.plagiarism_check_100, () {
+                      setState(() {});
+                    }),
                     PriceListCard(
                       Icon(Icons.account_balance),
                       '300 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageSecondCardPrice',
                       GoogleProductId.plagiarism_check_300,
-                          () {
+                      () {
                         setState(() {});
                       },
                       subtitle: '10% save',
@@ -79,7 +76,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageThirdCardPrice',
                       GoogleProductId.plagiarism_check_600,
-                          () {
+                      () {
                         setState(() {});
                       },
                       subtitle: '15% save',
@@ -90,7 +87,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageFourthCardPrice',
                       GoogleProductId.plagiarism_check_1000,
-                          () {
+                      () {
                         setState(() {});
                       },
                       subtitle: '20% save',
@@ -101,28 +98,4 @@ class BuyPage extends MaterialPageRoute<void> {
             );
           });
         });
-}
-
-//4 передачи функции updateAccountIconCallback
-IconButton _accountButtonVisibility(BuildContext context, Function updateAccountIconCallback) {
-  if (googleAuthService.googleUser != null) {
-    return IconButton(
-        icon: Icon(Icons.account_circle),
-        iconSize: 40,
-        onPressed: () => _showUserProfileDialog(context, updateAccountIconCallback));
-  } else {
-    return IconButton(
-      icon: Icon(Icons.account_circle),
-      onPressed: null,
-    );
-  }
-}
-
-void _showUserProfileDialog(BuildContext context, Function updateAccountIconCallback) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return UserProfileDialog(updateAccountIconCallback);
-    },
-  );
 }

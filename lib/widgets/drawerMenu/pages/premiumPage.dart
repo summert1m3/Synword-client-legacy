@@ -8,7 +8,6 @@ class PremiumPage extends MaterialPageRoute<void> {
 
   PremiumPage()
       : super(builder: (BuildContext context) {
-          final screenSize = MediaQuery.of(context).size;
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 premuimPageSetState = () => setState(() {});

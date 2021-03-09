@@ -16,7 +16,6 @@ class Home extends StatelessWidget {
   StreamSubscription<List<PurchaseDetails>> _subscription;
 
   Home(){
-    iap.initialize();
 
     final Stream purchaseUpdates =
         InAppPurchaseConnection.instance.purchaseUpdatedStream;
@@ -24,12 +23,14 @@ class Home extends StatelessWidget {
         for (PurchaseDetails purchase in purchases) {
           if(purchase.productID != null) {
             print('NEW PURCHASE');
-            await iap.verifyAndDeliverPurchase(purchase);
+            await monetization.verifyAndDeliverPurchase(purchase);
             await authController.getAllUserDataFromServer(
                 googleAuthService.googleAuth.accessToken);
             print('PURCHASE COMPLETED');
           }
         }
+    }, onDone: () {
+      _subscription.cancel();
     });
   }
 

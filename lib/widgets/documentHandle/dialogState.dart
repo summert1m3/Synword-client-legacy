@@ -3,4 +3,5 @@ enum DialogState{
   choice,
   loading,
   finish,
+  error
 }

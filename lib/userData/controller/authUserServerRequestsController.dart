@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'dart:async';
 
 import 'package:synword/exceptions/dailyLimitReachedException.dart';
-import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
@@ -36,14 +35,14 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       HttpClientResponse response = await request.close();
 
-      if (response.statusCode == 500) {
-        throw new ServerException();
-      }
-
       String responseString = await utf8.decoder.bind(response).join();
 
       if (response.statusCode == 400 && responseString == "dailyLimitReached") {
         throw new DailyLimitReachedException();
+      }
+
+      if (response.statusCode != 200) {
+        throw new ServerException(responseString);
       }
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
@@ -71,14 +70,14 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
       HttpClientResponse response = await request.close();
 
-      if (response.statusCode == 500) {
-        throw new ServerException();
-      }
-
       String responseString = await utf8.decoder.bind(response).join();
 
       if (response.statusCode == 400 && responseString == "dailyLimitReached") {
         throw new DailyLimitReachedException();
+      }
+
+      if (response.statusCode != 200) {
+        throw new ServerException(responseString);
       }
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
@@ -92,15 +91,15 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
-  Future<Response> docxUniqueUpRequest({FilePickerResult filePickerResult}) async {
+  Future<Response> docxUniqueUpRequest({FileData file}) async {
     try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
       "accessToken" : googleAuthService.googleAuth.accessToken,
       "Files": new MultipartFile.fromBytes(
-          filePickerResult.files.first.bytes.toList(),
-          filename: filePickerResult.names.first),
+          file.bytes,
+          filename: file.name),
     });
 
     Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueUpApiUrl).toString(),
@@ -109,12 +108,12 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
           responseType: ResponseType.bytes,
         )).timeout(Duration(seconds: 80));
 
-    if (response.statusCode == 500) {
-      throw new ServerException();
-    }
-
     if (response.statusCode == 400 && response.data == "dailyLimitReached") {
       throw new DailyLimitReachedException();
+    }
+
+    if (response.statusCode != 200) {
+      throw new ServerException(response.data.toString());
     }
 
     return response;
@@ -124,27 +123,27 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
   }
 
   @override
-  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) async {
+  Future<UniqueCheckData> docxUniqueCheckRequest({FileData file}) async {
     try{
     Dio dio = Dio();
 
     FormData formData = new FormData.fromMap({
       "accessToken" : googleAuthService.googleAuth.accessToken,
       "Files": new MultipartFile.fromBytes(
-          filePickerResult.files.first.bytes.toList(),
-          filename: filePickerResult.names.first),
+          file.bytes,
+          filename: file.name),
     });
 
     Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueCheckApiUrl).toString(),
         data: formData,
     ).timeout(Duration(seconds: 80));
 
-    if (response.statusCode == 500) {
-      throw new ServerException();
-    }
-
     if (response.statusCode == 400 && response.data == "dailyLimitReached") {
       throw new DailyLimitReachedException();
+    }
+
+    if (response.statusCode != 200) {
+      throw new ServerException(response.data.toString());
     }
 
     String responseString = response.data;
@@ -168,7 +167,5 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
 
     _userDataInterface.uniqueCheckRequests = json['uniqueCheckRequests'] as int;
     _userDataInterface.uniqueUpRequests = json['uniqueUpRequests'] as int;
-
-    _userDataInterface.documentUniqueUpRequests = json['documentUniqueUpRequests'] as int;
   }
 }

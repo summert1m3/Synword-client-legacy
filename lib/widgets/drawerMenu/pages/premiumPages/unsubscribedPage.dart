@@ -7,8 +7,8 @@ import 'package:synword/constants/googleProductId.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
-import 'package:synword/widgets/drawerMenu/dialogs/userProfileDialog.dart';
 import 'package:synword/monetization/purchases.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/functions.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedListPageCard.dart';
 
 class UnsubscribedPage extends StatelessWidget {
@@ -32,7 +32,13 @@ class UnsubscribedPage extends StatelessWidget {
           ),
           backgroundColor: Colors.black,
           centerTitle: true,
-          actions: [_accountButtonVisibility()],
+          actions: [
+            IconButton(
+              icon: Icon(Icons.account_circle),
+              iconSize: 40,
+              onPressed: () => showUserProfileDialog(context),
+            ),
+          ],
         ),
         body: Container(
           margin: EdgeInsets.all(10),
@@ -40,50 +46,52 @@ class UnsubscribedPage extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(15)),
             color: Colors.white,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  UnsubscribedListPageCard(
-                    imagePath: 'icons/premiumPage/first.png',
-                    title: 'premiumPageFirstCardTitle',
-                    subtitle: 'premiumPageFirstCardContent',
-                  ),
-                  UnsubscribedListPageCard(
-                    imagePath: 'icons/premiumPage/limit.png',
-                    title: 'premiumPageSecondCardTitle',
-                    subtitle: 'premiumPageSecondCardContent',
-                  ),
-                  UnsubscribedListPageCard(
-                    imagePath: 'icons/premiumPage/file.png',
-                    title: 'premiumPageThirdCardTitle',
-                    subtitle: 'premiumPageThirdCardContent',
-                  ),
-                  UnsubscribedListPageCard(
-                    imagePath: 'icons/premiumPage/free.png',
-                    title: 'premiumPageFourthCardTitle',
-                    subtitle: 'premiumPageFourthCardContent',
-                  ),
-                  SizedBox(
-                    height: (screenSize.height + screenSize.width ) / 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Builder(
-                      builder: (context) => RaisedButton(
-                        color: HexColor('#E1B34F'),
-                        onPressed: () {
-                          _subscribeCallback();
-                        },
-                        child: const Text('premiumPageSubscribeButton',
-                                style: TextStyle(fontFamily: 'Roboto'))
-                            .tr(),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    UnsubscribedListPageCard(
+                      imagePath: 'icons/premiumPage/first.png',
+                      title: 'premiumPageFirstCardTitle',
+                      subtitle: 'premiumPageFirstCardContent',
+                    ),
+                    UnsubscribedListPageCard(
+                      imagePath: 'icons/premiumPage/limit.png',
+                      title: 'premiumPageSecondCardTitle',
+                      subtitle: 'premiumPageSecondCardContent',
+                    ),
+                    UnsubscribedListPageCard(
+                      imagePath: 'icons/premiumPage/file.png',
+                      title: 'premiumPageThirdCardTitle',
+                      subtitle: 'premiumPageThirdCardContent',
+                    ),
+                    UnsubscribedListPageCard(
+                      imagePath: 'icons/premiumPage/free.png',
+                      title: 'premiumPageFourthCardTitle',
+                      subtitle: 'premiumPageFourthCardContent',
+                    ),
+                    SizedBox(
+                      height: (screenSize.height + screenSize.width ) / 50,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Builder(
+                        builder: (context) => RaisedButton(
+                          color: HexColor('#E1B34F'),
+                          onPressed: () {
+                            _subscribeCallback();
+                          },
+                          child: const Text('premiumPageSubscribeButton',
+                                  style: TextStyle(fontFamily: 'Roboto'))
+                              .tr(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -91,29 +99,6 @@ class UnsubscribedPage extends StatelessWidget {
       );
     });
   }
-}
-
-IconButton _accountButtonVisibility() {
-  if (googleAuthService.googleUser != null) {
-    return IconButton(
-        icon: Icon(Icons.account_circle),
-        iconSize: 40,
-        onPressed: () => _showUserProfileDialog());
-  } else {
-    return IconButton(
-      icon: Icon(Icons.account_circle),
-      onPressed: null,
-    );
-  }
-}
-
-void _showUserProfileDialog() {
-  showDialog(
-    context: UnsubscribedPage.context,
-    builder: (BuildContext context) {
-      return UserProfileDialog(UnsubscribedPage.setState);
-    },
-  );
 }
 
 Future<void> _subscribeCallback() async {
@@ -124,11 +109,11 @@ Future<void> _subscribeCallback() async {
       if (googleAuthService.googleUser != null) {
         await authController.authorization();
         //монетизация
-        await iap.buyNonConsumableProduct(GoogleProductId.premium);
+        await monetization.buyNonConsumableProduct(GoogleProductId.premium);
       }
     } else {
       //монетизация
-      await iap.buyNonConsumableProduct(GoogleProductId.premium);
+      await monetization.buyNonConsumableProduct(GoogleProductId.premium);
     }
     UnsubscribedPage.setState();
   } on PlatformException catch (ex) {

@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/model/fileData.dart';
 import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
@@ -13,9 +16,7 @@ import 'package:sizer/sizer.dart';
 class ChoiceCase extends StatefulWidget {
   final Function _setStateCallback;
 
-  ChoiceCase(
-      this._setStateCallback
-      );
+  ChoiceCase(this._setStateCallback);
 
   @override
   State<StatefulWidget> createState() => _ChoiceCaseState(_setStateCallback);
@@ -27,9 +28,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   CurrentUser user = CurrentUser();
   final Function _setStateCallback;
 
-  _ChoiceCaseState(
-      this._setStateCallback
-  );
+  _ChoiceCaseState(this._setStateCallback);
 
   @override
   void initState() {
@@ -83,9 +82,12 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                     //leading: Icon(Icons.loop, color: Colors.white, size: 5.0.h,),
                     dense: false,
                     title: Text(
-                          'documentHandleChoiceCaseUniqueUp'.tr(),
-                          style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 12.0.sp),
-                        ),
+                      'documentHandleChoiceCaseUniqueUp'.tr(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 12.0.sp),
+                    ),
                     trailing: Switch(
                         activeColor: Colors.blue,
                         value: uniqueUpSwitchValue,
@@ -101,26 +103,32 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                     //leading: Icon(Icons.check_circle, color: Colors.white, size: 5.0.h),
                     dense: true,
                     title: Text(
-                          'documentHandleChoiceCaseUniqueCheck'.tr(),
-                          style: TextStyle(color: Colors.white, fontFamily: 'Roboto',fontSize: 12.0.sp),
-                        ),
+                      'documentHandleChoiceCaseUniqueCheck'.tr(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontSize: 12.0.sp),
+                    ),
                     subtitle: Text(
                       'documentHandleChoiceCaseUniqueCheckSubtitle'.tr(),
-                      style: TextStyle(color: Colors.amber, fontFamily: 'Roboto', fontSize: 9.0.sp),
+                      style: TextStyle(
+                          color: Colors.amber,
+                          fontFamily: 'Roboto',
+                          fontSize: 9.0.sp),
                     ),
                     trailing: ButtonTheme(
                       minWidth: 5.0.w,
                       height: 5.0.h,
                       child: Switch(
-                            activeColor: Colors.blueAccent,
-                            value: uniqueCheckSwitchValue,
-                            onChanged: (value) {
-                              if(user.userData.isPremium == true){
-                                setState(() {
-                                  uniqueCheckSwitchValue = value;
-                                });
-                              }
-                            }),
+                          activeColor: Colors.blueAccent,
+                          value: uniqueCheckSwitchValue,
+                          onChanged: (value) {
+                            if (user.userData.isPremium == true) {
+                              setState(() {
+                                uniqueCheckSwitchValue = value;
+                              });
+                            }
+                          }),
                     ),
                   )),
               SizedBox(
@@ -129,7 +137,11 @@ class _ChoiceCaseState extends State<ChoiceCase> {
               RaisedButton(
                 disabledColor: Colors.grey,
                 color: Colors.blueAccent,
-                onPressed: uniqueCheckSwitchValue == true || uniqueUpSwitchValue == true ? () => onClickButtonHandler(uniqueUpSwitchValue, uniqueCheckSwitchValue, _setStateCallback) : null,
+                onPressed: uniqueCheckSwitchValue == true ||
+                        uniqueUpSwitchValue == true
+                    ? () => onClickButtonHandler(uniqueUpSwitchValue,
+                        uniqueCheckSwitchValue, _setStateCallback)
+                    : null,
                 child: Text(
                   'documentHandleChoiceCaseButton'.tr(),
                   style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
@@ -143,37 +155,65 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   }
 }
 
-Future<void> onClickButtonHandler(bool uniqueUpSwitchValue, bool uniqueCheckSwitchValue, Function setStateCallback) async{
-    docData.uniqueUp = uniqueUpSwitchValue;
-    docData.uniqueCheck = uniqueCheckSwitchValue;
-    setStateCallback(state: DialogState.loading);
+Future<void> onClickButtonHandler(bool uniqueUpSwitchValue,
+    bool uniqueCheckSwitchValue, Function setStateCallback) async {
+  docData.uniqueUp = uniqueUpSwitchValue;
+  docData.uniqueCheck = uniqueCheckSwitchValue;
+  setStateCallback(state: DialogState.loading);
 
-    if(uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true){
+  try {
+    if (uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true) {
       await uniqueUp();
       await uniqueCheck();
-    }
-    else if (uniqueUpSwitchValue == true){
+    } else if (uniqueUpSwitchValue == true) {
       await uniqueUp();
-    }
-    else if(uniqueCheckSwitchValue == true){
+    } else if (uniqueCheckSwitchValue == true) {
       await uniqueCheck();
     }
 
     setStateCallback(state: DialogState.finish);
+  } catch (_) {
+    setStateCallback(state: DialogState.error);
+  }
 }
 
-Future<void> uniqueUp() async{
+Future<void> uniqueUp() async {
+  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path);
+  FileData fileData = FileData();
+  fileData.name = docData.file.names.first;
+  fileData.bytes = fileBytes;
+
   ServerRequestsController serverRequest = ServerRequestsController();
-  Response docxUniqueUpResponse = await serverRequest.docxUniqueUpRequest(filePickerResult: docData.file);
+  Response response = await serverRequest.docxUniqueUpRequest(file: fileData);
 
   File file = File(
     join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
   );
 
-  file.writeAsBytesSync(docxUniqueUpResponse.data);
+  file.writeAsBytesSync(response.data);
 }
 
-Future<void> uniqueCheck() async{
+Future<void> uniqueCheck() async {
+  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path);
+  FileData fileData = FileData();
+  fileData.name = docData.file.names.first;
+  fileData.bytes = fileBytes;
+
   ServerRequestsController serverRequest = ServerRequestsController();
-  docData.uniqueCheckData = await serverRequest.docxUniqueCheckRequest(filePickerResult: docData.file);
+  docData.uniqueCheckData =
+      await serverRequest.docxUniqueCheckRequest(file: fileData);
+}
+
+Future<Uint8List> _readFileByte(String filePath) async {
+  Uri myUri = Uri.parse(filePath);
+  File audioFile = new File.fromUri(myUri);
+  Uint8List bytes;
+  await audioFile.readAsBytes().then((value) {
+    bytes = Uint8List.fromList(value);
+    print('reading of bytes is completed');
+  }).catchError((onError) {
+    print(
+        'Exception Error while reading audio from path:' + onError.toString());
+  });
+  return bytes;
 }

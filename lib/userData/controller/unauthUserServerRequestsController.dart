@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:synword/exceptions/dailyLimitReachedException.dart';
 import 'dart:async';
 
-import 'package:synword/exceptions/responseException.dart';
 import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
@@ -31,14 +30,14 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       HttpClientResponse response = await request.close();
 
-      if (response.statusCode == 500) {
-        throw new ServerException();
-      }
-
       String responseString = await utf8.decoder.bind(response).join();
 
       if (response.statusCode == 400 && responseString == "dailyLimitReached") {
         throw new DailyLimitReachedException();
+      }
+
+      if (response.statusCode != 200) {
+        throw new ServerException(responseString);
       }
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
@@ -67,14 +66,14 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       request.write(jsonEncode(text));
       HttpClientResponse response = await request.close();
 
-      if (response.statusCode == 500) {
-        throw new ServerException();
-      }
-
       String responseString = await utf8.decoder.bind(response).join();
 
       if (response.statusCode == 400 && responseString == "dailyLimitReached") {
         throw new DailyLimitReachedException();
+      }
+
+      if (response.statusCode != 200) {
+        throw new ServerException(responseString);
       }
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
@@ -89,14 +88,14 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
   @override
   Future<Response> docxUniqueUpRequest(
-      {FilePickerResult filePickerResult}) async {
+      {FileData file}) async {
     try {
       Dio dio = Dio();
 
       FormData formData = new FormData.fromMap({
         "Files": new MultipartFile.fromBytes(
-            filePickerResult.files.first.bytes.toList(),
-            filename: filePickerResult.names.first),
+            file.bytes,
+            filename: file.name),
       });
 
       Response response = await dio
@@ -110,12 +109,12 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
               ))
           .timeout(Duration(seconds: 80));
 
-      if (response.statusCode == 500) {
-        throw new ServerException();
-      }
-
       if (response.statusCode == 400 && response.data == "dailyLimitReached") {
         throw new DailyLimitReachedException();
+      }
+
+      if (response.statusCode != 200) {
+        throw new ServerException(response.data.toString());
       }
 
       return response;
@@ -125,7 +124,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueCheckData> docxUniqueCheckRequest({FilePickerResult filePickerResult}) {
+  Future<UniqueCheckData> docxUniqueCheckRequest({FileData file}) {
     // TODO: implement docxUniqueCheckRequest
     throw UnimplementedError();
   }
