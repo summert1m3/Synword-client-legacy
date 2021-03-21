@@ -24,14 +24,14 @@ class UniqueCheckLinks extends StatelessWidget {
     List<Widget> linksItems = List<Widget>();
 
     uniqueCheckData.matches.forEach((element) {
-      String url = element.url;
+      String urlTitle = element.url;
 
-      if (url.length > 20) {
-        url = url.substring(0, 17);
-        url += '...';
+      if (urlTitle.length > 20) {
+        urlTitle = urlTitle.substring(0, 17);
+        urlTitle += '...';
       }
 
-      linksItems.add(UniqueCheckLinksItem(url, element.percent.toInt(), _textColor, _scheme));
+      linksItems.add(UniqueCheckLinksItem(element.url, urlTitle, element.percent.toInt(), _textColor, _scheme));
     });
 
     return linksItems;
@@ -60,12 +60,13 @@ class UniqueCheckLinks extends StatelessWidget {
 }
 
 class UniqueCheckLinksItem extends StatelessWidget {
-  final String _website;
+  final String _websiteUrl;
+  final String _websiteTitle;
   final int _value;
   final Color _textColor;
   final bool _scheme;
 
-  UniqueCheckLinksItem(this._website, this._value, this._textColor, this._scheme);
+  UniqueCheckLinksItem(this._websiteUrl, this._websiteTitle, this._value, this._textColor, this._scheme);
 
   Future _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -86,11 +87,11 @@ class UniqueCheckLinksItem extends StatelessWidget {
         children: [
           TextButton(
             child: Text(
-              _scheme == true ? Uri.parse(_website).scheme + '://' + Uri.parse(_website).host : Uri.parse(_website).host,
+              _scheme == true ? Uri.parse(_websiteTitle).scheme + '://' + Uri.parse(_websiteTitle).host : Uri.parse(_websiteTitle).host,
               style: TextStyle(color: _textColor, fontSize: (screenSize.height + screenSize.width) / 50, fontFamily: 'Audrey', fontWeight: FontWeight.bold),
             ),
             onPressed: () async {
-              await _launchURL(_website);
+              await _launchURL(_websiteUrl);
             },
           ),
           Container(
