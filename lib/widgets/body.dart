@@ -312,7 +312,7 @@ class _BodyState extends State<Body> {
         context: context,
         dialogType: DialogType.ERROR,
         animType: AnimType.LEFTSLIDE,
-        title: 'Ошибка',
+        title: 'Ошибка'.tr(),
         desc: desc.tr(),
         btnCancelOnPress: () {},
         btnCancelText: 'Ок'

@@ -26,12 +26,12 @@ class UniqueCheckLinks extends StatelessWidget {
     uniqueCheckData.matches.forEach((element) {
       String url = element.url;
 
-      if (url.length > 25) {
-        url = url.substring(0, 22);
+      if (url.length > 20) {
+        url = url.substring(0, 17);
         url += '...';
       }
 
-      linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt(), _textColor, _scheme));
+      linksItems.add(UniqueCheckLinksItem(url, element.percent.toInt(), _textColor, _scheme));
     });
 
     return linksItems;

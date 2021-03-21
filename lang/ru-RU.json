@@ -59,5 +59,7 @@
   "a coin": "монету",
   "priceListSave": "скидка",
 
-  "resultHeader" : "Результат"
+  "resultHeader" : "Результат",
+
+  "alertDialogError" : "Ошибка"
 }

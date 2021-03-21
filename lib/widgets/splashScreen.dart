@@ -35,7 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkForUpdate() async {
     AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate().catchError((error) {});
 
-    if (updateInfo.updateAvailable) {
+    bool updateAvailable = updateInfo != null ? updateInfo.updateAvailable : false;
+
+    if (updateAvailable) {
       await InAppUpdate.performImmediateUpdate().catchError((error) {});
     }
   }

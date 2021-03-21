@@ -60,5 +60,7 @@
   "a coin": "a coin",
   "priceListSave": "save",
 
-  "resultHeader" : "Result"
+  "resultHeader" : "Result",
+
+  "alertDialogError" : "Error"
 }

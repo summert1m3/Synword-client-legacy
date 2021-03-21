@@ -60,7 +60,7 @@ class LayerTitle extends StatelessWidget {
                 Visibility(
                   child: Positioned(
                     top: 8,
-                    left: MediaQuery.of(context).copyWith().size.width - 1.0.w,
+                    left: MediaQuery.of(context).copyWith().size.width - 22.5.w,
                     child: Material(
                       color: Colors.transparent,
                       child: IconButton(
