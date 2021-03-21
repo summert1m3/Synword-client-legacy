@@ -24,6 +24,13 @@ class UniqueCheckLinks extends StatelessWidget {
     List<Widget> linksItems = List<Widget>();
 
     uniqueCheckData.matches.forEach((element) {
+      String url = element.url;
+
+      if (url.length > 25) {
+        url = url.substring(0, 22);
+        url += '...';
+      }
+
       linksItems.add(UniqueCheckLinksItem(element.url, element.percent.toInt(), _textColor, _scheme));
     });
 
@@ -58,12 +65,7 @@ class UniqueCheckLinksItem extends StatelessWidget {
   final Color _textColor;
   final bool _scheme;
 
-  UniqueCheckLinksItem(
-    this._website,
-    this._value,
-    this._textColor,
-    this._scheme
-  );
+  UniqueCheckLinksItem(this._website, this._value, this._textColor, this._scheme);
 
   Future _launchURL(String url) async {
     if (await canLaunch(url)) {

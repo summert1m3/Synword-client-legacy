@@ -22,7 +22,7 @@ class _UploadFileUIState extends State<UploadFileUI> {
 
   @override
   Widget build(BuildContext context) {
-    return dialogChoice(_state, (
+    return dialogChoice(context, _state, (
       {DialogState state}
     ) {
       setState(() {
@@ -32,13 +32,13 @@ class _UploadFileUIState extends State<UploadFileUI> {
   }
 }
 
-Widget dialogChoice(DialogState state, Function setStateCallback) {
+Widget dialogChoice(BuildContext context, DialogState state, Function setStateCallback) {
   switch (state) {
     case DialogState.start:
       return StartCase(setStateCallback);
       break;
     case DialogState.choice:
-      return ChoiceCase(setStateCallback);
+      return ChoiceCase(context, setStateCallback);
       break;
     case DialogState.loading:
       return LoadingCase();

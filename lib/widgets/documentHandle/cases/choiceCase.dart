@@ -8,27 +8,31 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/userData/currentUser.dart';
+import 'package:synword/widgets/documentHandle/cases/results/DocUpAndCheckResultPage.dart';
+import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResultPage.dart';
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'package:sizer/sizer.dart';
 
 class ChoiceCase extends StatefulWidget {
+  final BuildContext _context;
   final Function _setStateCallback;
 
-  ChoiceCase(this._setStateCallback);
+  ChoiceCase(this._context, this._setStateCallback);
 
   @override
-  State<StatefulWidget> createState() => _ChoiceCaseState(_setStateCallback);
+  State<StatefulWidget> createState() => _ChoiceCaseState(_context, _setStateCallback);
 }
 
 class _ChoiceCaseState extends State<ChoiceCase> {
+  final BuildContext _context;
   bool uniqueUpSwitchValue = true;
   bool uniqueCheckSwitchValue = false;
   CurrentUser user = CurrentUser();
   final Function _setStateCallback;
 
-  _ChoiceCaseState(this._setStateCallback);
+  _ChoiceCaseState(this._context, this._setStateCallback);
 
   @override
   void initState() {
@@ -139,7 +143,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                 color: Colors.blueAccent,
                 onPressed: uniqueCheckSwitchValue == true ||
                         uniqueUpSwitchValue == true
-                    ? () => onClickButtonHandler(uniqueUpSwitchValue,
+                    ? () => onClickButtonHandler(_context, uniqueUpSwitchValue,
                         uniqueCheckSwitchValue, _setStateCallback)
                     : null,
                 child: Text(
@@ -155,7 +159,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   }
 }
 
-Future<void> onClickButtonHandler(bool uniqueUpSwitchValue,
+Future<void> onClickButtonHandler(BuildContext context, bool uniqueUpSwitchValue,
     bool uniqueCheckSwitchValue, Function setStateCallback) async {
   docData.uniqueUp = uniqueUpSwitchValue;
   docData.uniqueCheck = uniqueCheckSwitchValue;
@@ -165,13 +169,19 @@ Future<void> onClickButtonHandler(bool uniqueUpSwitchValue,
     if (uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true) {
       await uniqueUp();
       await uniqueCheck();
+
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocUpAndCheckResultPage()));
+      Navigator.of(context).pop();
     } else if (uniqueUpSwitchValue == true) {
       await uniqueUp();
+
+      setStateCallback(state: DialogState.finish);
     } else if (uniqueCheckSwitchValue == true) {
       await uniqueCheck();
-    }
 
-    setStateCallback(state: DialogState.finish);
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocUniqueCheckResultPage()));
+      Navigator.of(context).pop();
+    }
   } catch (_) {
     setStateCallback(state: DialogState.error);
   }

@@ -53,5 +53,11 @@
   "dailyLimitReached": "Вы использовали все доступные запросы на сегодня",
   "maxSymbolLimitReached": "Ваш текст слишком большой",
 
-  "unauthProfileDialogTitle": "Войдите с помощью:"
+  "unauthProfileDialogTitle": "Войдите с помощью:",
+  "coins": "монеты",
+  "coin": "монета",
+  "a coin": "монету",
+  "priceListSave": "скидка",
+
+  "resultHeader" : "Результат"
 }

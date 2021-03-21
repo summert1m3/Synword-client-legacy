@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer_util.dart';
-import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/layers/layersSetting.dart';
-import 'package:synword/userData/controller/authorizationController.dart';
 import 'splashScreen.dart';
 import 'home.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -18,11 +16,10 @@ class Application extends StatefulWidget {
 }
 
 class _ApplicationState extends State<Application> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
   bool isSplashScreenVisible = true;
 
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
-  Widget _createHome() {
+  Widget _createHome(BuildContext context) {
     if (isSplashScreenVisible) {
       return SplashScreen(
         () {
@@ -38,6 +35,11 @@ class _ApplicationState extends State<Application> {
 
   void _initializeLayersSetting(BuildContext context) {
     layersSetting = LayersSetting.initialize(70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -61,7 +63,7 @@ class _ApplicationState extends State<Application> {
                 locale: context.locale,
                 navigatorKey: _navigatorKey,
                 title: 'SynWord',
-                home: _createHome(),
+                home: _createHome(context),
                 builder: (context,navigator){
                   var lang = EasyLocalization.of(context).locale.languageCode;
                   return Theme(

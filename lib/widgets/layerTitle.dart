@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:synword/layers/layersSetting.dart';
 import 'package:synword/types.dart';
+import 'package:sizer/sizer.dart';
 
 class LayerTitle extends StatelessWidget {
   final Text _title;
@@ -59,7 +60,7 @@ class LayerTitle extends StatelessWidget {
                 Visibility(
                   child: Positioned(
                     top: 8,
-                    left: MediaQuery.of(context).copyWith().size.width - 80,
+                    left: MediaQuery.of(context).copyWith().size.width - 1.0.w,
                     child: Material(
                       color: Colors.transparent,
                       child: IconButton(

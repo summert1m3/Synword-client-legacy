@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'docUniqueUpResult.dart';
 import 'docUniqueCheckResult.dart';

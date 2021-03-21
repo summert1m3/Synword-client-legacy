@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
@@ -10,15 +9,15 @@ import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:synword/widgets/documentHandle/uploadButtonWidget.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 class Home extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   StreamSubscription<List<PurchaseDetails>> _subscription;
 
-  Home(){
 
-    final Stream purchaseUpdates =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+  Home() {
+    final Stream purchaseUpdates = InAppPurchaseConnection.instance.purchaseUpdatedStream;
     _subscription = purchaseUpdates.listen((purchases) async {
         for (PurchaseDetails purchase in purchases) {
           if(purchase.productID != null) {
@@ -37,6 +36,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

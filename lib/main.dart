@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 void main() {
   InAppPurchaseConnection.enablePendingPurchases();
+
   runApp(EasyLocalization(
       child: Application(),
       supportedLocales: [

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:hexcolor/hexcolor.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 
-typedef SplashScreenCallback = void Function();
-
 class SplashScreen extends StatefulWidget {
-  final SplashScreenCallback _splashScreenCallback;
+  final Function _splashScreenCallback;
 
   SplashScreen(
     this._splashScreenCallback
@@ -21,22 +19,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SplashScreenCallback _splashScreenCallback;
+  Function _splashScreenCallback;
 
   _SplashScreenState(
     this._splashScreenCallback
   );
 
-  @override
-  void initState() {
-    super.initState();
-    _authorization();
+  void _initialize() async {
+    await _checkForUpdate();
+    await _authorization();
+
     Timer(Duration(seconds: 3), () => _splashScreenCallback());
+  }
+
+  Future<void> _checkForUpdate() async {
+    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate().catchError((error) {});
+
+    if (updateInfo.updateAvailable) {
+      await InAppUpdate.performImmediateUpdate().catchError((error) {});
+    }
   }
 
   Future<void> _authorization() async {
     await googleAuthService.signInSilently();
     await authController.authorization();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
   }
 
   @override

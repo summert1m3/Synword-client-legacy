@@ -1,5 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/exceptions/dailyLimitReachedException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/exceptions/textLongLengthException.dart';
@@ -19,15 +19,13 @@ import 'package:synword/network/internetChecker.dart';
 import 'package:synword/types.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'dart:async';
-
 import 'package:synword/userData/currentUser.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  Body(
-    this._scaffoldKey
-  );
+  Body(this._scaffoldKey);
 
   @override
   State<StatefulWidget> createState() {
@@ -91,14 +89,14 @@ class _BodyState extends State<Body> {
           });
         }
 
-        _showSnackBar(exception.getErrorMessage());
+        _showErrorAwesomeDialog(context, exception.getErrorMessage());
       } on TextShortLengthException {
-        _showSnackBar('uniqueCheckTextShortLengthException');
+        _showErrorAwesomeDialog(context, 'uniqueCheckTextShortLengthException');
       } on TextLongLengthException {
-        _showSnackBar('textLongLengthException');
+        _showErrorAwesomeDialog(context, 'textLongLengthException');
       }
     } else {
-      _showSnackBar('noInternet');
+      _showErrorAwesomeDialog(context, 'noInternet');
     }
   };
 
@@ -137,17 +135,17 @@ class _BodyState extends State<Body> {
               uniqueTextLayer.setUniqueUpData(uniqueUpData);
             });
           }
-        } catch(ex){
+        } catch (exception) {
           if (uniqueTextLayer != null) {
             setState(() {
-
               _deleteLayer(uniqueTextLayer.runtimeType);
             });
           }
-          _showSnackBar(ex.toString());
+
+          _showErrorAwesomeDialog(context, exception.toString());
         }
       } else {
-        _showSnackBar('noInternet');
+        _showErrorAwesomeDialog(context, 'noInternet');
       }
   };
 
@@ -222,10 +220,10 @@ class _BodyState extends State<Body> {
           uniqueCheckLayer.setUniqueTextCheckData(uniqueCheckData);
         });
       }
-    } on ServerException catch(ex){
-      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
-    } on DailyLimitReachedException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+    } on ServerException catch(exception) {
+      throw UniqueCheckException(exception.toString(), uniqueCheckLayer);
+    } on DailyLimitReachedException catch(exception) {
+      throw UniqueCheckException(exception.getErrorMessage(), uniqueCheckLayer);
     }
   }
 
@@ -303,20 +301,22 @@ class _BodyState extends State<Body> {
     layer.setCloseButtonCallback(_layerCloseButtonCallback(layer));
   }
 
-  void _showSnackBar(String message) {
-    Scaffold.of(context).hideCurrentSnackBar();
-    SnackBar snackBar = SnackBar(
-        content: Text(message.tr()),
-        duration: Duration(seconds: 2),
-    );
-
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
   void _addLayer(MovingLayer layer) {
     _layerList.add(layer);
     _setLayersDefaultOffset();
     _updateLayers();
+  }
+
+  void _showErrorAwesomeDialog(BuildContext context, String desc) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.LEFTSLIDE,
+        title: 'Ошибка',
+        desc: desc.tr(),
+        btnCancelOnPress: () {},
+        btnCancelText: 'Ок'
+    ).show();
   }
 
   void _deleteLayer(Type type) {

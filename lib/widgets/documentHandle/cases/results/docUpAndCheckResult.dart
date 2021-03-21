@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResult.dart';
-
 import 'package:synword/widgets/documentHandle/cases/results/docUniqueUpResult.dart';
 
 class ResultsCase extends StatefulWidget{

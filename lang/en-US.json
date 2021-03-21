@@ -26,10 +26,10 @@
 
   "priceListPageTitle": "Plagiarism Checker",
   "priceListPageUniqueCheckCardContent": "requests",
-  "priceListPageFirstCardPrice": "$",
-  "priceListPageSecondCardPrice": "$",
-  "priceListPageThirdCardPrice": "$",
-  "priceListPageFourthCardPrice": "$",
+  "priceListPageFirstCardPrice": "1,33 $",
+  "priceListPageSecondCardPrice": "3,76 $",
+  "priceListPageThirdCardPrice": "6,74 $",
+  "priceListPageFourthCardPrice": "10,77 $",
 
   "documentHandleChoiceCaseUniqueCheck": "Plagiarism Checker",
   "documentHandleChoiceCaseUniqueCheckSubtitle": "Premium feature",
@@ -53,5 +53,12 @@
   "dailyLimitReached": "You have used all available queries for today",
   "maxSymbolLimitReached": "Your text is too big",
 
-  "unauthProfileDialogTitle": "Sign in with:"
+  "unauthProfileDialogTitle": "Sign in with:",
+
+  "coins": "coins",
+  "coin": "coin",
+  "a coin": "a coin",
+  "priceListSave": "save",
+
+  "resultHeader" : "Result"
 }

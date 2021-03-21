@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:synword/widgets/drawerMenu/pages/coinPages/coinPage.dart';
 import 'package:wiredash/wiredash.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dialogs/langDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
-import 'package:synword/widgets/drawerMenu/pages/priceListPage.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -70,7 +69,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   'icons/buy_symbols.svg',
                   semanticsLabel: 'Buy',
                 ),
-                onPressed: () => Navigator.of(context).push(BuyPage()),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CoinPage())),
               ),
               SizedBox(
                 height: (screenSize.height + screenSize.width) / 160,

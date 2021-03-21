@@ -4,13 +4,14 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
+import 'package:sizer/sizer.dart';
 
 class AuthProfileDialog extends StatelessWidget {
   final Function _setState;
 
   AuthProfileDialog(
       this._setState,
-      );
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +34,12 @@ class AuthProfileDialog extends StatelessWidget {
                   identity: googleAuthService.googleUser,
                   placeholderPhotoUrl: googleAuthService.googleUser.photoUrl,
                 ),
-                title: Text(googleAuthService.googleUser.displayName ?? '', style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
-                subtitle: Text(googleAuthService.googleUser.email ?? '', style: TextStyle(color: Colors.white, fontFamily: 'Roboto')),
+                title: Text(googleAuthService.googleUser.displayName ?? '', style: TextStyle(fontSize: 15.0.sp,color: Colors.white, fontFamily: 'Roboto')),
+                subtitle: Text(googleAuthService.googleUser.email ?? '', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontFamily: 'Roboto')),
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 1.0.h,
             ),
             RaisedButton(
               color: HexColor('#E1B34F'),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/constants/googleProductId.dart';
-
 import 'functions/functions.dart';
 import 'priceListCard.dart';
 
@@ -9,6 +8,7 @@ class BuyPage extends MaterialPageRoute<void> {
   BuyPage()
       : super(builder: (BuildContext context) {
           final screenSize = MediaQuery.of(context).size;
+
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Scaffold(
