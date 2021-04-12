@@ -8,7 +8,7 @@ import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:synword/monetization/purchases.dart';
-import 'package:synword/widgets/drawerMenu/pages/functions/functions.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedListPageCard.dart';
 
 class UnsubscribedPage extends StatelessWidget {
@@ -104,10 +104,10 @@ class UnsubscribedPage extends StatelessWidget {
 Future<void> _subscribeCallback() async {
   try {
     await ServerStatus.check();
-    if (googleAuthService.googleUser == null) {
-      await googleAuthService.signIn();
-      if (googleAuthService.googleUser != null) {
-        await authController.authorization();
+    if (GoogleAuthService.googleUser == null) {
+      await GoogleAuthService.signIn();
+      if (GoogleAuthService.googleUser != null) {
+        await AuthorizationController.authorization();
         //монетизация
         await monetization.buyNonConsumableProduct(GoogleProductId.premium);
       }

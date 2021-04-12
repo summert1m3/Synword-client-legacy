@@ -1,49 +1,33 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'dart:async';
-
-import 'package:synword/exceptions/dailyLimitReachedException.dart';
+import 'package:synword/exceptions/notEnoughCoinsException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
+import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
-import 'package:synword/userData/interface/userDataInterface.dart';
-import 'package:synword/userData/model/apiParams/authUniqueCheck.dart';
-import 'package:synword/userData/model/apiParams/authUniqueUp.dart';
-import 'package:synword/userData/model/authUserData.dart';
 import 'package:synword/constants/mainServerData.dart';
 
-class AuthUserServerRequestsController implements ServerRequestsInterface{
+import '../currentUser.dart';
 
-  UserDataInterface _userDataInterface = AuthUserData();
+class AuthUserServerRequestsController implements ServerRequestsInterface {
+  Dio _dio = new Dio(
+    BaseOptions(contentType: Headers.formUrlEncodedContentType),
+  );
 
   @override
   Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     try {
-      HttpClient client = HttpClient();
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      var response = await _dio.post(
+          MainServerData.authUserApi.uniqueCheckApiUrl,
+          data: {"uid": GoogleAuthService.googleUser.id, "text": text});
 
-      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueCheckApiUrl));
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
+      print(response.data.toString());
 
-      AuthUniqueCheckModel uniqueCheckModel = AuthUniqueCheckModel(googleAuthService.googleAuth.accessToken, text);
-
-      request.write(jsonEncode(uniqueCheckModel.toJson()));
-
-      HttpClientResponse response = await request.close();
-
-      String responseString = await utf8.decoder.bind(response).join();
-
-      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
-        throw new DailyLimitReachedException();
-      }
-
-      if (response.statusCode != 200) {
-        throw new ServerException(responseString);
-      }
+      String responseString = response.data.toString();
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
@@ -52,33 +36,24 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       return uniqueCheckData;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
   @override
   Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
-      HttpClient client = HttpClient();
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      var response = await _dio.post(MainServerData.authUserApi.uniqueUpApiUrl,
+          data: {"uid": GoogleAuthService.googleUser.id, "text": text});
 
-      HttpClientRequest request = await client.postUrl(Uri.http(MainServerData.IP, MainServerData.authUserApi.uniqueUpApiUrl));
+      print(response.data.toString());
 
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
-
-      AuthUniqueUpModel uniqueUpModel = AuthUniqueUpModel(googleAuthService.googleAuth.accessToken, text);
-      request.write(jsonEncode(uniqueUpModel.toJson()));
-
-      HttpClientResponse response = await request.close();
-
-      String responseString = await utf8.decoder.bind(response).join();
-
-      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
-        throw new DailyLimitReachedException();
-      }
-
-      if (response.statusCode != 200) {
-        throw new ServerException(responseString);
-      }
+      String responseString = response.data.toString();
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
@@ -87,85 +62,108 @@ class AuthUserServerRequestsController implements ServerRequestsInterface{
       return uniqueUpData;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
   @override
   Future<Response> docxUniqueUpRequest({FileData file}) async {
-    try{
-    Dio dio = Dio();
+    try {
+      Dio dio = Dio();
 
-    FormData formData = new FormData.fromMap({
-      "accessToken" : googleAuthService.googleAuth.accessToken,
-      "Files": new MultipartFile.fromBytes(
-          file.bytes,
-          filename: file.name),
-    });
+      FormData formData = new FormData.fromMap({
+        "uId": GoogleAuthService.googleUser.id,
+        "Files": new MultipartFile.fromBytes(file.bytes, filename: file.name),
+      });
 
-    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueUpApiUrl).toString(),
-        data: formData,
-        options: Options(
-          responseType: ResponseType.bytes,
-        )).timeout(Duration(seconds: 80));
+      Response response = await dio
+          .post(MainServerData.authUserApi.docxUniqueUpApiUrl,
+              data: formData,
+              options: Options(
+                responseType: ResponseType.bytes,
+              ))
+          .timeout(Duration(seconds: 80));
 
-    if (response.statusCode == 400 && response.data == "dailyLimitReached") {
-      throw new DailyLimitReachedException();
-    }
-
-    if (response.statusCode != 200) {
-      throw new ServerException(response.data.toString());
-    }
-
-    return response;
+      return response;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
   @override
   Future<UniqueCheckData> docxUniqueCheckRequest({FileData file}) async {
-    try{
-    Dio dio = Dio();
+    try {
+      Dio dio = Dio();
 
-    FormData formData = new FormData.fromMap({
-      "accessToken" : googleAuthService.googleAuth.accessToken,
-      "Files": new MultipartFile.fromBytes(
-          file.bytes,
-          filename: file.name),
-    });
+      FormData formData = new FormData.fromMap({
+        "uId": GoogleAuthService.googleUser.id,
+        "Files": new MultipartFile.fromBytes(file.bytes, filename: file.name),
+      });
 
-    Response response = await dio.post(Uri.http(MainServerData.IP, MainServerData.authUserApi.docxUniqueCheckApiUrl).toString(),
-        data: formData,
-    ).timeout(Duration(seconds: 80));
+      Response response = await dio
+          .post(
+            MainServerData.authUserApi.docxUniqueCheckApiUrl,
+            data: formData,
+          )
+          .timeout(Duration(seconds: 80));
 
-    if (response.statusCode == 400 && response.data == "dailyLimitReached") {
-      throw new DailyLimitReachedException();
-    }
+      String responseString = response.data;
 
-    if (response.statusCode != 200) {
-      throw new ServerException(response.data.toString());
-    }
+      Map<String, dynamic> responseJson = jsonDecode(responseString);
+      UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
 
-    String responseString = response.data;
-
-    Map<String, dynamic> responseJson = jsonDecode(responseString);
-    UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
-
-    return uniqueCheckData;
+      return uniqueCheckData;
     } on TimeoutException {
+      throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
+    }
+  }
+
+  Future<void> authorization() async {
+    await ServerStatus.check();
+    print('authorization');
+    Response response;
+    try {
+      response = await _dio.post(MainServerData.authUserApi.getAllUserData,
+          data: {
+            "uid": GoogleAuthService.googleUser.id
+          }).timeout(Duration(seconds: 5));
+      print(response.data);
+      print('Response status: ${response.statusCode}');
+
+      CurrentUser.userData.fromJson(jsonDecode(response.data));
+      print('authorization end');
+    } on DioError catch (ex) {
       throw ServerException();
     }
   }
 
-  @override
-  void fromJson(Map<String, dynamic> json) {
-    _userDataInterface.uId = json['uId'] as String;
-    _userDataInterface.isPremium = json['isPremium'] as bool;
-
-    _userDataInterface.uniqueCheckMaxSymbolLimit = json['uniqueCheckMaxSymbolLimit'] as int;
-    _userDataInterface.uniqueUpMaxSymbolLimit = json['uniqueUpMaxSymbolLimit'] as int;
-
-    _userDataInterface.uniqueCheckRequests = json['uniqueCheckRequests'] as int;
-    _userDataInterface.uniqueUpRequests = json['uniqueUpRequests'] as int;
+  Future<void> registration() async {
+    await ServerStatus.check();
+    print('registration');
+    try {
+      var response = await _dio.post(MainServerData.authUserApi.registration,
+          data: {"accessToken": GoogleAuthService.googleAuth.accessToken});
+      print(response.data.toString());
+      print('registration end');
+    } on DioError catch (ex) {
+      throw ServerException();
+    }
   }
 }

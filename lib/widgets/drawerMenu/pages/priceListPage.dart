@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/constants/googleProductId.dart';
-import 'functions/functions.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog.dart';
 import 'priceListCard.dart';
 
 class BuyPage extends MaterialPageRoute<void> {
@@ -36,7 +36,6 @@ class BuyPage extends MaterialPageRoute<void> {
                   color: Colors.white,
                 ),
                 child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
@@ -56,18 +55,14 @@ class BuyPage extends MaterialPageRoute<void> {
                         '100 ',
                         'priceListPageUniqueCheckCardContent',
                         'priceListPageFirstCardPrice',
-                        GoogleProductId.plagiarism_check_100, () {
-                      setState(() {});
-                    }),
+                        GoogleProductId.coins_100,
+                    ),
                     PriceListCard(
                       Icon(Icons.account_balance),
                       '300 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageSecondCardPrice',
-                      GoogleProductId.plagiarism_check_300,
-                      () {
-                        setState(() {});
-                      },
+                      GoogleProductId.coins_300,
                       subtitle: '10% save',
                     ),
                     PriceListCard(
@@ -75,10 +70,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '600 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageThirdCardPrice',
-                      GoogleProductId.plagiarism_check_600,
-                      () {
-                        setState(() {});
-                      },
+                      GoogleProductId.coins_600,
                       subtitle: '15% save',
                     ),
                     PriceListCard(
@@ -86,10 +78,7 @@ class BuyPage extends MaterialPageRoute<void> {
                       '1000 ',
                       'priceListPageUniqueCheckCardContent',
                       'priceListPageFourthCardPrice',
-                      GoogleProductId.plagiarism_check_1000,
-                      () {
-                        setState(() {});
-                      },
+                      GoogleProductId.coins_1000,
                       subtitle: '20% save',
                     ),
                   ],

@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
+import 'package:synword/monetization/purchases.dart';
 
 class SplashScreen extends StatefulWidget {
   final Function _splashScreenCallback;
@@ -27,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _initialize() async {
     await _checkForUpdate();
-    await _authorization();
-
+    await authorization();
+    monetization.initialize();
     Timer(Duration(seconds: 3), () => _splashScreenCallback());
   }
 
@@ -42,9 +43,20 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  Future<void> _authorization() async {
-    await googleAuthService.signInSilently();
-    await authController.authorization();
+  Future<void> authorization() async {
+    await GoogleAuthService.signInSilently();
+    while(true) {
+      try {
+        await AuthorizationController.authorization();
+        break;
+      }
+      catch(ex){
+        print(ex);
+        await Future.delayed(Duration(seconds: 5));
+        print('Server unavailable');
+        continue;
+      }
+    }
   }
 
   @override

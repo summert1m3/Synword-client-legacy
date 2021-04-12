@@ -7,14 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'dialogs/langDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
 
-class DrawerMenu extends StatefulWidget {
-  @override
-  _DrawerMenuState createState() {
-    return _DrawerMenuState();
-  }
-}
-
-class _DrawerMenuState extends State<DrawerMenu> {
+class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -55,16 +48,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Premium',
                 icon: SvgPicture.asset(
                   'icons/premium.svg',
                   semanticsLabel: 'Premium',
                 ),
-                onPressed: () => Navigator.of(context).push(PremiumPage()),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PremiumPage())),
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Buy',
                 icon: SvgPicture.asset(
                   'icons/buy_symbols.svg',
                   semanticsLabel: 'Buy',
@@ -86,7 +77,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Instagram',
                 icon: Image(
                   image: AssetImage('icons/instagram.png'),
                 ),
@@ -94,7 +84,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'VK',
                 icon: Image(
                   image: AssetImage('icons/vk.png'),
                 ),
@@ -114,7 +103,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Language',
                 icon: SvgPicture.asset(
                   'icons/language.svg',
                   semanticsLabel: 'Language',
@@ -123,7 +111,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
               IconButton(
                 iconSize: (screenSize.height / 17 + screenSize.width / 17),
-                tooltip: 'Feedback',
                 icon: SvgPicture.asset(
                   'icons/feedback.svg',
                   semanticsLabel: 'Feedback',

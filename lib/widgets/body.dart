@@ -1,6 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:synword/exceptions/dailyLimitReachedException.dart';
+import 'package:synword/exceptions/notEnoughCoinsException.dart';
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/exceptions/textLongLengthException.dart';
 import 'package:synword/exceptions/textShortLengthException.dart';
@@ -46,8 +46,6 @@ class _BodyState extends State<Body> {
   ButtonBarLayer _buttonBarLayer;
 
   String _uniqueText;
-
-  ServerRequestsController _serverRequest = ServerRequestsController();
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -110,7 +108,7 @@ class _BodyState extends State<Body> {
             throw TextShortLengthException();
           }
 
-          if (originalText.length > currentUser.userData.uniqueUpMaxSymbolLimit) {
+          if (originalText.length > CurrentUser.userData.uniqueUpMaxSymbolLimit) {
             throw TextLongLengthException();
           }
 
@@ -126,7 +124,7 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          UniqueUpData uniqueUpData = await _serverRequest.uniqueUpRequest(originalText);
+          UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(originalText);
           _uniqueText = uniqueUpData.text;
 
           if (uniqueTextLayer != null) {
@@ -212,7 +210,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueCheckData = await _serverRequest.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
 
       if (uniqueCheckLayer != null) {
         setState(() {
@@ -222,7 +220,7 @@ class _BodyState extends State<Body> {
       }
     } on ServerException catch(exception) {
       throw UniqueCheckException(exception.toString(), uniqueCheckLayer);
-    } on DailyLimitReachedException catch(exception) {
+    } on NotEnoughCoinsException catch(exception) {
       throw UniqueCheckException(exception.getErrorMessage(), uniqueCheckLayer);
     }
   }
@@ -242,7 +240,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueUniqueCheckData = await _serverRequest.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueUniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
 
       setState(() {
         uniqueCheckLayer.setLoadingScreenEnabled(false);
@@ -251,7 +249,7 @@ class _BodyState extends State<Body> {
       });
     } on ServerException catch(ex){
       throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
-    } on DailyLimitReachedException catch(ex){
+    } on NotEnoughCoinsException catch(ex){
       throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
   }
@@ -264,7 +262,7 @@ class _BodyState extends State<Body> {
       throw TextShortLengthException();
     }
 
-    if (originalText.length > currentUser.userData.uniqueCheckMaxSymbolLimit) {
+    if (originalText.length > CurrentUser.userData.uniqueCheckMaxSymbolLimit) {
       throw TextLongLengthException();
     }
 
@@ -280,7 +278,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      _originalTextCheckData = await _serverRequest.uniqueCheckRequest(originalText);
+      _originalTextCheckData = await ServerRequestsController.uniqueCheckRequest(originalText);
 
       if (uniqueCheckLayer != null) {
         setState(() {
@@ -290,7 +288,7 @@ class _BodyState extends State<Body> {
       }
     } on ServerException catch(ex){
       throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
-    } on DailyLimitReachedException catch(ex){
+    } on NotEnoughCoinsException catch(ex){
       throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
     }
   }

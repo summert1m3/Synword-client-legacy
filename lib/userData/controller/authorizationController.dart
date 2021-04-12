@@ -1,82 +1,52 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/userData/UserStorageData.dart';
+import 'package:synword/userData/controller/registrationController.dart';
 import 'package:synword/userData/currentUser.dart';
-import 'package:synword/userData/model/authUserData.dart';
-import 'package:synword/userData/model/unauthUserData.dart';
-import 'package:synword/constants/mainServerData.dart';
 import 'package:synword/userData/controller/authUserServerRequestsController.dart';
 import 'package:synword/userData/controller/unauthUserServerRequestsController.dart';
 import 'package:synword/network/ServerStatus.dart';
 
 class AuthorizationController {
-  CurrentUser _currentUser = CurrentUser();
+  static Future<void> authorization() async {
+    await ServerStatus.check();
 
-  Future<void> authorization() async {
-    try {
-      await ServerStatus.check();
-      if (googleAuthService.googleUser == null) {
-        await googleAuthService.signInSilently();
+    if (GoogleAuthService.googleUser != null) {
+      if(! await UserStorageData.isAuthUserRegistered()){
+        await RegistrationController.registration();
       }
-      if (googleAuthService.googleUser != null) {
-        await _setAuth();
+      await _setAuth();
+    } else {
+      if(! await UserStorageData.isUnauthUserRegistered()){
+        await RegistrationController.registration();
       }
-      else {
-        _setUnauth();
-      }
-    }
-    catch(ex){
-      _setUnauth();
+      await _setUnauth();
     }
   }
 
-  Future<void> _setAuth() async {
-    try {
-      _currentUser.userData = AuthUserData();
-      _currentUser.serverRequest = AuthUserServerRequestsController();
-      await getAllUserDataFromServer(googleAuthService.googleAuth.accessToken);
-    }
-    catch(ex){
-      print(ex);
-      _setUnauth();
-      rethrow;
-    }
-      print('User authorized successfully');
-      print('isAuthorized: ${_currentUser.userData.isAuthorized}');
+  static Future<void> _setAuth() async {
+    CurrentUser.serverRequest = AuthUserServerRequestsController();
+
+    await _serverRequest();
+
+    print('User authorized successfully');
   }
 
-  void _setUnauth() {
-    _currentUser.userData = UnauthUserData();
-    _currentUser.serverRequest = UnauthUserServerRequestsController();
+  static Future<void> _setUnauth() async {
+    CurrentUser.serverRequest = UnauthUserServerRequestsController();
+
+    await _serverRequest();
 
     print('User deauthorized successfully');
-    print('isAuthorized: ${_currentUser.userData.isAuthorized}');
   }
 
-  Future<void> getAllUserDataFromServer(String accessToken) async {
-      var url = MainServerData.protocol + MainServerData.IP + MainServerData.authUserApi.getAllUserData;
-
-      var response = await http.post(Uri.encodeFull(url), body: jsonEncode(accessToken), headers: {'Content-Type':'application/json'}).timeout(Duration(seconds: 5));
-      print(response.body);
-      print('Response status: ${response.statusCode}');
-
-      if (response.statusCode != 200) {
-        throw ServerException();
-      }
-
-      _currentUser.serverRequest.fromJson(jsonDecode(response.body));
-
-      print("isAuthorized: " + _currentUser.userData.isAuthorized.toString());
-      print("isPremium: " + _currentUser.userData.isPremium.toString());
-
-      print("uniqueCheckRequests: " + _currentUser.userData.uniqueCheckRequests.toString());
-      print("uniqueUpRequests: " + _currentUser.userData.uniqueUpRequests.toString());
-
-      print("uniqueUpMaxSymbolLimit: " + _currentUser.userData.uniqueUpMaxSymbolLimit.toString());
-      print("uniqueCheckMaxSymbolLimit: " + _currentUser.userData.uniqueCheckMaxSymbolLimit.toString());
+  static Future<void> _serverRequest() async {
+    try {
+      await CurrentUser.serverRequest.authorization();
+    }
+    catch(ex) {
+      print(ex);
+      await CurrentUser.serverRequest.registration();
+      await CurrentUser.serverRequest.authorization();
+    }
   }
 }
-
-AuthorizationController authController = AuthorizationController();

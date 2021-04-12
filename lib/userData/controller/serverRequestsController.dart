@@ -6,29 +6,27 @@ import 'package:synword/userData/currentUser.dart';
 import 'package:synword/network/ServerStatus.dart';
 
 class ServerRequestsController {
-  CurrentUser _currentUser = CurrentUser();
-
-  Future<UniqueUpData> uniqueUpRequest(String text) async {
+  static Future<UniqueUpData> uniqueUpRequest(String text) async {
     await ServerStatus.check();
-    return await _currentUser.serverRequest.uniqueUpRequest(text);
+    return await CurrentUser.serverRequest.uniqueUpRequest(text);
   }
 
-  Future<UniqueCheckData> uniqueCheckRequest(String text) async {
+  static Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     await ServerStatus.check();
-    return await _currentUser.serverRequest.uniqueCheckRequest(text);
+    return await CurrentUser.serverRequest.uniqueCheckRequest(text);
   }
 
-  Future<Response> docxUniqueUpRequest(
+  static Future<Response> docxUniqueUpRequest(
       {FileData file}) async {
     await ServerStatus.check();
-    return await _currentUser.serverRequest
+    return await CurrentUser.serverRequest
         .docxUniqueUpRequest(file: file);
   }
 
-  Future<UniqueCheckData> docxUniqueCheckRequest(
+  static Future<UniqueCheckData> docxUniqueCheckRequest(
       {FileData file}) async {
     await ServerStatus.check();
-    return await _currentUser.serverRequest
+    return await CurrentUser.serverRequest
         .docxUniqueCheckRequest(file: file);
   }
 }

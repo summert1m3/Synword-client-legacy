@@ -9,5 +9,6 @@ abstract class ServerRequestsInterface {
   Future<UniqueCheckData> uniqueCheckRequest(String text);
   Future<Response> docxUniqueUpRequest({FileData file});
   Future<UniqueCheckData> docxUniqueCheckRequest({FileData file});
-  void fromJson(Map<String, dynamic> json);
+  Future<void> authorization();
+  Future<void> registration();
 }

@@ -1,44 +1,29 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:synword/exceptions/dailyLimitReachedException.dart';
+import 'package:synword/exceptions/notEnoughCoinsException.dart';
 import 'dart:async';
-
 import 'package:synword/exceptions/serverException.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
+import 'package:synword/network/ServerStatus.dart';
+import 'package:synword/userData/UserStorageData.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
+import '../currentUser.dart';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
+  Dio _dio = new Dio(
+    BaseOptions(contentType: Headers.formUrlEncodedContentType),
+  );
   @override
   Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     try {
-      print(
-          (MainServerData.IP + MainServerData.unauthUserApi.uniqueCheckApiUrl));
-      HttpClient client = HttpClient();
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      var response = await _dio.post(MainServerData.unauthUserApi.uniqueCheckApiUrl, data: {"uid": CurrentUser.userData.uId, "text": text});
 
-      HttpClientRequest request = await client
-          .postUrl(Uri.http(MainServerData.IP,
-          MainServerData.unauthUserApi.uniqueCheckApiUrl));
-      request.headers.set(
-          HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
-      request.write(jsonEncode(text));
+      print(response.data.toString());
 
-      HttpClientResponse response = await request.close();
-
-      String responseString = await utf8.decoder.bind(response).join();
-
-      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
-        throw new DailyLimitReachedException();
-      }
-
-      if (response.statusCode != 200) {
-        throw new ServerException(responseString);
-      }
+      String responseString = response.data.toString();
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
@@ -47,34 +32,23 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       return uniqueCheckData;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
   @override
   Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
-      HttpClient client = HttpClient();
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      var response = await _dio.post(MainServerData.unauthUserApi.uniqueUpApiUrl, data: {"uid": CurrentUser.userData.uId, "text": text});
 
-      HttpClientRequest request = await client
-          .postUrl(Uri.http(
-              MainServerData.IP, MainServerData.unauthUserApi.uniqueUpApiUrl));
+      print(response.data.toString());
 
-      request.headers.set(
-          HttpHeaders.contentTypeHeader, 'application/json; charset=utf-8');
-      request.write(jsonEncode(text));
-      HttpClientResponse response = await request.close();
-
-      String responseString = await utf8.decoder.bind(response).join();
-
-      if (response.statusCode == 400 && responseString == "dailyLimitReached") {
-        throw new DailyLimitReachedException();
-      }
-
-      if (response.statusCode != 200) {
-        throw new ServerException(responseString);
-      }
+      String responseString = response.data.toString();
 
       Map<String, dynamic> responseJson = jsonDecode(responseString);
 
@@ -83,6 +57,12 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       return uniqueUpData;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
@@ -90,28 +70,22 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   Future<Response> docxUniqueUpRequest(
       {FileData file}) async {
     try {
-      Dio dio = Dio();
 
       FormData formData = new FormData.fromMap({
+        "uId": CurrentUser.userData.uId,
         "Files": new MultipartFile.fromBytes(
             file.bytes,
             filename: file.name),
       });
 
-      Response response = await dio
-          .post(
-              Uri.http(MainServerData.IP,
-                      MainServerData.unauthUserApi.docxUniqueUpApiUrl)
+      Response response = await _dio
+          .post(MainServerData.unauthUserApi.docxUniqueUpApiUrl
                   .toString(),
               data: formData,
               options: Options(
                 responseType: ResponseType.bytes,
               ))
           .timeout(Duration(seconds: 80));
-
-      if (response.statusCode == 400 && response.data == "dailyLimitReached") {
-        throw new DailyLimitReachedException();
-      }
 
       if (response.statusCode != 200) {
         throw new ServerException(response.data.toString());
@@ -120,6 +94,12 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       return response;
     } on TimeoutException {
       throw ServerException();
+    } on DioError catch(ex){
+      if(ex.response.data == NotEnoughCoinsException.message) {
+        throw new NotEnoughCoinsException();
+      }else{
+        throw new ServerException(ex.response.data);
+      }
     }
   }
 
@@ -129,8 +109,37 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
     throw UnimplementedError();
   }
 
-  @override
-  void fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
+  Future<void> authorization() async {
+    await ServerStatus.check();
+
+    String token = await UserStorageData.getToken();
+
+    try {
+      var response = await _dio.post(
+          MainServerData.unauthUserApi.getAllUserData, data: {"uid": token})
+          .timeout(Duration(seconds: 5));
+
+      print(response.data);
+      print('Response status: ${response.statusCode}');
+
+      CurrentUser.userData.fromJson(jsonDecode(response.data));
+    }
+    on DioError catch(ex){
+      throw ServerException();
+    }
+  }
+
+  Future<void> registration() async {
+    await ServerStatus.check();
+
+    try {
+      var response = await _dio.get(MainServerData.unauthUserApi.registration);
+
+      print(response.data.toString());
+      await UserStorageData.setToken(response.data.toString());
+    }
+    on DioError catch(ex){
+      throw ServerException();
+    }
   }
 }

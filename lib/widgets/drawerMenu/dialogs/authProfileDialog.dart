@@ -3,8 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:sizer/sizer.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/signOut.dart';
 
 class AuthProfileDialog extends StatelessWidget {
   final Function _setState;
@@ -31,11 +31,11 @@ class AuthProfileDialog extends StatelessWidget {
               color: Colors.indigoAccent,
               child: ListTile(
                 leading: GoogleUserCircleAvatar(
-                  identity: googleAuthService.googleUser,
-                  placeholderPhotoUrl: googleAuthService.googleUser.photoUrl,
+                  identity: GoogleAuthService.googleUser,
+                  placeholderPhotoUrl: GoogleAuthService.googleUser.photoUrl,
                 ),
-                title: Text(googleAuthService.googleUser.displayName ?? '', style: TextStyle(fontSize: 15.0.sp,color: Colors.white, fontFamily: 'Roboto')),
-                subtitle: Text(googleAuthService.googleUser.email ?? '', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontFamily: 'Roboto')),
+                title: Text(GoogleAuthService.googleUser.displayName ?? '', style: TextStyle(fontSize: 15.0.sp,color: Colors.white, fontFamily: 'Roboto')),
+                subtitle: Text(GoogleAuthService.googleUser.email ?? '', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontFamily: 'Roboto')),
               ),
             ),
             SizedBox(
@@ -43,27 +43,12 @@ class AuthProfileDialog extends StatelessWidget {
             ),
             RaisedButton(
               color: HexColor('#E1B34F'),
-              onPressed: () => _signOutCallback(context, _setState),
+              onPressed: () => signOut(context, _setState),
               child: const Text('googleSignOut', style: TextStyle(fontFamily: 'Roboto')).tr(),
             )
           ],
         ),
       ),
     );
-  }
-}
-
-Future<void> _signOutCallback(BuildContext context, Function setState) async{
-  try {
-    AuthorizationController user = AuthorizationController();
-
-    await googleAuthService.signOut();
-    await user.authorization();
-
-    Navigator.of(context).pop();
-    setState();
-  }
-  catch(error){
-    print(error);
   }
 }

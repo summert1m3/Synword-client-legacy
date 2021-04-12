@@ -1,7 +1,7 @@
 class GoogleProductId {
   static const String premium = "premium";
-  static const String plagiarism_check_100 = "100_plagiarism_check";
-  static const String plagiarism_check_300 = "300_plagiarism_check";
-  static const String plagiarism_check_600 = "600_plagiarism_check";
-  static const String plagiarism_check_1000 = "1000_plagiarism_checker";
+  static const String coins_100 = "100_coins";
+  static const String coins_300 = "300_coins";
+  static const String coins_600 = "600_coins";
+  static const String coins_1000 = "1000_coins";
 }

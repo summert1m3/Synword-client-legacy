@@ -29,7 +29,6 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   final BuildContext _context;
   bool uniqueUpSwitchValue = true;
   bool uniqueCheckSwitchValue = false;
-  CurrentUser user = CurrentUser();
   final Function _setStateCallback;
 
   _ChoiceCaseState(this._context, this._setStateCallback);
@@ -83,7 +82,6 @@ class _ChoiceCaseState extends State<ChoiceCase> {
               Card(
                   color: HexColor('#5C5C5C'),
                   child: ListTile(
-                    //leading: Icon(Icons.loop, color: Colors.white, size: 5.0.h,),
                     dense: false,
                     title: Text(
                       'documentHandleChoiceCaseUniqueUp'.tr(),
@@ -104,7 +102,6 @@ class _ChoiceCaseState extends State<ChoiceCase> {
               Card(
                   color: HexColor('#5C5C5C'),
                   child: ListTile(
-                    //leading: Icon(Icons.check_circle, color: Colors.white, size: 5.0.h),
                     dense: true,
                     title: Text(
                       'documentHandleChoiceCaseUniqueCheck'.tr(),
@@ -127,7 +124,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                           activeColor: Colors.blueAccent,
                           value: uniqueCheckSwitchValue,
                           onChanged: (value) {
-                            if (user.userData.isPremium == true) {
+                            if (CurrentUser.userData.isPremium == true) {
                               setState(() {
                                 uniqueCheckSwitchValue = value;
                               });
@@ -193,8 +190,7 @@ Future<void> uniqueUp() async {
   fileData.name = docData.file.names.first;
   fileData.bytes = fileBytes;
 
-  ServerRequestsController serverRequest = ServerRequestsController();
-  Response response = await serverRequest.docxUniqueUpRequest(file: fileData);
+  Response response = await ServerRequestsController.docxUniqueUpRequest(file: fileData);
 
   File file = File(
     join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
@@ -209,9 +205,8 @@ Future<void> uniqueCheck() async {
   fileData.name = docData.file.names.first;
   fileData.bytes = fileBytes;
 
-  ServerRequestsController serverRequest = ServerRequestsController();
   docData.uniqueCheckData =
-      await serverRequest.docxUniqueCheckRequest(file: fileData);
+      await ServerRequestsController.docxUniqueCheckRequest(file: fileData);
 }
 
 Future<Uint8List> _readFileByte(String filePath) async {

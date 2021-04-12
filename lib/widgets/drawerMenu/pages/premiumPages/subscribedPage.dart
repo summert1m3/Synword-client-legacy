@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synword/widgets/drawerMenu/pages/functions/functions.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog.dart';
 
 class SubscribedPage extends StatelessWidget {
-  static Function setState;
-  static BuildContext context;
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      SubscribedPage.setState = () => setState(() {});
-      SubscribedPage.context = context;
       return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(

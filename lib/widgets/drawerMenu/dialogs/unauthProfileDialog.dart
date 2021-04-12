@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:sizer/sizer.dart';
+import 'package:synword/userData/controller/registrationController.dart';
 
 class UnauthProfileDialog extends StatelessWidget {
   final Function _setState;
@@ -48,10 +49,11 @@ class UnauthProfileDialog extends StatelessWidget {
 
 void _googleSignIn(Function setState) async {
   //await ServerStatus.check();
-  if (googleAuthService.googleUser == null) {
-    await googleAuthService.signIn();
-    if (googleAuthService.googleUser != null) {
-      await authController.authorization();
+  if (GoogleAuthService.googleUser == null) {
+    await GoogleAuthService.signIn();
+    if (GoogleAuthService.googleUser != null) {
+      await RegistrationController.registration();
+      await AuthorizationController.authorization();
       setState();
     }
   }

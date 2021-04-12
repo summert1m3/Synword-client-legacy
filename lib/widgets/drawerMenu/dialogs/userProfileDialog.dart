@@ -15,6 +15,6 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
   Widget build(BuildContext context) {
     _setUserProfileState = () => setState(() {});
     return
-      googleAuthService.googleUser != null ? AuthProfileDialog(_setUserProfileState) : UnauthProfileDialog(_setUserProfileState);
+      GoogleAuthService.googleUser != null ? AuthProfileDialog(_setUserProfileState) : UnauthProfileDialog(_setUserProfileState);
   }
 }

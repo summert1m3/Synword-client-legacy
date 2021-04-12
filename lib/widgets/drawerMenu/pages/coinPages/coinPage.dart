@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:synword/userData/model/userData.dart';
 import 'package:synword/widgets/drawerMenu/pages/coinPages/coinPriceListPage.dart';
-import '../functions/functions.dart';
+import '../functions/showUserProfileDialog.dart';
 import 'package:sizer/sizer.dart';
+import 'package:provider/provider.dart';
 
 class CoinPageQuestion extends StatefulWidget {
   final String _title;
@@ -208,9 +210,16 @@ class _CoinPageState extends State<CoinPage> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Text('100', style: TextStyle(fontSize: 25.0.sp, fontFamily: 'Roboto', color: Colors.black.withOpacity(0.8))),
+                              Consumer<UserData>(
+                                builder:(context, data, child) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Text(data.coins.toString(), style: TextStyle(
+                                        fontSize: 25.0.sp,
+                                        fontFamily: 'Roboto',
+                                        color: Colors.black.withOpacity(0.8))),
+                                  );
+                                }
                               ),
                               SvgPicture.asset(
                                   'icons/coins.svg',

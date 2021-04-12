@@ -15,10 +15,8 @@ class PriceListCard extends StatelessWidget {
   final String subtitle;
   final String price;
   final String productId;
-  final Function updateAccountIconCallback;
 
   PriceListCard(this.leadingIcon, this.title, this.titleTr, this.price, this.productId,
-      this.updateAccountIconCallback,
       {this.subtitle});
 
   @override
@@ -48,7 +46,7 @@ class PriceListCard extends StatelessWidget {
                 splashColor: Colors.white,
                 color: Colors.red,
                 onPressed: () =>
-                    _subscribeCallback(updateAccountIconCallback, context, productId),
+                    _subscribeCallback(context, productId),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,14 +71,13 @@ class PriceListCard extends StatelessWidget {
   }
 }
 
-Future<void> _subscribeCallback(
-    Function updateAccountIconCallback, BuildContext context, String productId) async {
+Future<void> _subscribeCallback(BuildContext context, String productId) async {
   try {
     await ServerStatus.check();
-    if (googleAuthService.googleUser == null) {
-      await googleAuthService.signIn();
-      if (googleAuthService.googleUser != null) {
-        await authController.authorization();
+    if (GoogleAuthService.googleUser == null) {
+      await GoogleAuthService.signIn();
+      if (GoogleAuthService.googleUser != null) {
+        await AuthorizationController.authorization();
         //монетизация
         await monetization.buyConsumableProduct(productId);
       }
@@ -88,7 +85,6 @@ Future<void> _subscribeCallback(
       //монетизация
       await monetization.buyConsumableProduct(productId);
     }
-    updateAccountIconCallback();
   } on PlatformException catch (ex) {
     print(ex);
     final snackBar = SnackBar(

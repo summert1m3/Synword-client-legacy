@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:synword/userData/currentUser.dart';
+import 'package:provider/provider.dart';
+import 'package:synword/userData/model/userData.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/subscribedPage.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedPage.dart';
 
-class PremiumPage extends MaterialPageRoute<void> {
-  static Function premuimPageSetState;
-
-  PremiumPage()
-      : super(builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                premuimPageSetState = () => setState(() {});
-            return Scaffold(
-              body: currentUser.userData.isPremium
-                  ? SubscribedPage()
-                  : UnsubscribedPage(),
-            );
-          });
-        });
+class PremiumPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+      return Consumer<UserData>(
+        builder: (context, data, child) {
+          return Scaffold(
+            body: data.isPremium
+                ? SubscribedPage()
+                : UnsubscribedPage(),
+          );
+        }
+      );
+  }
 }
