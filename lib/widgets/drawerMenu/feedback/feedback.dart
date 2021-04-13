@@ -16,15 +16,9 @@ class WiredashApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    //var lang = Localizations.localeOf(context).languageCode;
     return Wiredash(
         options: WiredashOptionsData(
-          customTranslations: {
-            const Locale.fromSubtags(languageCode: 'ru'):
-            const RussianTranslation()
-        },
           locale: Locale.fromSubtags(languageCode: EasyLocalization.of(context).locale.languageCode),
-          showDebugFloatingEntryPoint: false,
         ),
         theme: WiredashThemeData(
           brightness: Brightness.dark,

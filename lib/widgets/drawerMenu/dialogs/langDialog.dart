@@ -30,7 +30,7 @@ class _LangDialogState extends State<LangDialog> {
 
   void changeLang(String langCode, String countryCode){
     setState(() {
-      EasyLocalization.of(context).locale = Locale(langCode,countryCode);
+      EasyLocalization.of(context).setLocale(Locale(langCode,countryCode));
     });
   }
 

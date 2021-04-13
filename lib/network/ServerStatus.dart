@@ -7,7 +7,7 @@ class ServerStatus {
   static Future<void> check() async {
     try {
       await http
-          .get(MainServerData.url)
+          .get(Uri.http(MainServerData.IP, ''))
           .timeout(Duration(seconds: 3));
     } catch (_) {
       print('SeverStatus: offline');
