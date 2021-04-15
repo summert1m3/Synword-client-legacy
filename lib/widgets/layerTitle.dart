@@ -9,8 +9,8 @@ class LayerTitle extends StatelessWidget {
   final Color _shadowColor;
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
-  final CloseButtonCallback _closeButtonCallback;
-  final Widget _aditionalButton;
+  final CloseButtonCallback? _closeButtonCallback;
+  final Widget? _aditionalButton;
 
   LayerTitle(
     this._title,
@@ -18,7 +18,7 @@ class LayerTitle extends StatelessWidget {
     this._shadowColor,
     this._isTitleVisible,
     this._isCloseButtonVisible,
-    this._closeButtonCallback, { Widget additionalButton }
+    this._closeButtonCallback, { Widget? additionalButton }
   ) : _aditionalButton = additionalButton;
 
   @override
@@ -49,7 +49,7 @@ class LayerTitle extends StatelessWidget {
                   child: Positioned(
                     top: 8,
                     left: 10,
-                    child: _aditionalButton,
+                    child: _aditionalButton!,
                   ),
                 ),
                 Positioned(

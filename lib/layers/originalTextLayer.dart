@@ -3,10 +3,10 @@ import 'package:synword/layers/layer.dart';
 import 'package:synword/widgets/layers/originalTextWidget.dart';
 
 class OriginalTextLayer extends Layer {
-  TextEditingController _textEditingController;
-  bool _isTitleVisible;
-  bool _isReadOnly;
-  void Function() _onChangedCallback;
+  TextEditingController? _textEditingController;
+  bool _isTitleVisible = false;
+  bool _isReadOnly = false;
+  void Function()? _onChangedCallback;
 
   OriginalTextLayer.zero() {
     _textEditingController = null;

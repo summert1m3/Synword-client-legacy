@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class Layer {
-  Widget _widget;
+  late Widget _widget;
 
   Widget getWidget() {
     return _widget;

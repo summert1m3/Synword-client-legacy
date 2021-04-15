@@ -36,16 +36,16 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  List<MovingLayer> _layerList;
+  late List<MovingLayer?> _layerList;
 
-  TextEditingController _textEditingController;
+  late TextEditingController _textEditingController;
 
-  UniqueCheckData _originalTextCheckData;
+  late UniqueCheckData _originalTextCheckData;
 
-  OriginalTextLayer _originalTextLayer;
-  ButtonBarLayer _buttonBarLayer;
+  late OriginalTextLayer _originalTextLayer;
+  late ButtonBarLayer _buttonBarLayer;
 
-  String _uniqueText;
+  String _uniqueText = '';
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
 
-    _layerList = List<MovingLayer>();
+    _layerList = <MovingLayer?>[];
     _textEditingController = TextEditingController();
     _originalTextLayer = OriginalTextLayer(_textEditingController, false, false, () {
       setState(() {
@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
 
   FloatingActionButtonCallback _buttonBarSecondButtonCallback() => () async {
     String originalText = _textEditingController.value.text;
-    UniqueTextLayer uniqueTextLayer;
+    UniqueTextLayer? uniqueTextLayer;
 
       if (await InternetChecker().isInternetAvailability()) {
         try {
@@ -127,12 +127,10 @@ class _BodyState extends State<Body> {
           UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(originalText);
           _uniqueText = uniqueUpData.text;
 
-          if (uniqueTextLayer != null) {
-            setState(() {
-              uniqueTextLayer.setLoadingScreenEnabled(false);
-              uniqueTextLayer.setUniqueUpData(uniqueUpData);
-            });
-          }
+          setState(() {
+            uniqueTextLayer?.setLoadingScreenEnabled(false);
+            uniqueTextLayer?.setUniqueUpData(uniqueUpData);
+          });
         } catch (exception) {
           if (uniqueTextLayer != null) {
             setState(() {
@@ -171,7 +169,7 @@ class _BodyState extends State<Body> {
 
       if (offset.dy > 0) {
         if (index + 1 != _layerList.length) {
-          border = _layerList[index + 1].getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight;
+          border = _layerList[index + 1]!.getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight;
         } else {
           border = MediaQuery.of(context).copyWith().size.height - 127;
         }
@@ -179,7 +177,7 @@ class _BodyState extends State<Body> {
         _hideLayer(layer, border);
       } else if (offset.dy < 0) {
         if (index != 0) {
-          border = _layerList[index - 1].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight;
+          border = _layerList[index - 1]!.getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight;
         } else {
           border = layersSetting.titleHeight - layersSetting.titleContactHeight;
         }
@@ -196,7 +194,7 @@ class _BodyState extends State<Body> {
   };
 
   Future _createAndAddUniqueTextUniqueCheckLayer() async {
-    UniqueTextUniqueCheckLayer uniqueCheckLayer;
+    UniqueTextUniqueCheckLayer? uniqueCheckLayer;
 
     try {
       Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
@@ -212,12 +210,10 @@ class _BodyState extends State<Body> {
 
       UniqueCheckData uniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
 
-      if (uniqueCheckLayer != null) {
-        setState(() {
-          uniqueCheckLayer.setLoadingScreenEnabled(false);
-          uniqueCheckLayer.setUniqueTextCheckData(uniqueCheckData);
-        });
-      }
+      setState(() {
+        uniqueCheckLayer?.setLoadingScreenEnabled(false);
+        uniqueCheckLayer?.setUniqueTextCheckData(uniqueCheckData);
+      });
     } on ServerException catch(exception) {
       throw UniqueCheckException(exception.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(exception) {
@@ -226,7 +222,7 @@ class _BodyState extends State<Body> {
   }
 
   Future _createAndAddTwoTextUniqueCheckLayer() async {
-    TwoTextUniqueCheckLayer uniqueCheckLayer;
+    TwoTextUniqueCheckLayer? uniqueCheckLayer;
 
     try {
       Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
@@ -243,19 +239,19 @@ class _BodyState extends State<Body> {
       UniqueCheckData uniqueUniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
 
       setState(() {
-        uniqueCheckLayer.setLoadingScreenEnabled(false);
-        uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
-        uniqueCheckLayer.setUniqueTextCheckData(uniqueUniqueCheckData);
+        uniqueCheckLayer?.setLoadingScreenEnabled(false);
+        uniqueCheckLayer?.setOriginalTextCheckData(_originalTextCheckData);
+        uniqueCheckLayer?.setUniqueTextCheckData(uniqueUniqueCheckData);
       });
     } on ServerException catch(ex){
-      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.getErrorMessage(), uniqueCheckLayer);
     }
   }
 
   Future _createAndAddOriginalTextUniqueCheckLayer() async {
-    OriginalTextUniqueCheckLayer uniqueCheckLayer;
+    OriginalTextUniqueCheckLayer? uniqueCheckLayer;
     String originalText = _textEditingController.value.text;
 
     if (originalText.length < 100) {
@@ -280,16 +276,14 @@ class _BodyState extends State<Body> {
 
       _originalTextCheckData = await ServerRequestsController.uniqueCheckRequest(originalText);
 
-      if (uniqueCheckLayer != null) {
-        setState(() {
-          uniqueCheckLayer.setLoadingScreenEnabled(false);
-          uniqueCheckLayer.setOriginalTextCheckData(_originalTextCheckData);
-        });
-      }
+      setState(() {
+        uniqueCheckLayer?.setLoadingScreenEnabled(false);
+        uniqueCheckLayer?.setOriginalTextCheckData(_originalTextCheckData);
+      });
     } on ServerException catch(ex){
-      throw UniqueCheckException(ex.toString(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(),uniqueCheckLayer);
+      throw UniqueCheckException(ex.getErrorMessage(), uniqueCheckLayer);
     }
   }
 
@@ -299,7 +293,7 @@ class _BodyState extends State<Body> {
     layer.setCloseButtonCallback(_layerCloseButtonCallback(layer));
   }
 
-  void _addLayer(MovingLayer layer) {
+  void _addLayer(MovingLayer? layer) {
     _layerList.add(layer);
     _setLayersDefaultOffset();
     _updateLayers();
@@ -400,16 +394,16 @@ class _BodyState extends State<Body> {
   void _updateLayersTitleColors() {
     if (_layerList.isNotEmpty) {
       for (int i = 0; i < _layerList.length - 1; i++) {
-        _layerList[i].setTitleColor(_layerList[i].getDefaultColor());
+        _layerList[i]!.setTitleColor(_layerList[i]!.getDefaultColor());
       }
 
-      _layerList.last.setTitleColor(Colors.white);
+      _layerList.last!.setTitleColor(Colors.white);
     }
   }
 
   void _updateLastLayerTitleVisible() {
     _layerList.forEach((element) {
-      if (element.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
+      if (element!.getOffset().dy >= MediaQuery.of(context).copyWith().size.height - 137) {
         element.setTitleVisible(false);
       } else {
         element.setTitleVisible(true);
@@ -420,9 +414,9 @@ class _BodyState extends State<Body> {
   void _updateLayersCloseButtonVisible() {
     for (int i = 0; i < _layerList.length; i++) {
       if (i == _layerList.length - 1) {
-        _layerList[i].setCloseButtonVisible(true);
+        _layerList[i]!.setCloseButtonVisible(true);
       } else {
-        _layerList[i].setCloseButtonVisible(false);
+        _layerList[i]!.setCloseButtonVisible(false);
       }
     }
   }
@@ -474,10 +468,10 @@ class _BodyState extends State<Body> {
       if (i == 0) {
         offset = Offset(0, layersSetting.titleHeight - layersSetting.titleContactHeight);
       } else {
-        offset = Offset(0, _layerList[i - 1].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight);
+        offset = Offset(0, _layerList[i - 1]!.getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight);
       }
 
-      _layerList[i].setOffset(offset);
+      _layerList[i]!.setOffset(offset);
     }
   }
 
@@ -497,14 +491,14 @@ class _BodyState extends State<Body> {
     bool isOutOfBounds = false;
 
     for (int i = index - 1; i >= 0; i--) {
-      if (newOffset.dy < _layerList[i].getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight) {
+      if (newOffset.dy < _layerList[i]!.getOffset().dy + layersSetting.titleHeight - layersSetting.titleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
     }
 
     for (int i = index + 1; i < _layerList.length; i++) {
-      if (newOffset.dy > _layerList[i].getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight) {
+      if (newOffset.dy > _layerList[i]!.getOffset().dy - layersSetting.titleHeight + layersSetting.titleContactHeight) {
         isOutOfBounds = true;
         return isOutOfBounds;
       }
@@ -527,11 +521,11 @@ class _BodyState extends State<Body> {
   }
 
   List<Widget> _getWidgets() {
-    List<Widget> widgetList = List<Widget>();
+    List<Widget> widgetList = <Widget>[];
     widgetList.add(_originalTextLayer.getWidget());
 
     _layerList.forEach((element) {
-      widgetList.add(element.getWidget());
+      widgetList.add(element!.getWidget());
     });
 
     widgetList.add(_buttonBarLayer.getWidget());

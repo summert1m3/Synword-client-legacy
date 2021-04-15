@@ -3,14 +3,12 @@ import 'package:synword/widgets/layers/buttonBarWidget.dart';
 import 'package:synword/types.dart';
 
 class ButtonBarLayer extends Layer {
-  bool _isFirstButtonVisible;
-  bool _isSecondButtonVisible;
-  FloatingActionButtonCallback _firstButtonCallback;
-  FloatingActionButtonCallback _secondButtonCallback;
+  bool _isFirstButtonVisible = true;
+  bool _isSecondButtonVisible = true;
+  FloatingActionButtonCallback? _firstButtonCallback;
+  FloatingActionButtonCallback? _secondButtonCallback;
 
   ButtonBarLayer.zero() {
-    _isFirstButtonVisible = true;
-    _isSecondButtonVisible = true;
     _firstButtonCallback = null;
     _secondButtonCallback = null;
     build();

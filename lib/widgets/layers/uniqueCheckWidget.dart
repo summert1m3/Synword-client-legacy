@@ -8,9 +8,9 @@ class UniqueCheckWidget extends StatelessWidget {
   final Widget _widget;
   final Offset _offset;
   final Color _titleColor;
-  final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
-  final OnPanEndCallback _gestureDetectorOnPanEndCallback;
-  final CloseButtonCallback _closeButtonCallback;
+  final OnPanUpdateCallback? _gestureDetectorOnPanUpdateCallback;
+  final OnPanEndCallback? _gestureDetectorOnPanEndCallback;
+  final CloseButtonCallback? _closeButtonCallback;
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
 

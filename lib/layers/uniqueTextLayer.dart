@@ -8,7 +8,7 @@ import 'movingLayer.dart';
 import 'package:synword/types.dart';
 
 class UniqueTextLayer extends MovingLayer {
-  UniqueUpData _uniqueUpData;
+  UniqueUpData? _uniqueUpData;
 
   UniqueTextLayer.zero() : super(LoadingScreen(), Offset.zero, layersSetting.uniqueTextTitleColor, null, null, null, false, true, true, true) {
     _uniqueUpData = null;
@@ -27,7 +27,7 @@ class UniqueTextLayer extends MovingLayer {
   void build() {
     setWidget(UniqueTextWidget(
         isLoadingScreenEnabled() ? getLoadingScreen() : UniqueText(_uniqueUpData, getOffset()),
-        _uniqueUpData?.text,
+        _uniqueUpData!.text,
         getOffset(),
         getTitleColor(),
         isTitleVisible(),

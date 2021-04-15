@@ -9,10 +9,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OriginalTextWidget extends StatelessWidget {
-  final TextEditingController _textEditingController;
+  final TextEditingController? _textEditingController;
   final bool _isTitleVisible;
   final bool _isReadOnly;
-  final void Function() _onChangedCallback;
+  final void Function()? _onChangedCallback;
 
   OriginalTextWidget(this._textEditingController,
       this._isTitleVisible,
@@ -28,20 +28,20 @@ class OriginalTextWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Visibility(
-                    visible: _textEditingController.text.isNotEmpty,
+                    visible: _textEditingController!.text.isNotEmpty,
                     child: Container(
                         padding: const EdgeInsets.only(right: 15, top: 15),
                         child: Consumer<UserData>(
                             builder: (context, data, child) {
                               return Text(
-                                  _textEditingController.text.length
+                                  _textEditingController!.text.length
                                       .toString() +
                                       '/' +
                                       data.uniqueCheckMaxSymbolLimit.toString(),
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.normal,
-                                    color: _textEditingController.text.length >
+                                    color: _textEditingController!.text.length >
                                         DefaultUserRestrictions
                                             .uniqueUpMaxSymbolLimit
                                         ? Colors.red
@@ -54,7 +54,7 @@ class OriginalTextWidget extends StatelessWidget {
                     ),
                   ),
                   Expanded(child: LayerTextForm(
-                      _textEditingController, _isReadOnly, _onChangedCallback)),
+                      _textEditingController!, _isReadOnly, _onChangedCallback!)),
                 ],
               ),
             ),
@@ -66,13 +66,13 @@ class OriginalTextWidget extends StatelessWidget {
                 Colors.black.withOpacity(0.0),
                 true,
                 false,
-                null
+                () {}
             ),
             _isTitleVisible,
             false,
-            null,
-            null,
-            null
+            (offest) {},
+            (offest) {},
+            (details) {}
         )
     );
   }

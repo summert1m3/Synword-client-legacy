@@ -8,11 +8,11 @@ import 'package:flutter/services.dart';
 class UniqueTextWidget extends StatelessWidget {
   final Widget _widget;
   final String _uniqueText;
-  final Offset _offset;
+  final Offset? _offset;
   final Color _titleColor;
-  final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
-  final OnPanEndCallback _gestureDetectorOnPanEndCallback;
-  final CloseButtonCallback _closeButtonCallback;
+  final OnPanUpdateCallback? _gestureDetectorOnPanUpdateCallback;
+  final OnPanEndCallback? _gestureDetectorOnPanEndCallback;
+  final CloseButtonCallback? _closeButtonCallback;
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
 
@@ -31,7 +31,7 @@ class UniqueTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: _offset.dy,
+      top: _offset!.dy,
       child: BodyLayer(
           _widget,
           LayerTitle(
@@ -48,7 +48,7 @@ class UniqueTextWidget extends StatelessWidget {
                   splashRadius: 23,
                   icon: Icon(Icons.content_copy),
                   onPressed: () {
-                    Clipboard.setData(new ClipboardData(text: _uniqueText ?? ''));
+                    Clipboard.setData(new ClipboardData(text: _uniqueText));
                   }
                 ),
               )

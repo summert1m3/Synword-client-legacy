@@ -10,7 +10,7 @@ class WaveBar extends StatelessWidget {
   );
 
   List<Color> _getColors() {
-    List<Color> colors = List<Color>();
+    List<Color> colors = <Color>[];
 
     if (_progress < 0.2) {
       colors.add(HexColor("#ff0000"));

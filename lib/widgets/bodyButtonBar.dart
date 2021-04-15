@@ -5,8 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 class BodyButtonBar extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
   final bool _isSecondFloatingActionButtonVisible;
-  final FloatingActionButtonCallback _firstButtonCallback;
-  final FloatingActionButtonCallback _secondButtonCallback;
+  final FloatingActionButtonCallback? _firstButtonCallback;
+  final FloatingActionButtonCallback? _secondButtonCallback;
 
   BodyButtonBar(
     this._isFirstFloatingActionButtonVisible,

@@ -6,9 +6,9 @@ abstract class MovingLayer extends Layer {
   Widget _loadingScreen;
   Offset _offset;
   Color _titleColor;
-  OnPanUpdateCallback _onPanUpdateCallback;
-  OnPanEndCallback _onPanEndCallback;
-  CloseButtonCallback _closeButtonCallback;
+  OnPanUpdateCallback? _onPanUpdateCallback;
+  OnPanEndCallback? _onPanEndCallback;
+  CloseButtonCallback? _closeButtonCallback;
   bool _isLoadingScreenEnabled;
   bool _isMovingEnabled;
   bool _isTitleVisible;
@@ -75,7 +75,7 @@ abstract class MovingLayer extends Layer {
     build();
   }
 
-  OnPanUpdateCallback getOnPanUpdateCallback() {
+  OnPanUpdateCallback? getOnPanUpdateCallback() {
     return _onPanUpdateCallback;
   }
 
@@ -84,7 +84,7 @@ abstract class MovingLayer extends Layer {
     build();
   }
 
-  OnPanEndCallback getOnPanEndCallback() {
+  OnPanEndCallback? getOnPanEndCallback() {
     return _onPanEndCallback;
   }
 
@@ -93,7 +93,7 @@ abstract class MovingLayer extends Layer {
     build();
   }
 
-  CloseButtonCallback getCloseButtonCallback() {
+  CloseButtonCallback? getCloseButtonCallback() {
     return _closeButtonCallback;
   }
 

@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
             height: (screenSize.height / 61 + screenSize.width / 61),
             color: HexColor('#C70000'),
           ),
-          onPressed: () => {_scaffoldKey.currentState.openDrawer()},
+          onPressed: () => {_scaffoldKey.currentState?.openDrawer()},
         ),
         actions: [
           IconButton(

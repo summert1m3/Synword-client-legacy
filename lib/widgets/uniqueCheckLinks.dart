@@ -3,7 +3,7 @@ import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UniqueCheckLinks extends StatelessWidget {
-  final UniqueCheckData _uniqueCheckData;
+  final UniqueCheckData? _uniqueCheckData;
   final double _height;
   final Color _textColor;
   final Axis _axis;
@@ -21,7 +21,7 @@ class UniqueCheckLinks extends StatelessWidget {
       _scheme = scheme;
 
   List<Widget> _createLinksItems(UniqueCheckData uniqueCheckData) {
-    List<Widget> linksItems = List<Widget>();
+    List<Widget> linksItems = <Widget>[];
 
     uniqueCheckData.matches.forEach((element) {
       String urlTitle = element.url;
@@ -49,7 +49,7 @@ class UniqueCheckLinks extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: _axis,
               child: Column(
-                children: _createLinksItems(_uniqueCheckData),
+                children: _createLinksItems(_uniqueCheckData!),
               ),
             )
           ],

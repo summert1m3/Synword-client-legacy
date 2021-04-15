@@ -1,9 +1,9 @@
 class ServerException implements Exception {
-  String message = "serverError";
+  String? message = "serverError";
 
-  ServerException([String message]){
+  ServerException([String? message]){
     this.message = message;
   }
 
-  String toString() => message;
+  String toString() => message!;
 }

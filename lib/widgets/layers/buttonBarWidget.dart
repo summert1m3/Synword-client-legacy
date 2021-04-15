@@ -5,8 +5,8 @@ import 'package:synword/types.dart';
 class ButtonBarWidget extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
   final bool _isSecondFloatingActionButtonVisible;
-  final FloatingActionButtonCallback _firstButtonCallback;
-  final FloatingActionButtonCallback _secondButtonCallback;
+  final FloatingActionButtonCallback? _firstButtonCallback;
+  final FloatingActionButtonCallback? _secondButtonCallback;
 
   ButtonBarWidget(
     this._isFirstFloatingActionButtonVisible,

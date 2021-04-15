@@ -13,24 +13,22 @@ class WaveBall extends StatefulWidget {
   final Duration duration;
 
   const WaveBall({
-    Key key,
     this.size = 150.0,
     this.progress = 0.0,
     this.foregroundColor = Colors.blue,
     this.backgroundColor = Colors.lightBlue,
     this.circleColor = Colors.grey,
-    this.child,
+    required this.child,
     this.duration = const Duration(seconds: 2),
     this.range = 10.0,
-  })  : assert(progress >= 0.0 && progress <= 1.0),
-        super(key: key);
+  })  : assert(progress >= 0.0 && progress <= 1.0);
 
   @override
   _WaveBallState createState() => _WaveBallState();
 }
 
 class _WaveBallState extends State<WaveBall> with TickerProviderStateMixin {
-  AnimationController controller;
+  late AnimationController controller;
 
   @override
   void initState() {
@@ -52,7 +50,7 @@ class _WaveBallState extends State<WaveBall> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Container(
           constraints: BoxConstraints.tightFor(
             height: widget.size,
@@ -84,13 +82,14 @@ class WaveBallPainter extends CustomPainter {
   final Color circleColor;
 
   WaveBallPainter({
-    this.foregroundColor,
-    this.circleColor,
-    this.backgroundColor,
-    this.animationValue,
+    required this.foregroundColor,
+    required this.circleColor,
+    required this.backgroundColor,
+    double animationValue = 0,
     this.progress = 0.0,
     this.range = 10.0,
-  })  : assert(animationValue >= 0.0 && animationValue <= 1.0),
+  })  : animationValue = animationValue,
+        assert(animationValue >= 0.0 && animationValue <= 1.0),
         assert(progress >= 0.0 && progress <= 1.0);
 
   @override

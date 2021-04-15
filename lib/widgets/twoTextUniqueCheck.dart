@@ -5,8 +5,8 @@ import 'package:synword/widgets/waveBar.dart';
 import 'package:synword/widgets/uniqueCheckLinks.dart';
 
 class TwoTextUniqueCheckWidget extends StatelessWidget {
-  final UniqueCheckData _originalUniqueCheckData;
-  final UniqueCheckData _uniqueUniqueCheckData;
+  final UniqueCheckData? _originalUniqueCheckData;
+  final UniqueCheckData? _uniqueUniqueCheckData;
   final Offset _offset;
   final double _dividerHeight = 30;
   final double _paddingTop = 5;
@@ -40,7 +40,7 @@ class TwoTextUniqueCheckWidget extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    WaveBar(_originalUniqueCheckData.percent / 100),
+                    WaveBar(_originalUniqueCheckData!.percent / 100),
                     Container(
                       height: 35,
                       padding: EdgeInsets.only(top: 5),
@@ -53,7 +53,7 @@ class TwoTextUniqueCheckWidget extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    WaveBar(_uniqueUniqueCheckData.percent / 100),
+                    WaveBar(_uniqueUniqueCheckData!.percent / 100),
                     Container(
                       height: 35,
                       padding: EdgeInsets.only(top: 5),

@@ -5,7 +5,7 @@ import 'package:synword/widgets/waveBar.dart';
 import 'package:synword/widgets/uniqueCheckLinks.dart';
 
 class TextUniqueCheck extends StatelessWidget {
-  final UniqueCheckData _uniqueCheckData;
+  final UniqueCheckData? _uniqueCheckData;
   final Offset _offset;
   final double _dividerHeight = 30;
 
@@ -31,7 +31,7 @@ class TextUniqueCheck extends StatelessWidget {
       child: Column(
         children: [
           WaveBar(
-            _uniqueCheckData.percent / 100
+            _uniqueCheckData!.percent / 100
           ),
           Divider(
             color: Colors.grey,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-LayersSetting layersSetting;
+late LayersSetting layersSetting;
 
 class LayersSetting {
-  static LayersSetting _layerSetting;
+  static LayersSetting? _layerSetting;
   double titleHeight;
   double titleContactHeight;
   Color originalTextTitleColor;
@@ -27,6 +27,6 @@ class LayersSetting {
       _layerSetting = LayersSetting._(titleHeight, titleContactHeight, originalTextTitleColor, uniqueTextTitleColor, uniqueCheckTitleColor, waveBarWidth, waveBarHeight);
     }
 
-    return _layerSetting;
+    return _layerSetting!;
   }
 }
