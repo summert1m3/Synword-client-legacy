@@ -20,7 +20,7 @@ class LangDialog extends StatefulWidget{
 }
 
 class _LangDialogState extends State<LangDialog> {
-  String langCode;
+  String? langCode;
   
   void setSelectedRadio(String val){
     setState(() {
@@ -30,14 +30,14 @@ class _LangDialogState extends State<LangDialog> {
 
   void changeLang(String langCode, String countryCode){
     setState(() {
-      EasyLocalization.of(context).setLocale(Locale(langCode,countryCode));
+      context.locale = Locale(langCode,countryCode);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    langCode = EasyLocalization.of(context).locale.languageCode;
+    langCode = context.locale.languageCode;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(

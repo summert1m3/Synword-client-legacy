@@ -7,13 +7,11 @@ class CoinPriceListItem extends StatelessWidget {
   final String _title;
   final String _titleTr;
   final String _cost;
-  final String _costTr;
   final String _subtitle;
-  final Function _onTapCallback;
 
   CoinPriceListItem({
-     String title, String cost, String subtitle, String titleTr, String costTr, Function onTap
-  }) : _title = title ?? '', _cost = cost ?? '', _subtitle = subtitle ?? '', _titleTr = titleTr ?? '', _onTapCallback = onTap ?? (() {}), _costTr = costTr ?? '';
+    required String title, required String cost, String? subtitle, required String titleTr,
+  }) : _title = title, _cost = cost, _subtitle = subtitle ?? '', _titleTr = titleTr;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +62,7 @@ class CoinPriceListItem extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.amberAccent,
                 highlightColor: Colors.amberAccent.withOpacity(0.5),
-                onTap: () {
-                  _onTapCallback();
-                },
+                onTap: ()=>{},
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
                   child: Column(

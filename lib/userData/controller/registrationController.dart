@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/UserStorageData.dart';
@@ -7,10 +6,6 @@ import '../currentUser.dart';
 import 'authUserServerRequestsController.dart';
 
 class RegistrationController {
-  static Dio _dio = new Dio(
-      BaseOptions(contentType:Headers.formUrlEncodedContentType)
-  );
-
   static Future<void> registration() async {
     await ServerStatus.check();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResult.dart';
-import 'package:synword/widgets/documentHandle/cases/results/docUniqueUpResult.dart';
+import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResultPage.dart';
+import 'package:synword/widgets/documentHandle/cases/results/docUniqueUpResultPage.dart';
 
 class ResultsCase extends StatefulWidget{
   @override
@@ -9,10 +9,10 @@ class ResultsCase extends StatefulWidget{
 }
 
 class _ResultsCaseState extends State<ResultsCase> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  late TabController _tabController;
   var _kTabPages = <Widget>[
-    UniqueUpResult(),
-    UniqueCheckResult()
+    DocUniqueUpResultPage(),
+    DocUniqueCheckResultPage()
   ];
 
   var _kTabs = <Tab>[
@@ -49,20 +49,19 @@ class _ResultsCaseState extends State<ResultsCase> with SingleTickerProviderStat
     );
   }
 
-  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _kTabs.length,
-      child: Scaffold(
-        backgroundColor: HexColor('#262626'),
-        body: TabBarView(
-          controller: _tabController,
-          children: _kTabPages,
-        ),
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(48),
+        length: _kTabs.length,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: TabBarView(
+            controller: _tabController,
+            children: _kTabPages,
+          ),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(58),
             child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: Container(
                 width: MediaQuery.of(context).size.width / 1.5,
                 child: TabBar(
@@ -75,8 +74,8 @@ class _ResultsCaseState extends State<ResultsCase> with SingleTickerProviderStat
                   tabs: _kTabs,
                 ),
               ),
-            )),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }

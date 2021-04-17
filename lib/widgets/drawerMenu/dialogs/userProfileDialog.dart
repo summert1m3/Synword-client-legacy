@@ -9,7 +9,7 @@ class UserProfileDialog extends StatefulWidget {
 }
 
 class _UserProfileDialogState extends State<UserProfileDialog> {
-  static Function _setUserProfileState;
+  late Function _setUserProfileState;
 
   @override
   Widget build(BuildContext context) {

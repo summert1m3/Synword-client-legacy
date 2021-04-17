@@ -5,27 +5,15 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:synword/widgets/documentHandle/documentData.dart';
+import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 
 class StartCase extends StatefulWidget {
-  final Function _setStateCallback;
-
-  StartCase(
-      this._setStateCallback
-      );
-
   @override
-  State<StatefulWidget> createState() => _StartCaseState(_setStateCallback);
+  State<StatefulWidget> createState() => _StartCaseState();
 }
 
 class _StartCaseState extends State<StartCase> {
-  FilePickerResult _file;
-  final Function _setStateCallback;
-
-  _StartCaseState(
-      this._setStateCallback
-      );
 
   @override
   void initState() {
@@ -55,15 +43,7 @@ class _StartCaseState extends State<StartCase> {
                 'icons/upload_file_button.svg',
                 semanticsLabel: 'Upload file',
               ),
-              onPressed: () async {
-                _file = await _filePickerCallback();
-                if (_file != null) {
-                  docData.file = _file;
-                  _setStateCallback(
-                    state: DialogState.choice,
-                  );
-                }
-              },
+              onPressed: () => _filePick(),
             ),
             SizedBox(
               height: 20,
@@ -79,15 +59,31 @@ class _StartCaseState extends State<StartCase> {
   }
 }
 
+void _filePick() async {
+  try {
+    FilePickerResult _file = await _filePickerCallback();
+    DocumentHandlerData.file = _file;
+    DocumentHandlerData.updateState(DialogState.choice);
+  }catch(ex){
+    print(ex);
+  }
+}
+
 Future<FilePickerResult> _filePickerCallback() async {
-  var status = await Permission.storage.request();
-  if (status.isGranted) {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+  if (await Permission.storage.request().isGranted) {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['docx'],
       withData: true,
     );
+
+    if(result == null){
+      throw Exception('FilePickerResult is null');
+    }
+
     return result;
   }
-  return null;
+  else{
+    throw Exception('Permission.storage.request() is not granted');
+  }
 }

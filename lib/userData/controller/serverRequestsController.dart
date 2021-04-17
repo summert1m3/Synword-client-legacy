@@ -17,14 +17,14 @@ class ServerRequestsController {
   }
 
   static Future<Response> docxUniqueUpRequest(
-      {FileData file}) async {
+      {required FileData file}) async {
     await ServerStatus.check();
     return await CurrentUser.serverRequest
         .docxUniqueUpRequest(file: file);
   }
 
   static Future<UniqueCheckData> docxUniqueCheckRequest(
-      {FileData file}) async {
+      {required FileData file}) async {
     await ServerStatus.check();
     return await CurrentUser.serverRequest
         .docxUniqueCheckRequest(file: file);

@@ -7,9 +7,9 @@ class UnsubscribedListPageCard extends StatelessWidget {
   final String subtitle;
 
   UnsubscribedListPageCard({
-    this.imagePath,
-    this.title,
-    this.subtitle,
+    required this.imagePath,
+    required this.title,
+    required this.subtitle,
   });
 
   @override

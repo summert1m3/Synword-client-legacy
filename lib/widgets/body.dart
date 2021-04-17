@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:synword/exceptions/notEnoughCoinsException.dart';
-import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/exceptions/serverUnavailableException.dart';
 import 'package:synword/exceptions/textLongLengthException.dart';
 import 'package:synword/exceptions/textShortLengthException.dart';
 import 'package:synword/exceptions/uniqueCheckException.dart';
@@ -214,10 +214,10 @@ class _BodyState extends State<Body> {
         uniqueCheckLayer?.setLoadingScreenEnabled(false);
         uniqueCheckLayer?.setUniqueTextCheckData(uniqueCheckData);
       });
-    } on ServerException catch(exception) {
+    } on ServerUnavailableException catch(exception) {
       throw UniqueCheckException(exception.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(exception) {
-      throw UniqueCheckException(exception.getErrorMessage(), uniqueCheckLayer);
+      throw UniqueCheckException(exception.toString(), uniqueCheckLayer);
     }
   }
 
@@ -243,10 +243,10 @@ class _BodyState extends State<Body> {
         uniqueCheckLayer?.setOriginalTextCheckData(_originalTextCheckData);
         uniqueCheckLayer?.setUniqueTextCheckData(uniqueUniqueCheckData);
       });
-    } on ServerException catch(ex){
+    } on ServerUnavailableException catch(ex){
       throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(), uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     }
   }
 
@@ -280,10 +280,10 @@ class _BodyState extends State<Body> {
         uniqueCheckLayer?.setLoadingScreenEnabled(false);
         uniqueCheckLayer?.setOriginalTextCheckData(_originalTextCheckData);
       });
-    } on ServerException catch(ex){
+    } on ServerUnavailableException catch(ex){
       throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     } on NotEnoughCoinsException catch(ex){
-      throw UniqueCheckException(ex.getErrorMessage(), uniqueCheckLayer);
+      throw UniqueCheckException(ex.toString(), uniqueCheckLayer);
     }
   }
 

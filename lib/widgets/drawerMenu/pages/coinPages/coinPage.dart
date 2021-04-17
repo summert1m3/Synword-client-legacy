@@ -136,7 +136,7 @@ class CoinPageButton extends StatelessWidget {
           child: Text(_title, style: TextStyle(fontSize: 11.5.sp, fontFamily: 'Roboto', color: _titleColor)),
         ),
       ),
-      onPressed: _onPress,
+      onPressed: () => _onPress,
       style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           backgroundColor: MaterialStateProperty.all<Color>(_color),

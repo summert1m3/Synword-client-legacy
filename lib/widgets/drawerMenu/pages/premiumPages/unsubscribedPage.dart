@@ -12,8 +12,8 @@ import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedListPageCard.dart';
 
 class UnsubscribedPage extends StatelessWidget {
-  static Function setState;
-  static BuildContext context;
+  static late Function setState;
+  static late BuildContext context;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ Future<void> _subscribeCallback() async {
   } on PlatformException catch (ex) {
     print(ex);
     final snackBar = SnackBar(
-      content: Text(ex.message),
+      content: Text(ex.message.toString()),
       duration: Duration(seconds: 3),
     );
 

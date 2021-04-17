@@ -7,8 +7,8 @@ import 'package:synword/model/json/uniqueUpData.dart';
 abstract class ServerRequestsInterface {
   Future<UniqueUpData> uniqueUpRequest(String text);
   Future<UniqueCheckData> uniqueCheckRequest(String text);
-  Future<Response> docxUniqueUpRequest({FileData file});
-  Future<UniqueCheckData> docxUniqueCheckRequest({FileData file});
+  Future<Response> docxUniqueUpRequest({required FileData file});
+  Future<UniqueCheckData> docxUniqueCheckRequest({required FileData file});
   Future<void> authorization();
   Future<void> registration();
 }

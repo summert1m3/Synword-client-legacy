@@ -1,25 +1,31 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:synword/exceptions/notEnoughCoinsException.dart';
+import 'package:synword/exceptions/badRequestException.dart';
 import 'dart:async';
-import 'package:synword/exceptions/serverException.dart';
+import 'package:synword/exceptions/serverUnavailableException.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/UserStorageData.dart';
+import 'package:synword/userData/controller/determineExceptionType.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
 import '../currentUser.dart';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
   Dio _dio = new Dio(
-    BaseOptions(contentType: Headers.formUrlEncodedContentType),
+    BaseOptions(
+      contentType: Headers.formUrlEncodedContentType,
+    ),
   );
+
   @override
   Future<UniqueCheckData> uniqueCheckRequest(String text) async {
     try {
-      var response = await _dio.post(MainServerData.unauthUserApi.uniqueCheckApiUrl, data: {"uid": CurrentUser.userData.uId, "text": text});
+      var response = await _dio.post(
+          MainServerData.unauthUserApi.uniqueCheckApiUrl,
+          data: {"uid": CurrentUser.userData.uId, "text": text});
 
       print(response.data.toString());
 
@@ -30,21 +36,17 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       UniqueCheckData uniqueCheckData = UniqueCheckData.fromJson(responseJson);
 
       return uniqueCheckData;
-    } on TimeoutException {
-      throw ServerException();
-    } on DioError catch(ex){
-      if(ex.response.data == NotEnoughCoinsException.message) {
-        throw new NotEnoughCoinsException();
-      }else{
-        throw new ServerException(ex.response.data);
-      }
+    } on DioError catch (ex) {
+      throw DetermineExceptionType.determine(ex);
     }
   }
 
   @override
   Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
-      var response = await _dio.post(MainServerData.unauthUserApi.uniqueUpApiUrl, data: {"uid": CurrentUser.userData.uId, "text": text});
+      var response = await _dio.post(
+          MainServerData.unauthUserApi.uniqueUpApiUrl,
+          data: {"uid": CurrentUser.userData.uId, "text": text});
 
       print(response.data.toString());
 
@@ -55,56 +57,38 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       UniqueUpData uniqueUpData = UniqueUpData.fromJson(responseJson);
 
       return uniqueUpData;
-    } on TimeoutException {
-      throw ServerException();
-    } on DioError catch(ex){
-      if(ex.response.data == NotEnoughCoinsException.message) {
-        throw new NotEnoughCoinsException();
-      }else{
-        throw new ServerException(ex.response.data);
-      }
+    } on DioError catch (ex) {
+      throw DetermineExceptionType.determine(ex);
     }
   }
 
   @override
-  Future<Response> docxUniqueUpRequest(
-      {FileData file}) async {
+  Future<Response> docxUniqueUpRequest({required FileData file}) async {
     try {
-
       FormData formData = new FormData.fromMap({
         "uId": CurrentUser.userData.uId,
-        "Files": new MultipartFile.fromBytes(
-            file.bytes,
-            filename: file.name),
+        "Files": new MultipartFile.fromBytes(file.bytes, filename: file.name),
       });
 
       Response response = await _dio
-          .post(MainServerData.unauthUserApi.docxUniqueUpApiUrl
-                  .toString(),
-              data: formData,
-              options: Options(
-                responseType: ResponseType.bytes,
-              ))
-          .timeout(Duration(seconds: 80));
+          .post(MainServerData.unauthUserApi.docxUniqueUpApiUrl.toString(),
+          data: formData,
+          options: Options(
+            responseType: ResponseType.bytes,
+          ));
 
       if (response.statusCode != 200) {
-        throw new ServerException(response.data.toString());
+        throw new BadRequestException(response.data.toString());
       }
 
       return response;
-    } on TimeoutException {
-      throw ServerException();
-    } on DioError catch(ex){
-      if(ex.response.data == NotEnoughCoinsException.message) {
-        throw new NotEnoughCoinsException();
-      }else{
-        throw new ServerException(ex.response.data);
-      }
+    } on DioError catch (ex) {
+      throw DetermineExceptionType.determine(ex);
     }
   }
 
   @override
-  Future<UniqueCheckData> docxUniqueCheckRequest({FileData file}) {
+  Future<UniqueCheckData> docxUniqueCheckRequest({required FileData file}) {
     // TODO: implement docxUniqueCheckRequest
     throw UnimplementedError();
   }
@@ -116,16 +100,15 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
     try {
       var response = await _dio.post(
-          MainServerData.unauthUserApi.getAllUserData, data: {"uid": token})
-          .timeout(Duration(seconds: 5));
+          MainServerData.unauthUserApi.getAllUserData,
+          data: {"uid": token});
 
       print(response.data);
       print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
-    }
-    on DioError catch(ex){
-      throw ServerException();
+    } on DioError catch (ex) {
+      throw ServerUnavailableException();
     }
   }
 
@@ -137,9 +120,8 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       print(response.data.toString());
       await UserStorageData.setToken(response.data.toString());
-    }
-    on DioError catch(ex){
-      throw ServerException();
+    } on DioError catch (ex) {
+      throw ServerUnavailableException();
     }
   }
 }

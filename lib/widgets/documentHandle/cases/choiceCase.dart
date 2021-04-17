@@ -8,30 +8,18 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/userData/currentUser.dart';
-import 'package:synword/widgets/documentHandle/cases/results/DocUpAndCheckResultPage.dart';
-import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResultPage.dart';
-import 'package:synword/widgets/documentHandle/documentData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'package:sizer/sizer.dart';
+import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 
 class ChoiceCase extends StatefulWidget {
-  final BuildContext _context;
-  final Function _setStateCallback;
-
-  ChoiceCase(this._context, this._setStateCallback);
-
   @override
-  State<StatefulWidget> createState() => _ChoiceCaseState(_context, _setStateCallback);
+  State<StatefulWidget> createState() =>
+      _ChoiceCaseState();
 }
 
 class _ChoiceCaseState extends State<ChoiceCase> {
-  final BuildContext _context;
-  bool uniqueUpSwitchValue = true;
-  bool uniqueCheckSwitchValue = false;
-  final Function _setStateCallback;
-
-  _ChoiceCaseState(this._context, this._setStateCallback);
 
   @override
   void initState() {
@@ -48,107 +36,108 @@ class _ChoiceCaseState extends State<ChoiceCase> {
       content: Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 1.5,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 3.0.h,
-              ),
-              Card(
-                color: HexColor('#366CCA'),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Image(
-                        image: AssetImage('icons/docx_logo.png'),
-                        height: 15.0.h,
-                      ),
-                      SizedBox(
-                        height: 1.0.h,
-                      ),
-                      Text(docData.file.names.first,
-                          style: TextStyle(
-                              color: Colors.white, fontFamily: 'Roboto')),
-                    ],
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 3.0.h,
+                ),
+                Card(
+                  color: HexColor('#366CCA'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage('icons/docx_logo.png'),
+                          height: 15.0.h,
+                        ),
+                        SizedBox(
+                          height: 1.0.h,
+                        ),
+                        Text(DocumentHandlerData.file.names.first ?? 'null',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'Roboto')),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 2.0.h,
-              ),
-              Card(
-                  color: HexColor('#5C5C5C'),
-                  child: ListTile(
-                    dense: false,
-                    title: Text(
-                      'documentHandleChoiceCaseUniqueUp'.tr(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Roboto',
-                          fontSize: 12.0.sp),
-                    ),
-                    trailing: Switch(
-                        activeColor: Colors.blue,
-                        value: uniqueUpSwitchValue,
-                        onChanged: (value) {
-                          setState(() {
-                            uniqueUpSwitchValue = value;
-                          });
-                        }),
-                  )),
-              Card(
-                  color: HexColor('#5C5C5C'),
-                  child: ListTile(
-                    dense: true,
-                    title: Text(
-                      'documentHandleChoiceCaseUniqueCheck'.tr(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Roboto',
-                          fontSize: 12.0.sp),
-                    ),
-                    subtitle: Text(
-                      'documentHandleChoiceCaseUniqueCheckSubtitle'.tr(),
-                      style: TextStyle(
-                          color: Colors.amber,
-                          fontFamily: 'Roboto',
-                          fontSize: 9.0.sp),
-                    ),
-                    trailing: ButtonTheme(
-                      minWidth: 5.0.w,
-                      height: 5.0.h,
-                      child: Switch(
-                          activeColor: Colors.blueAccent,
-                          value: uniqueCheckSwitchValue,
-                          onChanged: (value) {
-                            if (CurrentUser.userData.isPremium == true) {
-                              setState(() {
-                                uniqueCheckSwitchValue = value;
-                              });
-                            }
-                          }),
-                    ),
-                  )),
-              SizedBox(
-                height: 2.0.h,
-              ),
-              RaisedButton(
-                disabledColor: Colors.grey,
-                color: Colors.blueAccent,
-                onPressed: uniqueCheckSwitchValue == true ||
-                        uniqueUpSwitchValue == true
-                    ? () => onClickButtonHandler(_context, uniqueUpSwitchValue,
-                        uniqueCheckSwitchValue, _setStateCallback)
-                    : null,
-                child: Text(
-                  'documentHandleChoiceCaseButton'.tr(),
-                  style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
+                SizedBox(
+                  height: 2.0.h,
                 ),
-              )
-            ],
+                Card(
+                    color: HexColor('#5C5C5C'),
+                    child: ListTile(
+                      dense: false,
+                      title: Text(
+                        'documentHandleChoiceCaseUniqueUp'.tr(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Roboto',
+                            fontSize: 12.0.sp),
+                      ),
+                      trailing: Switch(
+                          activeColor: Colors.blue,
+                          value: DocumentHandlerData.uniqueUp,
+                          onChanged: (value) {
+                            setState(() {
+                              DocumentHandlerData.uniqueUp = value;
+                            });
+                          }),
+                    )),
+                Card(
+                    color: HexColor('#5C5C5C'),
+                    child: ListTile(
+                      dense: true,
+                      title: Text(
+                        'documentHandleChoiceCaseUniqueCheck'.tr(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Roboto',
+                            fontSize: 12.0.sp),
+                      ),
+                      subtitle: Text(
+                        'documentHandleChoiceCaseUniqueCheckSubtitle'.tr(),
+                        style: TextStyle(
+                            color: Colors.amber,
+                            fontFamily: 'Roboto',
+                            fontSize: 9.0.sp),
+                      ),
+                      trailing: ButtonTheme(
+                        minWidth: 5.0.w,
+                        height: 5.0.h,
+                        child: Switch(
+                            activeColor: Colors.blueAccent,
+                            value: DocumentHandlerData.uniqueCheck,
+                            onChanged: (value) {
+                              if (CurrentUser.userData.isPremium == true) {
+                                setState(() {
+                                  DocumentHandlerData.uniqueCheck = value;
+                                });
+                              }
+                            }),
+                      ),
+                    )),
+                SizedBox(
+                  height: 2.0.h,
+                ),
+                RaisedButton(
+                  disabledColor: Colors.grey,
+                  color: Colors.blueAccent,
+                  onPressed: DocumentHandlerData.uniqueCheck == true ||
+                      DocumentHandlerData.uniqueUp == true
+                      ? () => onClickButtonHandler()
+                      : null,
+                  child: Text(
+                    'documentHandleChoiceCaseButton'.tr(),
+                    style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -156,69 +145,49 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   }
 }
 
-Future<void> onClickButtonHandler(BuildContext context, bool uniqueUpSwitchValue,
-    bool uniqueCheckSwitchValue, Function setStateCallback) async {
-  docData.uniqueUp = uniqueUpSwitchValue;
-  docData.uniqueCheck = uniqueCheckSwitchValue;
-  setStateCallback(state: DialogState.loading);
-
+Future<void> onClickButtonHandler() async {
+  DocumentHandlerData.updateState(DialogState.loading);
   try {
-    if (uniqueUpSwitchValue == true && uniqueCheckSwitchValue == true) {
+    if (DocumentHandlerData.uniqueUp == true && DocumentHandlerData.uniqueCheck == true) {
       await uniqueUp();
       await uniqueCheck();
-
-      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocUpAndCheckResultPage()));
-      Navigator.of(context).pop();
-    } else if (uniqueUpSwitchValue == true) {
+    } else if (DocumentHandlerData.uniqueUp == true) {
       await uniqueUp();
-
-      setStateCallback(state: DialogState.finish);
-    } else if (uniqueCheckSwitchValue == true) {
+    } else if (DocumentHandlerData.uniqueCheck == true) {
       await uniqueCheck();
-
-      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocUniqueCheckResultPage()));
-      Navigator.of(context).pop();
     }
-  } catch (_) {
-    setStateCallback(state: DialogState.error);
+    DocumentHandlerData.updateState(DialogState.finish);
+  } catch (ex) {
+    print(ex);
+    DocumentHandlerData.updateState(DialogState.error);
   }
 }
 
 Future<void> uniqueUp() async {
-  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path);
-  FileData fileData = FileData();
-  fileData.name = docData.file.names.first;
-  fileData.bytes = fileBytes;
+  Uint8List fileBytes = await _readFileByte(DocumentHandlerData.file.files.first.path!);
+  FileData fileData = FileData(DocumentHandlerData.file.names.first!, fileBytes);
 
-  Response response = await ServerRequestsController.docxUniqueUpRequest(file: fileData);
+  Response response =
+      await ServerRequestsController.docxUniqueUpRequest(file: fileData);
 
   File file = File(
-    join(DocumentData.downloadPath, "synword_" + docData.file.names.first),
+    join(DocumentHandlerData.downloadPath, "synword_" + DocumentHandlerData.file.names.first!),
   );
 
   file.writeAsBytesSync(response.data);
 }
 
 Future<void> uniqueCheck() async {
-  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path);
-  FileData fileData = FileData();
-  fileData.name = docData.file.names.first;
-  fileData.bytes = fileBytes;
+  Uint8List fileBytes = await _readFileByte(DocumentHandlerData.file.files.first.path!);
+  FileData fileData = FileData(DocumentHandlerData.file.names.first!, fileBytes);
 
-  docData.uniqueCheckData =
+  DocumentHandlerData.uniqueCheckData =
       await ServerRequestsController.docxUniqueCheckRequest(file: fileData);
 }
 
 Future<Uint8List> _readFileByte(String filePath) async {
   Uri myUri = Uri.parse(filePath);
-  File audioFile = new File.fromUri(myUri);
-  Uint8List bytes;
-  await audioFile.readAsBytes().then((value) {
-    bytes = Uint8List.fromList(value);
-    print('reading of bytes is completed');
-  }).catchError((onError) {
-    print(
-        'Exception Error while reading audio from path:' + onError.toString());
-  });
+  File file = new File.fromUri(myUri);
+  Uint8List bytes = Uint8List.fromList(await file.readAsBytes());
   return bytes;
 }

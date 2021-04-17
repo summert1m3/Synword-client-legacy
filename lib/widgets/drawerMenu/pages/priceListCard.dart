@@ -12,12 +12,12 @@ class PriceListCard extends StatelessWidget {
   final Icon leadingIcon;
   final String title;
   final String titleTr;
-  final String subtitle;
+  final String? subtitle;
   final String price;
   final String productId;
 
   PriceListCard(this.leadingIcon, this.title, this.titleTr, this.price, this.productId,
-      {this.subtitle});
+      {this.subtitle = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class PriceListCard extends StatelessWidget {
         ),
         subtitle: this.subtitle == null
             ? null
-            : Text(subtitle,
+            : Text(subtitle!,
                 style: TextStyle(color: Colors.grey, fontFamily: 'Roboto', fontSize: 10.0.sp)),
         dense: true,
         trailing: SizedBox(
@@ -88,7 +88,7 @@ Future<void> _subscribeCallback(BuildContext context, String productId) async {
   } on PlatformException catch (ex) {
     print(ex);
     final snackBar = SnackBar(
-      content: Text(ex.message),
+      content: Text(ex.message.toString()),
       duration: Duration(seconds: 3),
     );
 

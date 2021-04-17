@@ -9,16 +9,16 @@ class WiredashApp extends StatelessWidget{
   final Widget child;
 
   const WiredashApp({
-    Key key,
-    @required this.navigatorKey,
-    @required this.child
+    Key? key,
+    required this.navigatorKey,
+    required this.child,
 }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Wiredash(
         options: WiredashOptionsData(
-          locale: Locale.fromSubtags(languageCode: EasyLocalization.of(context).locale.languageCode),
+          locale: Locale.fromSubtags(languageCode: context.locale.languageCode),
         ),
         theme: WiredashThemeData(
           brightness: Brightness.dark,

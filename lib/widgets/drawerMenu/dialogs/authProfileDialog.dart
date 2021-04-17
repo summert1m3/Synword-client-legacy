@@ -31,11 +31,11 @@ class AuthProfileDialog extends StatelessWidget {
               color: Colors.indigoAccent,
               child: ListTile(
                 leading: GoogleUserCircleAvatar(
-                  identity: GoogleAuthService.googleUser,
-                  placeholderPhotoUrl: GoogleAuthService.googleUser.photoUrl,
+                  identity: GoogleAuthService.googleUser!,
+                  placeholderPhotoUrl: GoogleAuthService.googleUser!.photoUrl,
                 ),
-                title: Text(GoogleAuthService.googleUser.displayName ?? '', style: TextStyle(fontSize: 15.0.sp,color: Colors.white, fontFamily: 'Roboto')),
-                subtitle: Text(GoogleAuthService.googleUser.email ?? '', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontFamily: 'Roboto')),
+                title: Text(GoogleAuthService.googleUser!.displayName ?? '', style: TextStyle(fontSize: 15.0.sp,color: Colors.white, fontFamily: 'Roboto')),
+                subtitle: Text(GoogleAuthService.googleUser!.email, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontFamily: 'Roboto')),
               ),
             ),
             SizedBox(

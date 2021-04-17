@@ -9,16 +9,15 @@ class UserData with ChangeNotifier {
     return _userAuthorized;
   }
 
-  String uId;
+  late String uId;
 
-  bool isPremium;
+  bool isPremium = false;
 
-  int uniqueCheckMaxSymbolLimit;
-  int uniqueUpMaxSymbolLimit;
+  late int uniqueCheckMaxSymbolLimit;
+  late int uniqueUpMaxSymbolLimit;
 
-  int coins;
+  late int coins;
 
-  @override
   void fromJson(Map<String, dynamic> json) {
     if(json['isPremium'] != null) {
       isPremium = json['isPremium'] as bool;

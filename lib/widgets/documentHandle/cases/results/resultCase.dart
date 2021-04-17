@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:synword/widgets/documentHandle/documentData.dart';
-import 'docUniqueUpResult.dart';
-import 'docUniqueCheckResult.dart';
+import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResultPage.dart';
+import 'package:synword/widgets/documentHandle/cases/results/docUniqueUpResultPage.dart';
+import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 import 'docUpAndCheckResult.dart';
+import 'package:sizer/sizer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class ResultCase extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _ResultCaseState();
-}
+class ResultCase extends StatelessWidget {
+  late final Widget _result;
 
-class _ResultCaseState extends State<ResultCase> {
-  Widget result;
-
-  @override
-  void initState() {
-    super.initState();
-    if (docData.uniqueCheck == true && docData.uniqueUp == true) {
-      result = ResultsCase();
+  ResultCase(){
+    if (DocumentHandlerData.uniqueCheck == true && DocumentHandlerData.uniqueUp == true) {
+      _result = ResultsCase();
     }
-    if (docData.uniqueCheck == false && docData.uniqueUp == true) {
-      result = UniqueUpResult();
+    if (DocumentHandlerData.uniqueCheck == false && DocumentHandlerData.uniqueUp == true) {
+      _result = DocUniqueUpResultPage();
     }
-    if (docData.uniqueCheck == true && docData.uniqueUp == false) {
-      result = UniqueCheckResult();
+    if (DocumentHandlerData.uniqueCheck == true && DocumentHandlerData.uniqueUp == false) {
+      _result = DocUniqueCheckResultPage();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        toolbarHeight: 8.0.h,
+        title: Text('uniqueCheckHeader', style: TextStyle(fontSize: 18.0.sp)).tr(),
+        backgroundColor: Colors.black,
+        centerTitle: true,
       ),
-      backgroundColor: HexColor('#262626'),
-      content: Container(
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 1.5,
-        child: result,
+      body: Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          color: Colors.white,
+        ),
+        child: _result
       ),
     );
   }
