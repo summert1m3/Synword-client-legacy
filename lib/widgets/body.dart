@@ -356,8 +356,6 @@ class _BodyState extends State<Body> {
         double speed = 3;
         speed *= layer.getOffset().dy / border;
 
-        print(speed);
-
         setState(() {
           Offset newOffset = Offset(0, layer.getOffset().dy - speed);
 
