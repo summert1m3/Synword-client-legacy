@@ -4,18 +4,20 @@ import 'package:synword/model/json/uniqueCheckData.dart';
 import 'dialogState.dart';
 
 class DocumentHandlerData {
-  static late FilePickerResult file;
+  DocumentHandlerData(this.updateMainState);
 
-  static late bool uniqueUp = false;
-  static late bool uniqueCheck = false;
+  late FilePickerResult file;
 
-  static late UniqueCheckData uniqueCheckData;
+  late bool uniqueUp = true;
+  late bool uniqueCheck = false;
 
-  static const String downloadPath = "/storage/emulated/0/Download/";
+  late UniqueCheckData uniqueCheckData;
 
-  static late Function state;
+  final String downloadPath = "/storage/emulated/0/Download/";
 
-  static void updateState(DialogState state){
-    DocumentHandlerData.state(state);
+  Function updateMainState;
+
+  void updateState(DialogState state){
+    updateMainState(state);
   }
 }

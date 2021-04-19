@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:synword/widgets/documentHandle/cases/startCase.dart';
 import 'package:synword/widgets/documentHandle/cases/choiceCase.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
@@ -16,22 +17,20 @@ class _UploadFileUIState extends State<UploadFileUI> {
   DialogState _state = DialogState.start;
 
   @override
-  void initState() {
-    super.initState();
-    DocumentHandlerData.state = (DialogState state) {
+  Widget build(BuildContext context) {
+    var updateMainState = (DialogState state) {
       setState(() {
         this._state = state;
       });
     };
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return dialogChoice(context, _state);
+    return Provider(
+      create: (_) => DocumentHandlerData(updateMainState),
+      child: dialogChoice(_state),
+    );
   }
 }
 
-Widget dialogChoice(BuildContext context, DialogState state) {
+Widget dialogChoice(DialogState state) {
   switch (state) {
     case DialogState.start:
       return StartCase();

@@ -8,10 +8,10 @@ import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/network/ServerStatus.dart';
-import 'package:synword/userData/UserStorageData.dart';
 import 'package:synword/userData/controller/determineExceptionType.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
+import 'package:synword/userData/userStorageData.dart';
 import '../currentUser.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -115,6 +115,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
+      CurrentUser.userData.uId = token;
     } on DioError catch (_) {
       throw ServerUnavailableException();
     }

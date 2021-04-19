@@ -12,6 +12,7 @@ import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
+import 'package:provider/provider.dart';
 
 class ChoiceCase extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
 
   @override
   Widget build(BuildContext context) {
+    var docData = context.read<DocumentHandlerData>();
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -58,7 +60,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                         SizedBox(
                           height: 1.0.h,
                         ),
-                        Text(DocumentHandlerData.file.names.first ?? 'null',
+                        Text(docData.file.names.first ?? 'null',
                             style: TextStyle(
                                 color: Colors.white, fontFamily: 'Roboto')),
                       ],
@@ -81,10 +83,10 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                       ),
                       trailing: Switch(
                           activeColor: Colors.blue,
-                          value: DocumentHandlerData.uniqueUp,
+                          value: docData.uniqueUp,
                           onChanged: (value) {
                             setState(() {
-                              DocumentHandlerData.uniqueUp = value;
+                              docData.uniqueUp = value;
                             });
                           }),
                     )),
@@ -111,11 +113,11 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                         height: 5.0.h,
                         child: Switch(
                             activeColor: Colors.blueAccent,
-                            value: DocumentHandlerData.uniqueCheck,
+                            value: docData.uniqueCheck,
                             onChanged: (value) {
                               if (CurrentUser.userData.isPremium == true) {
                                 setState(() {
-                                  DocumentHandlerData.uniqueCheck = value;
+                                  docData.uniqueCheck = value;
                                 });
                               }
                             }),
@@ -127,9 +129,9 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                 RaisedButton(
                   disabledColor: Colors.grey,
                   color: Colors.blueAccent,
-                  onPressed: DocumentHandlerData.uniqueCheck == true ||
-                      DocumentHandlerData.uniqueUp == true
-                      ? () => onClickButtonHandler()
+                  onPressed: docData.uniqueCheck == true ||
+                      docData.uniqueUp == true
+                      ? () => onClickButtonHandler(docData)
                       : null,
                   child: Text(
                     'documentHandleChoiceCaseButton'.tr(),
@@ -145,43 +147,43 @@ class _ChoiceCaseState extends State<ChoiceCase> {
   }
 }
 
-Future<void> onClickButtonHandler() async {
-  DocumentHandlerData.updateState(DialogState.loading);
+Future<void> onClickButtonHandler(DocumentHandlerData docData) async {
+  docData.updateState(DialogState.loading);
   try {
-    if (DocumentHandlerData.uniqueUp == true && DocumentHandlerData.uniqueCheck == true) {
-      await uniqueUp();
-      await uniqueCheck();
-    } else if (DocumentHandlerData.uniqueUp == true) {
-      await uniqueUp();
-    } else if (DocumentHandlerData.uniqueCheck == true) {
-      await uniqueCheck();
+    if (docData.uniqueUp == true && docData.uniqueCheck == true) {
+      await uniqueUp(docData);
+      await uniqueCheck(docData);
+    } else if (docData.uniqueUp == true) {
+      await uniqueUp(docData);
+    } else if (docData.uniqueCheck == true) {
+      await uniqueCheck(docData);
     }
-    DocumentHandlerData.updateState(DialogState.finish);
+    docData.updateState(DialogState.finish);
   } catch (ex) {
     print(ex);
-    DocumentHandlerData.updateState(DialogState.error);
+    docData.updateState(DialogState.error);
   }
 }
 
-Future<void> uniqueUp() async {
-  Uint8List fileBytes = await _readFileByte(DocumentHandlerData.file.files.first.path!);
-  FileData fileData = FileData(DocumentHandlerData.file.names.first!, fileBytes);
+Future<void> uniqueUp(DocumentHandlerData docData) async {
+  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path!);
+  FileData fileData = FileData(docData.file.names.first!, fileBytes);
 
   Response response =
       await ServerRequestsController.docxUniqueUpRequest(file: fileData);
 
   File file = File(
-    join(DocumentHandlerData.downloadPath, "synword_" + DocumentHandlerData.file.names.first!),
+    join(docData.downloadPath, "synword_" + docData.file.names.first!),
   );
 
   file.writeAsBytesSync(response.data);
 }
 
-Future<void> uniqueCheck() async {
-  Uint8List fileBytes = await _readFileByte(DocumentHandlerData.file.files.first.path!);
-  FileData fileData = FileData(DocumentHandlerData.file.names.first!, fileBytes);
+Future<void> uniqueCheck(DocumentHandlerData docData) async {
+  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path!);
+  FileData fileData = FileData(docData.file.names.first!, fileBytes);
 
-  DocumentHandlerData.uniqueCheckData =
+  docData.uniqueCheckData =
       await ServerRequestsController.docxUniqueCheckRequest(file: fileData);
 }
 

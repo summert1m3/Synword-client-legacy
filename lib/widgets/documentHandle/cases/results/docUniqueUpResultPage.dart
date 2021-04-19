@@ -4,16 +4,16 @@ import 'package:open_file/open_file.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
+import 'package:provider/provider.dart';
 
 class DocUniqueUpResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var docData = context.read<DocumentHandlerData>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Card(
-          color: Colors.white,
-          child: Padding(
+          Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
@@ -24,12 +24,11 @@ class DocUniqueUpResultPage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text("synword_" + (DocumentHandlerData.file.names.first ?? 'null'),
+                Text("synword_" + (docData.file.names.first ?? 'null'),
                     style: TextStyle(fontFamily: 'Roboto')),
               ],
             ),
           ),
-        ),
         SizedBox(
           height: 3.0.h,
         ),
@@ -55,7 +54,7 @@ class DocUniqueUpResultPage extends StatelessWidget {
           children: [
             RaisedButton(
               color: Colors.amber,
-              onPressed: () => OpenFile.open(DocumentHandlerData.downloadPath + "synword_" + DocumentHandlerData.file.names.first!, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+              onPressed: () => OpenFile.open(docData.downloadPath + "synword_" + docData.file.names.first!, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
               child: Text('documentHandleFinishCaseUniqueUpButton', style: TextStyle(fontFamily: 'Roboto'),).tr(),
             )
           ],

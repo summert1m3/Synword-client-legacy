@@ -4,24 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:provider/provider.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 import 'package:synword/widgets/documentHandle/dialogState.dart';
 
-class StartCase extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _StartCaseState();
-}
-
-class _StartCaseState extends State<StartCase> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class StartCase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var docData = context.read<DocumentHandlerData>();
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -43,7 +33,7 @@ class _StartCaseState extends State<StartCase> {
                 'icons/upload_file_button.svg',
                 semanticsLabel: 'Upload file',
               ),
-              onPressed: () => _filePick(),
+              onPressed: () => _filePick(docData),
             ),
             SizedBox(
               height: 20,
@@ -59,11 +49,11 @@ class _StartCaseState extends State<StartCase> {
   }
 }
 
-void _filePick() async {
+void _filePick(DocumentHandlerData docData) async {
   try {
     FilePickerResult _file = await _filePickerCallback();
-    DocumentHandlerData.file = _file;
-    DocumentHandlerData.updateState(DialogState.choice);
+    docData.file = _file;
+    docData.updateState(DialogState.choice);
   }catch(ex){
     print(ex);
   }

@@ -129,6 +129,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
       print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
+      CurrentUser.userData.uId = GoogleAuthService.googleUser!.id;
       print('authorization end');
     } on DioError catch (_) {
       throw ServerUnavailableException();

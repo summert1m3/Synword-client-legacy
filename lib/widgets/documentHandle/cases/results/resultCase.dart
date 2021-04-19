@@ -5,29 +5,30 @@ import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 import 'docUpAndCheckResult.dart';
 import 'package:sizer/sizer.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class ResultCase extends StatelessWidget {
-  late final Widget _result;
 
-  ResultCase(){
-    if (DocumentHandlerData.uniqueCheck == true && DocumentHandlerData.uniqueUp == true) {
-      _result = ResultsCase();
+  Widget? _getResultWidget(DocumentHandlerData docData){
+    if (docData.uniqueCheck == true && docData.uniqueUp == true) {
+      return ResultsCase();
     }
-    if (DocumentHandlerData.uniqueCheck == false && DocumentHandlerData.uniqueUp == true) {
-      _result = DocUniqueUpResultPage();
+    if (docData.uniqueCheck == false && docData.uniqueUp == true) {
+      return DocUniqueUpResultPage();
     }
-    if (DocumentHandlerData.uniqueCheck == true && DocumentHandlerData.uniqueUp == false) {
-      _result = DocUniqueCheckResultPage();
+    if (docData.uniqueCheck == true && docData.uniqueUp == false) {
+      return DocUniqueCheckResultPage();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var docData = context.read<DocumentHandlerData>();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: 8.0.h,
-        title: Text('uniqueCheckHeader', style: TextStyle(fontSize: 18.0.sp)).tr(),
+        title: Text('resultHeader', style: TextStyle(fontSize: 18.0.sp)).tr(),
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
@@ -37,7 +38,7 @@ class ResultCase extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(15)),
           color: Colors.white,
         ),
-        child: _result
+        child: _getResultWidget(docData)
       ),
     );
   }
