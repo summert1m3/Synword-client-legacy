@@ -325,11 +325,9 @@ class _BodyState extends State<Body> {
   void _hideLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
-    double distance = border - layer.getOffset().dy;
-
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy < border) {
-        double speed = distance / 75;
+        double speed = 4;
         speed *= border / layer.getOffset().dy;
 
         setState(() {
@@ -352,13 +350,11 @@ class _BodyState extends State<Body> {
   void _showLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
-    double distance = layer.getOffset().dy - border;
-
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy > border) {
 
-        double speed = distance / 35;
-        speed *= layer.getOffset().dy / distance;
+        double speed = 3;
+        speed *= layer.getOffset().dy / border;
 
         setState(() {
           Offset newOffset = Offset(0, layer.getOffset().dy - speed);
