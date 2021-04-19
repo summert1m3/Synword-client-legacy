@@ -49,7 +49,7 @@ class LayerTitle extends StatelessWidget {
                   child: Positioned(
                     top: 8,
                     left: 10,
-                    child: _aditionalButton!,
+                    child: _aditionalButton ?? Container(),
                   ),
                 ),
                 Positioned(

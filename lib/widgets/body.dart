@@ -124,7 +124,7 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(originalText);
+          UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(context, originalText);
           _uniqueText = uniqueUpData.text;
 
           setState(() {
@@ -325,11 +325,16 @@ class _BodyState extends State<Body> {
   void _hideLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
+    double distance = border - layer.getOffset().dy;
+
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy < border) {
+        double speed = distance / 75;
+        speed *= border / layer.getOffset().dy;
 
         setState(() {
-          Offset newOffset = Offset(0, layer.getOffset().dy + 10);
+          Offset newOffset = Offset(0, layer.getOffset().dy + speed);
+
           if (newOffset.dy > border) {
             newOffset = Offset(0, border);
           }
@@ -347,11 +352,17 @@ class _BodyState extends State<Body> {
   void _showLayer(MovingLayer layer, double border) {
     layer.setMovingEnabled(false);
 
+    double distance = layer.getOffset().dy - border;
+
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy > border) {
 
+        double speed = distance / 35;
+        speed *= layer.getOffset().dy / distance;
+
         setState(() {
-          Offset newOffset = Offset(0, layer.getOffset().dy - 10);
+          Offset newOffset = Offset(0, layer.getOffset().dy - speed);
+
           if (newOffset.dy < border) {
             newOffset = Offset(0, border);
           }

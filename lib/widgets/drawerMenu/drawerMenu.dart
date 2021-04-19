@@ -115,7 +115,7 @@ class DrawerMenu extends StatelessWidget {
                   'icons/feedback.svg',
                   semanticsLabel: 'Feedback',
                 ),
-                onPressed: () => Wiredash.of(context)!.show,
+                onPressed: () => Wiredash.of(context)!.show(),
               ),
             ],
           ),

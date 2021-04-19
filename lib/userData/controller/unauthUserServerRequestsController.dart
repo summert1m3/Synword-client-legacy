@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:synword/exceptions/badRequestException.dart';
 import 'dart:async';
 import 'package:synword/exceptions/serverUnavailableException.dart';
@@ -12,6 +13,7 @@ import 'package:synword/userData/controller/determineExceptionType.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
 import '../currentUser.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
   Dio _dio = new Dio(
@@ -25,7 +27,10 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
     try {
       var response = await _dio.post(
           MainServerData.unauthUserApi.uniqueCheckApiUrl,
-          data: {"uid": CurrentUser.userData.uId, "text": text});
+          data: {
+            "uid": CurrentUser.userData.uId,
+            "text": text
+          });
 
       print(response.data.toString());
 
@@ -42,11 +47,15 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(String text) async {
+  Future<UniqueUpData> uniqueUpRequest(BuildContext context, String text) async {
     try {
       var response = await _dio.post(
           MainServerData.unauthUserApi.uniqueUpApiUrl,
-          data: {"uid": CurrentUser.userData.uId, "text": text});
+          data: {
+            "uid": CurrentUser.userData.uId,
+            "text": text,
+            "language" : context.locale.toString() == "en_US" ? "English" : "Russian"
+          });
 
       print(response.data.toString());
 
@@ -89,7 +98,6 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
   @override
   Future<UniqueCheckData> docxUniqueCheckRequest({required FileData file}) {
-    // TODO: implement docxUniqueCheckRequest
     throw UnimplementedError();
   }
 
@@ -107,7 +115,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
-    } on DioError catch (ex) {
+    } on DioError catch (_) {
       throw ServerUnavailableException();
     }
   }
@@ -120,7 +128,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
 
       print(response.data.toString());
       await UserStorageData.setToken(response.data.toString());
-    } on DioError catch (ex) {
+    } on DioError catch (_) {
       throw ServerUnavailableException();
     }
   }

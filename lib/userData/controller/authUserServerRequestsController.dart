@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:synword/exceptions/serverUnavailableException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
@@ -9,9 +10,9 @@ import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
-
 import '../currentUser.dart';
 import 'determineExceptionType.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AuthUserServerRequestsController implements ServerRequestsInterface {
   Dio _dio = new Dio(
@@ -40,10 +41,14 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(String text) async {
+  Future<UniqueUpData> uniqueUpRequest(BuildContext context, String text) async {
     try {
       var response = await _dio.post(MainServerData.authUserApi.uniqueUpApiUrl,
-          data: {"uid": GoogleAuthService.googleUser!.id, "text": text});
+          data: {
+              "uid": GoogleAuthService.googleUser!.id,
+              "text": text,
+              "language" : context.locale.toString() == "en_US" ? "English" : "Russian"
+        });
 
       print(response.data.toString());
 
@@ -125,7 +130,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
       print('authorization end');
-    } on DioError catch (ex) {
+    } on DioError catch (_) {
       throw ServerUnavailableException();
     }
   }
@@ -138,7 +143,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
           data: {"accessToken": GoogleAuthService.googleAuth!.accessToken});
       print(response.data.toString());
       print('registration end');
-    } on DioError catch (ex) {
+    } on DioError catch (_) {
       throw ServerUnavailableException();
     }
   }

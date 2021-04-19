@@ -30,7 +30,8 @@ class UniqueTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
+    return AnimatedPositioned(
+      duration: Duration(microseconds: 0),
       top: _offset!.dy,
       child: BodyLayer(
           _widget,

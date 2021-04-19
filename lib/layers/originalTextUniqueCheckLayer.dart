@@ -23,7 +23,7 @@ class OriginalTextUniqueCheckLayer extends UniqueCheckLayer {
 
   void build() {
     setWidget(UniqueCheckWidget(
-        isLoadingScreenEnabled() ? getLoadingScreen() : TextUniqueCheck(getOriginalTextCheckData()!, getOffset()),
+        isLoadingScreenEnabled() ? getLoadingScreen() : TextUniqueCheck(getOriginalTextCheckData(), getOffset()),
         getOffset(),
         getTitleColor(),
         isTitleVisible(),

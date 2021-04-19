@@ -7,14 +7,16 @@ class GoogleAuthService {
 
   static Future<void> signIn() async {
       googleUser = await _googleSignIn.signIn();
-      if(googleUser != null) {
+
+      if (googleUser != null) {
         googleAuth = await googleUser?.authentication;
       }
   }
 
   static Future<void> signInSilently() async {
    googleUser = await _googleSignIn.signInSilently();
-   if (googleUser != null){
+
+   if (googleUser != null) {
      googleAuth = await googleUser?.authentication;
      print('Google signed in silently');
    }

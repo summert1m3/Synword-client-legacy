@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/monetization/purchases.dart';
 import 'package:synword/network/ServerStatus.dart';
