@@ -5,8 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:synword/widgets/documentHandle/cases/choiceCase.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
-import 'package:synword/widgets/documentHandle/dialogState.dart';
 
 class StartCase extends StatelessWidget {
   @override
@@ -53,7 +53,7 @@ void _filePick(DocumentHandlerData docData) async {
   try {
     FilePickerResult _file = await _filePickerCallback();
     docData.file = _file;
-    docData.updateState(DialogState.choice);
+    docData.updateState(ChoiceCase());
   }catch(ex){
     print(ex);
   }

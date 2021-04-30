@@ -43,7 +43,7 @@ class OriginalTextWidget extends StatelessWidget {
                                     fontWeight: FontWeight.normal,
                                     color: _textEditingController!.text.length >
                                         DefaultUserRestrictions
-                                            .uniqueUpMaxSymbolLimit
+                                            .maxSymbolLimit
                                         ? Colors.red
                                         : Colors.black.withOpacity(0.8),
                                     fontFamily: 'Roboto',

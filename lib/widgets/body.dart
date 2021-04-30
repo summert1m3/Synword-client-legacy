@@ -1,9 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:synword/constants/defaultUserRestrictions.dart';
+import 'package:synword/exceptions/maxSymbolLimitException.dart';
+import 'package:synword/exceptions/minSymbolLimitException.dart';
 import 'package:synword/exceptions/notEnoughCoinsException.dart';
 import 'package:synword/exceptions/serverUnavailableException.dart';
-import 'package:synword/exceptions/textLongLengthException.dart';
-import 'package:synword/exceptions/textShortLengthException.dart';
 import 'package:synword/exceptions/uniqueCheckException.dart';
 import 'package:synword/layers/buttonBarLayer.dart';
 import 'package:synword/layers/layersSetting.dart';
@@ -88,10 +90,10 @@ class _BodyState extends State<Body> {
         }
 
         _showErrorAwesomeDialog(context, exception.getErrorMessage());
-      } on TextShortLengthException {
-        _showErrorAwesomeDialog(context, 'uniqueCheckTextShortLengthException');
-      } on TextLongLengthException {
-        _showErrorAwesomeDialog(context, 'textLongLengthException');
+      } on MinSymbolLimitException {
+        _showErrorAwesomeDialog(context, 'minSymbolLimit');
+      } on MaxSymbolLimitException {
+        _showErrorAwesomeDialog(context, 'maxSymbolLimit');
       }
     } else {
       _showErrorAwesomeDialog(context, 'noInternet');
@@ -104,12 +106,12 @@ class _BodyState extends State<Body> {
 
       if (await InternetChecker().isInternetAvailability()) {
         try {
-          if (originalText.length < 10) {
-            throw TextShortLengthException();
+          if (originalText.length < DefaultUserRestrictions.minSymbolLimit) {
+            throw MinSymbolLimitException();
           }
 
           if (originalText.length > CurrentUser.userData.uniqueUpMaxSymbolLimit) {
-            throw TextLongLengthException();
+            throw MaxSymbolLimitException();
           }
 
           Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
@@ -124,7 +126,7 @@ class _BodyState extends State<Body> {
             _addLayer(uniqueTextLayer);
           });
 
-          UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(context, originalText);
+          UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(originalText);
           _uniqueText = uniqueUpData.text;
 
           setState(() {
@@ -254,12 +256,12 @@ class _BodyState extends State<Body> {
     OriginalTextUniqueCheckLayer? uniqueCheckLayer;
     String originalText = _textEditingController.value.text;
 
-    if (originalText.length < 100) {
-      throw TextShortLengthException();
+    if (originalText.length < DefaultUserRestrictions.minSymbolLimit) {
+      throw MinSymbolLimitException();
     }
 
     if (originalText.length > CurrentUser.userData.uniqueCheckMaxSymbolLimit) {
-      throw TextLongLengthException();
+      throw MaxSymbolLimitException();
     }
 
     try {
@@ -304,7 +306,7 @@ class _BodyState extends State<Body> {
         context: context,
         dialogType: DialogType.ERROR,
         animType: AnimType.LEFTSLIDE,
-        title: 'Ошибка'.tr(),
+        title: 'alertDialogError'.tr(),
         desc: desc.tr(),
         btnCancelOnPress: () {},
         btnCancelText: 'Ок'

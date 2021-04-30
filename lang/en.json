@@ -22,14 +22,10 @@
   "premiumPageThirdCardContent": "Unlimited requests",
   "premiumPageFourthCardTitle": "Plagiarism Checker",
   "premiumPageFourthCardContent": "20 requests per day for free",
-  "premiumPageSubscribeButton": "Subscribe for $10 per month",
+  "premiumPageSubscribeButton": "Subscribe for {price} per month",
 
   "priceListPageTitle": "Plagiarism Checker",
   "priceListPageUniqueCheckCardContent": "requests",
-  "priceListPageFirstCardPrice": "1,33 $",
-  "priceListPageSecondCardPrice": "3,76 $",
-  "priceListPageThirdCardPrice": "6,74 $",
-  "priceListPageFourthCardPrice": "10,77 $",
 
   "documentHandleChoiceCaseUniqueCheck": "Plagiarism Checker",
   "documentHandleChoiceCaseUniqueCheckSubtitle": "Premium feature",
@@ -46,11 +42,10 @@
 
   "noInternet": "Check your internet connection",
   "serverError": "Error. Service is currently unavailable",
-  "textShortLengthException": "Please enter at least 10 characters",
-  "uniqueCheckTextShortLengthException": "Please enter at least 100 characters",
-  "textLongLengthException": "Limit: 20,000 characters",
+  "minSymbolLimit": "This text is too short",
+  "maxSymbolLimit": "This text is too long",
 
-  "dailyLimitReached": "You have used all available queries for today",
+  "notEnoughCoins": "You have used all available queries for today",
   "maxSymbolLimitReached": "Your text is too big",
 
   "unauthProfileDialogTitle": "Sign in with:",
@@ -58,9 +53,26 @@
   "coins": "coins",
   "coin": "coin",
   "a coin": "a coin",
-  "priceListSave": "save",
 
   "resultHeader" : "Results",
 
-  "alertDialogError" : "Error"
+  "alertDialogError" : "Error",
+  "pleaseTryAgain" : "Please try again later",
+
+  "symbolCountMessage" : "Characters: ",
+  "symbolLimitMessage" : "Restriction: ",
+
+  "balanceCheck" : "Check balance",
+  "tryAgain" : "Retry",
+  "successPageRewardTitle" : "Your balance is credited with {coin_count} coin(s)",
+  "earn" : "Earn",
+  "buy" : "Buy",
+  "coinPageGeneralInfo" : "General information",
+  "coinPageServiceCost" : "Service cost",
+  "coinPageGeneralInfoFirst" : "Coins are required to use synword service",
+  "coinPageGeneralInfoSecond" : "Every day you will receive {coin_count} coins",
+  "coinPageGeneralInfoThird" : "Unauthorized users cannot have more than {coin_count} coins",
+  "coinPageGeneralInfoFourth" : "You will get {coin_count} coins for viewing ads",
+  "coinPageServiceCostFirst" : "Synonymize: {coin_count} coin",
+  "coinPageServiceCostSecond" : "Plagiarism checker: {coin_count} coins"
 }

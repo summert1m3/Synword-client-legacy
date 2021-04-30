@@ -2,16 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-class LangCode{
-  String ru = 'ru';
-  String en = 'en';
-}
-
-class CountryCode{
-  String us = 'US';
-  String ru = 'RU';
-}
+import 'package:synword/language/localeController.dart';
 
 class LangDialog extends StatefulWidget{
 
@@ -28,9 +19,9 @@ class _LangDialogState extends State<LangDialog> {
     });
   }
 
-  void changeLang(String langCode, String countryCode){
+  void changeLang(String langCode){
     setState(() {
-      context.locale = Locale(langCode,countryCode);
+      LocaleController.setLangCode(langCode);
     });
   }
 
@@ -66,10 +57,10 @@ class _LangDialogState extends State<LangDialog> {
                     value: 'en',
                     groupValue: langCode,
                     onChanged: (val){
-                      changeLang('en', 'US');
+                      changeLang('en');
                     },
                   ),
-                  onTap: () => changeLang('en', 'US'),
+                  onTap: () => changeLang('en'),
                 ),
               ),
               SizedBox(
@@ -90,10 +81,10 @@ class _LangDialogState extends State<LangDialog> {
                     value: 'ru',
                     groupValue: langCode,
                     onChanged: (val){
-                      changeLang('ru', 'RU');
+                      changeLang('ru');
                     },
                   ),
-                  onTap: () => changeLang('ru', 'RU'),
+                  onTap: () => changeLang('ru'),
                 ),
               )
             ],

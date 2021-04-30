@@ -7,7 +7,7 @@ import 'package:synword/constants/googleProductId.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
-import 'package:synword/monetization/purchases.dart';
+import 'package:synword/monetization/purchase.dart';
 import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPages/unsubscribedListPageCard.dart';
 
@@ -82,11 +82,11 @@ class UnsubscribedPage extends StatelessWidget {
                         builder: (context) => RaisedButton(
                           color: HexColor('#E1B34F'),
                           onPressed: () {
-                            _subscribeCallback();
+                            _subscribeCallback(context);
                           },
                           child: const Text('premiumPageSubscribeButton',
                                   style: TextStyle(fontFamily: 'Roboto'))
-                              .tr(),
+                              .tr(namedArgs: {'price' : Purchase.instance.getProduct(GoogleProductId.premium).price}),
                         ),
                       ),
                     ),
@@ -101,36 +101,22 @@ class UnsubscribedPage extends StatelessWidget {
   }
 }
 
-Future<void> _subscribeCallback() async {
+Future<void> _subscribeCallback(BuildContext context) async {
   try {
     await ServerStatus.check();
-    if (GoogleAuthService.googleUser == null) {
-      await GoogleAuthService.signIn();
-      if (GoogleAuthService.googleUser != null) {
-        await AuthorizationController.authorization();
-        //монетизация
-        await monetization.buyNonConsumableProduct(GoogleProductId.premium);
-      }
-    } else {
-      //монетизация
-      await monetization.buyNonConsumableProduct(GoogleProductId.premium);
+    if(GoogleAuthService.googleUser == null) {
+      showUserProfileDialog(context);
     }
-    UnsubscribedPage.setState();
-  } on PlatformException catch (ex) {
-    print(ex);
-    final snackBar = SnackBar(
-      content: Text(ex.message.toString()),
-      duration: Duration(seconds: 3),
-    );
-
-    Scaffold.of(UnsubscribedPage.context).showSnackBar(snackBar);
+    else{
+      await Purchase.instance.buyNonConsumableProduct(GoogleProductId.premium);
+      UnsubscribedPage.setState();
+    }
   } catch (ex) {
     print(ex);
     final snackBar = SnackBar(
-      content: Text('serverError'.tr()),
-      duration: Duration(seconds: 3),
+      content: Text(ex.toString()),
+      duration: Duration(seconds: 5),
     );
-
-    Scaffold.of(UnsubscribedPage.context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(UnsubscribedPage.context).showSnackBar(snackBar);
   }
 }

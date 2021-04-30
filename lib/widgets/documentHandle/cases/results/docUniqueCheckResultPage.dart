@@ -13,7 +13,7 @@ class DocUniqueCheckResultPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 25),
-              child: WaveBar(docData.uniqueCheckData.percent / 100),
+              child: WaveBar(docData.uniqueCheckData!.percent / 100),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),

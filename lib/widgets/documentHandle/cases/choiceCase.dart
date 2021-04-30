@@ -6,13 +6,23 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/exceptions/maxSymbolLimitException.dart';
+import 'package:synword/exceptions/minSymbolLimitException.dart';
+import 'package:synword/exceptions/notEnoughCoinsException.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/userData/currentUser.dart';
-import 'package:synword/widgets/documentHandle/dialogState.dart';
+import 'package:synword/widgets/documentHandle/cases/error/defaultError.dart';
+import 'package:synword/widgets/documentHandle/cases/error/errorCase.dart';
+import 'package:synword/widgets/documentHandle/cases/error/minSymbolLimitError.dart';
+import 'package:synword/widgets/documentHandle/cases/error/notEnoughCoinsError.dart';
+import 'package:synword/widgets/documentHandle/cases/loading.dart';
+import 'package:synword/widgets/documentHandle/cases/results/resultCase.dart';
 import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
 import 'package:provider/provider.dart';
+
+import 'error/maxSymbolLimitError.dart';
 
 class ChoiceCase extends StatefulWidget {
   @override
@@ -148,7 +158,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
 }
 
 Future<void> onClickButtonHandler(DocumentHandlerData docData) async {
-  docData.updateState(DialogState.loading);
+  docData.updateState(LoadingCase());
   try {
     if (docData.uniqueUp == true && docData.uniqueCheck == true) {
       await uniqueUp(docData);
@@ -158,10 +168,15 @@ Future<void> onClickButtonHandler(DocumentHandlerData docData) async {
     } else if (docData.uniqueCheck == true) {
       await uniqueCheck(docData);
     }
-    docData.updateState(DialogState.finish);
-  } catch (ex) {
-    print(ex);
-    docData.updateState(DialogState.error);
+    docData.updateState(ResultCase());
+  } on MinSymbolLimitException catch(ex) {
+    docData.updateState(ErrorCase(MinSymbolLimitError(ex)));
+  } on MaxSymbolLimitException catch(ex){
+    docData.updateState(ErrorCase(MaxSymbolLimitError(ex)));
+  } on NotEnoughCoinsException catch(_){
+    docData.updateState(ErrorCase(NotEnoughCoinsError()));
+  } catch(ex) {
+    docData.updateState(ErrorCase(DefaultError(ex)));
   }
 }
 
@@ -175,7 +190,6 @@ Future<void> uniqueUp(DocumentHandlerData docData) async {
   File file = File(
     join(docData.downloadPath, "synword_" + docData.file.names.first!),
   );
-
   file.writeAsBytesSync(response.data);
 }
 

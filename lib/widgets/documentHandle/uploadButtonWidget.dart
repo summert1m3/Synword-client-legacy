@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:synword/widgets/documentHandle/cases/startCase.dart';
-import 'package:synword/widgets/documentHandle/cases/choiceCase.dart';
-import 'package:synword/widgets/documentHandle/dialogState.dart';
 import 'package:synword/widgets/documentHandle/documentHandlerData.dart';
-import 'cases/errorCase.dart';
-import 'cases/loading.dart';
-import 'package:synword/widgets/documentHandle/cases/results/resultCase.dart';
 
 class UploadFileUI extends StatefulWidget {
   @override
@@ -14,35 +9,18 @@ class UploadFileUI extends StatefulWidget {
 }
 
 class _UploadFileUIState extends State<UploadFileUI> {
-  DialogState _state = DialogState.start;
+  Widget _widget = StartCase();
 
   @override
   Widget build(BuildContext context) {
-    var updateMainState = (DialogState state) {
+    var updateMainState = (Widget widget) {
       setState(() {
-        this._state = state;
+        this._widget = widget;
       });
     };
     return Provider(
       create: (_) => DocumentHandlerData(updateMainState),
-      child: dialogChoice(_state),
+      child: _widget,
     );
-  }
-}
-
-Widget dialogChoice(DialogState state) {
-  switch (state) {
-    case DialogState.start:
-      return StartCase();
-    case DialogState.choice:
-      return ChoiceCase();
-    case DialogState.loading:
-      return LoadingCase();
-    case DialogState.finish:
-      return ResultCase();
-    case DialogState.error:
-      return ErrorCase();
-    default:
-      return ErrorCase();
   }
 }

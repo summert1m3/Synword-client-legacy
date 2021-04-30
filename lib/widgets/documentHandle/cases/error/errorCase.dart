@@ -3,6 +3,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
 
 class ErrorCase extends StatelessWidget {
+  final Widget _body;
+  ErrorCase(this._body);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -23,16 +26,9 @@ class ErrorCase extends StatelessWidget {
                 color: Colors.red,
                 size: 20.0.h,
               ),
-              Text(
-                'Ошибка',
-                style: TextStyle(fontSize: 15.0.sp, color: Colors.white),
-              ),
-              Text(
-                'Повторите попытку позже',
-                style: TextStyle(fontSize: 10.0.sp, color: Colors.white),
-              )
+              _body
             ],
-          ),
+          )
         ),
       ),
     );

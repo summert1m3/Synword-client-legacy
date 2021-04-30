@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
-import 'package:synword/monetization/purchases.dart';
+import 'package:synword/monetization/purchase.dart';
 
 class SplashScreen extends StatefulWidget {
   final Function _splashScreenCallback;
@@ -27,15 +27,18 @@ class _SplashScreenState extends State<SplashScreen> {
   );
 
   void _initialize() async {
-    await _checkForUpdate();
+    //await _checkForUpdate();
     await authorization();
-    monetization.initialize();
+    Purchase.instance.initialize();
     Timer(Duration(seconds: 3), () => _splashScreenCallback());
   }
 
   Future<void> _checkForUpdate() async {
-    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate().catchError((error) {});
-
+    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate().catchError((error) {
+      print(error);
+    });
+    print(updateInfo.updateAvailability);
+    print(UpdateAvailability.updateAvailable);
     if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
       await InAppUpdate.performImmediateUpdate().catchError((error) {});
     }

@@ -52,7 +52,6 @@ void _googleSignIn(Function setState) async {
   if (GoogleAuthService.googleUser == null) {
     await GoogleAuthService.signIn();
     if (GoogleAuthService.googleUser != null) {
-      await RegistrationController.registration();
       await AuthorizationController.authorization();
       setState();
     }

@@ -22,14 +22,10 @@
   "premiumPageThirdCardContent": "Безлимит по запросам",
   "premiumPageFourthCardTitle": "Проверка уникальности",
   "premiumPageFourthCardContent": "20 запросов в день бесплатно",
-  "premiumPageSubscribeButton": "Подписаться за 200р/месяц",
+  "premiumPageSubscribeButton": "Подписаться за {price}/месяц",
 
   "priceListPageTitle": "Проверка уникальности",
   "priceListPageUniqueCheckCardContent": "запросов",
-  "priceListPageFirstCardPrice": "99 руб",
-  "priceListPageSecondCardPrice": "279 руб",
-  "priceListPageThirdCardPrice": "500 руб",
-  "priceListPageFourthCardPrice": "799 руб",
 
   "documentHandleChoiceCaseUniqueCheck": "Проверить уникальность",
   "documentHandleChoiceCaseUniqueCheckSubtitle": "Премиум функция",
@@ -46,20 +42,36 @@
 
   "noInternet": "Проверьте подключение к Интернету",
   "serverError": "Ошибка. Сервис в данный момент недоступен",
-  "textShortLengthException": "Пожалуйста, введите как минимум 100 символов",
-  "uniqueCheckTextShortLengthException": "Пожалуйста, введите как минимум 100 символов",
-  "textLongLengthException": "Ограничение: 20.000 символов",
+  "minSymbolLimit": "Данный текст слишком короткий",
+  "maxSymbolLimit": "Данный текст слишком большой",
 
-  "dailyLimitReached": "Вы использовали все доступные запросы на сегодня",
+  "notEnoughCoins": "Вы использовали все доступные запросы на сегодня",
   "maxSymbolLimitReached": "Ваш текст слишком большой",
 
   "unauthProfileDialogTitle": "Войдите с помощью:",
-  "coins": "монеты",
+  "coins": "монет",
   "coin": "монета",
   "a coin": "монету",
-  "priceListSave": "скидка",
 
   "resultHeader" : "Результаты",
 
-  "alertDialogError" : "Ошибка"
+  "alertDialogError" : "Ошибка",
+  "pleaseTryAgain" : "Повторите попытку позже",
+
+  "symbolCountMessage" : "Cимволов: ",
+  "symbolLimitMessage" : "Ограничение: ",
+
+  "balanceCheck" : "Проверить баланс",
+  "tryAgain" : "Повторить",
+  "successPageRewardTitle" : "На ваш баланс зачислено {coin_count} монет(ы)",
+  "earn" : "Получить",
+  "buy" : "Купить",
+  "coinPageGeneralInfo" : "Общая информация",
+  "coinPageServiceCost" : "Стоимость услуг",
+  "coinPageGeneralInfoFirst" : "Монеты необходимы для пользования услугами synword",
+  "coinPageGeneralInfoSecond" : "Ежедневно вы будете получать {coin_count} монет",
+  "coinPageGeneralInfoThird" : "Неавторизованные пользователи не могут иметь больше {coin_count} монет",
+  "coinPageGeneralInfoFourth" : "За просмотр рекламы вы получите {coin_count} монеты",
+  "coinPageServiceCostFirst" : "Повышение уникальности: {coin_count} монета",
+  "coinPageServiceCostSecond" : "Проверка уникальности: {coin_count} монеты"
 }

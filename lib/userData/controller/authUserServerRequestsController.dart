@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:synword/exceptions/serverUnavailableException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/language/localeController.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
@@ -12,7 +12,6 @@ import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
 import '../currentUser.dart';
 import 'determineExceptionType.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class AuthUserServerRequestsController implements ServerRequestsInterface {
   Dio _dio = new Dio(
@@ -41,13 +40,13 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(BuildContext context, String text) async {
+  Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
       var response = await _dio.post(MainServerData.authUserApi.uniqueUpApiUrl,
           data: {
               "uid": GoogleAuthService.googleUser!.id,
               "text": text,
-              "language" : context.locale.toString() == "en_US" ? "English" : "Russian"
+              "language" : LocaleController.getFullLangName()
         });
 
       print(response.data.toString());
@@ -72,6 +71,7 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
       FormData formData = new FormData.fromMap({
         "uId": GoogleAuthService.googleUser!.id,
         "Files": new MultipartFile.fromBytes(file.bytes, filename: file.name),
+        "language" : LocaleController.getFullLangName()
       });
 
       Response response = await dio
@@ -118,19 +118,15 @@ class AuthUserServerRequestsController implements ServerRequestsInterface {
 
   Future<void> authorization() async {
     await ServerStatus.check();
-    print('authorization');
     Response response;
     try {
       response = await _dio.post(MainServerData.authUserApi.getAllUserData,
           data: {
             "uid": GoogleAuthService.googleUser!.id
           }).timeout(Duration(seconds: 5));
-      print(response.data);
-      print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
       CurrentUser.userData.uId = GoogleAuthService.googleUser!.id;
-      print('authorization end');
     } on DioError catch (_) {
       throw ServerUnavailableException();
     }

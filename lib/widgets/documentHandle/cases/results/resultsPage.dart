@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:synword/widgets/documentHandle/cases/results/docUniqueCheckResultPage.dart';
 import 'package:synword/widgets/documentHandle/cases/results/docUniqueUpResultPage.dart';
 
-class ResultsCase extends StatefulWidget{
+class ResultsPage extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => _ResultsCaseState();
+  State<StatefulWidget> createState() => _ResultsPageState();
 }
 
-class _ResultsCaseState extends State<ResultsCase> with SingleTickerProviderStateMixin {
+class _ResultsPageState extends State<ResultsPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   var _kTabPages = <Widget>[
     DocUniqueUpResultPage(),

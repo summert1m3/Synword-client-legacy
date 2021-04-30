@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:synword/exceptions/badRequestException.dart';
 import 'dart:async';
 import 'package:synword/exceptions/serverUnavailableException.dart';
+import 'package:synword/language/localeController.dart';
 import 'package:synword/model/fileData.dart';
 import 'package:synword/model/json/uniqueCheckData.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
@@ -13,7 +13,6 @@ import 'package:synword/userData/interface/serverRequestsInterface.dart';
 import 'package:synword/constants/mainServerData.dart';
 import 'package:synword/userData/userStorageData.dart';
 import '../currentUser.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class UnauthUserServerRequestsController implements ServerRequestsInterface {
   Dio _dio = new Dio(
@@ -47,14 +46,14 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
   }
 
   @override
-  Future<UniqueUpData> uniqueUpRequest(BuildContext context, String text) async {
+  Future<UniqueUpData> uniqueUpRequest(String text) async {
     try {
       var response = await _dio.post(
           MainServerData.unauthUserApi.uniqueUpApiUrl,
           data: {
             "uid": CurrentUser.userData.uId,
             "text": text,
-            "language" : context.locale.toString() == "en_US" ? "English" : "Russian"
+            "language" : LocaleController.getFullLangName()
           });
 
       print(response.data.toString());
@@ -77,6 +76,7 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       FormData formData = new FormData.fromMap({
         "uId": CurrentUser.userData.uId,
         "Files": new MultipartFile.fromBytes(file.bytes, filename: file.name),
+        "language" : LocaleController.getFullLangName()
       });
 
       Response response = await _dio
@@ -110,9 +110,6 @@ class UnauthUserServerRequestsController implements ServerRequestsInterface {
       var response = await _dio.post(
           MainServerData.unauthUserApi.getAllUserData,
           data: {"uid": token});
-
-      print(response.data);
-      print('Response status: ${response.statusCode}');
 
       CurrentUser.userData.fromJson(jsonDecode(response.data));
       CurrentUser.userData.uId = token;

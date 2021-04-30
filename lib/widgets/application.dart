@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:sizer/sizer_util.dart';
+import 'package:sizer/sizer.dart';
+import 'package:synword/language/localeController.dart';
 import 'package:synword/layers/layersSetting.dart';
-import 'package:synword/userData/currentUser.dart';
 import 'splashScreen.dart';
 import 'home.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -23,20 +22,19 @@ class _ApplicationState extends State<Application> {
 
   Widget _createHome(BuildContext context) {
     if (isSplashScreenVisible) {
-      return SplashScreen(
-        () {
-         setState(() {
-           isSplashScreenVisible = false;
-         });
-        }
-      );
+      return SplashScreen(() {
+        setState(() {
+          isSplashScreenVisible = false;
+        });
+      });
     } else {
       return Home();
     }
   }
 
   void _initializeLayersSetting(BuildContext context) {
-    layersSetting = LayersSetting.initialize(70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
+    layersSetting = LayersSetting.initialize(
+        70, 13, Colors.red, HexColor('#FCFD64'), HexColor('#FCFD64'), 130, 130);
   }
 
   @override
@@ -47,39 +45,30 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     _initializeLayersSetting(context);
+    LocaleController.initialize(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return LayoutBuilder(                           //return LayoutBuilder
-      builder: (context, constraints) {
-        return OrientationBuilder(                  //return OrientationBuilder
-          builder: (context, orientation) {
-            SizerUtil().init(constraints, orientation);  //initialize SizerUtil
-            return ChangeNotifierProvider.value(
-              value: CurrentUser.userData,
-              child: WiredashApp(
-                navigatorKey: _navigatorKey,
-                child: MaterialApp(
-                  localizationsDelegates: context.localizationDelegates,
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  navigatorKey: _navigatorKey,
-                  title: 'SynWord',
-                  home: _createHome(context),
-                  builder: (context,navigator){
-                    var lang = EasyLocalization.of(context)!.locale.languageCode;
-                    return Theme(
-                      data: ThemeData(
-                          fontFamily: lang == 'ru' ? 'Gardens' : 'Audrey'
-                      ),
-                      child: navigator!,
-                    );
-                  },
-                ),
-              ),
-            );
-          },
+    return Sizer(
+      builder: (context, orientation, screenType) {
+        return WiredashApp(
+          navigatorKey: _navigatorKey,
+          child: MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            navigatorKey: _navigatorKey,
+            title: 'Synword',
+            home: _createHome(context),
+            builder: (context, navigator) {
+              var lang = EasyLocalization.of(context)!.locale.languageCode;
+              return Theme(
+                data: ThemeData(fontFamily: LocaleController.getFont()),
+                child: navigator!,
+              );
+            },
+          ),
         );
       },
     );

@@ -1,17 +1,23 @@
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/constants/googleProductId.dart';
+import 'package:synword/googleAuth/googleAuthService.dart';
+import 'package:synword/monetization/purchase.dart';
+import 'package:synword/network/ServerStatus.dart';
+import 'package:synword/widgets/drawerMenu/pages/functions/showUserProfileDialog.dart';
 
 class CoinPriceListItem extends StatelessWidget {
   final String _title;
   final String _titleTr;
-  final String _cost;
   final String _subtitle;
+  final ProductDetails _product;
 
   CoinPriceListItem({
-    required String title, required String cost, String? subtitle, required String titleTr,
-  }) : _title = title, _cost = cost, _subtitle = subtitle ?? '', _titleTr = titleTr;
+    required String title, String? subtitle, required String titleTr, required ProductDetails product
+  }) : _title = title, _subtitle = subtitle ?? '', _titleTr = titleTr, _product = product;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +35,10 @@ class CoinPriceListItem extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.only(right: 25),
-            child: SvgPicture.asset(
-                'icons/coin_cost_page.svg',
-                semanticsLabel: 'Premium',
+            child: Image.asset(
+                'icons/coinPage/coin_cost_page.png',
                 height: 6.0.h,
                 width: 6.0.h,
-                color: Colors.black.withOpacity(0.6),
             ),
           ),
           Expanded(
@@ -62,7 +66,7 @@ class CoinPriceListItem extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.amberAccent,
                 highlightColor: Colors.amberAccent.withOpacity(0.5),
-                onTap: ()=>{},
+                onTap: () => _purchaseProduct(context, _product.id),
                 child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
                   child: Column(
@@ -73,7 +77,7 @@ class CoinPriceListItem extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Container(
-                        child: Text(_cost.tr(), style: TextStyle(fontFamily: 'Roboto', fontSize: 13.0.sp, color: Colors.white)),
+                        child: Text(_product.price, style: TextStyle(fontFamily: 'Roboto', fontSize: 12.0.sp, color: Colors.white)),
                       )
                     ],
                   ),
@@ -94,12 +98,9 @@ class CoinPriceListPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: 16.0.h,
-        title: SvgPicture.asset(
-            'icons/hand_and_coins.svg',
-            semanticsLabel: 'Bag of coins',
-            color: Colors.white,
-            height: 15.5.h,
-            width: 15.5.w
+        title: Image.asset(
+          'icons/coinPage/treasure_chest.png',
+          height: 20.0.h,
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
@@ -119,27 +120,24 @@ class CoinPriceListPage extends StatelessWidget {
                   child: Column(
                     children: [
                       CoinPriceListItem(
-                        title: '20',
+                        title: '100',
                         titleTr: 'coins',
-                        cost: 'priceListPageFirstCardPrice'
+                        product: Purchase.instance.getProduct(GoogleProductId.coins_100),
                       ),
                       CoinPriceListItem(
-                        title: '50',
+                        title: '300',
                         titleTr: 'coins',
-                        cost: 'priceListPageSecondCardPrice',
-                        subtitle: '10%' + ' ' + 'priceListSave'.tr(),
+                        product: Purchase.instance.getProduct(GoogleProductId.coins_300),
                       ),
                       CoinPriceListItem(
-                        title: '150',
+                        title: '600',
                         titleTr: 'coins',
-                        cost: 'priceListPageThirdCardPrice',
-                        subtitle: '15%' + ' ' + 'priceListSave'.tr(),
+                        product: Purchase.instance.getProduct(GoogleProductId.coins_600),
                       ),
                       CoinPriceListItem(
-                        title: '250',
+                        title: '1000',
                         titleTr: 'coins',
-                        cost: 'priceListPageFourthCardPrice',
-                        subtitle: '25%' + ' ' + 'priceListSave'.tr(),
+                        product: Purchase.instance.getProduct(GoogleProductId.coins_1000),
                       )
                     ],
                   ),
@@ -150,5 +148,24 @@ class CoinPriceListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _purchaseProduct(BuildContext context, String productId) async {
+  try {
+    await ServerStatus.check();
+    if(GoogleAuthService.googleUser == null) {
+      showUserProfileDialog(context);
+    }
+    else{
+      await Purchase.instance.buyConsumableProduct(productId);
+    }
+  } catch (ex) {
+    print(ex);
+    final snackBar = SnackBar(
+      content: Text(ex.toString()),
+      duration: Duration(seconds: 5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
