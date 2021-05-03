@@ -73,5 +73,7 @@
   "coinPageGeneralInfoThird" : "Неавторизованные пользователи не могут иметь больше {coin_count} монет",
   "coinPageGeneralInfoFourth" : "За просмотр рекламы вы получите {coin_count} монеты",
   "coinPageServiceCostFirst" : "Повышение уникальности: {coin_count} монета",
-  "coinPageServiceCostSecond" : "Проверка уникальности: {coin_count} монеты"
+  "coinPageServiceCostSecond" : "Проверка уникальности: {coin_count} монеты",
+
+  "textCopied" : "Текст успешно скопирован"
 }

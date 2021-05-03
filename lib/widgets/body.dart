@@ -23,6 +23,7 @@ import 'package:synword/userData/controller/serverRequestsController.dart';
 import 'dart:async';
 import 'package:synword/userData/currentUser.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:synword/userData/userTextData.dart';
 
 class Body extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
@@ -46,8 +47,6 @@ class _BodyState extends State<Body> {
 
   late OriginalTextLayer _originalTextLayer;
   late ButtonBarLayer _buttonBarLayer;
-
-  String _uniqueText = '';
 
   bool _isButtonBarButtonNotVisible = false;
 
@@ -127,7 +126,7 @@ class _BodyState extends State<Body> {
           });
 
           UniqueUpData uniqueUpData = await ServerRequestsController.uniqueUpRequest(originalText);
-          _uniqueText = uniqueUpData.text;
+          UserTextData.uniqueText = uniqueUpData.text;
 
           setState(() {
             uniqueTextLayer?.setLoadingScreenEnabled(false);
@@ -210,7 +209,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueCheckData = await ServerRequestsController.uniqueCheckRequest(UserTextData.uniqueText);
 
       setState(() {
         uniqueCheckLayer?.setLoadingScreenEnabled(false);
@@ -238,7 +237,7 @@ class _BodyState extends State<Body> {
         _addLayer(uniqueCheckLayer);
       });
 
-      UniqueCheckData uniqueUniqueCheckData = await ServerRequestsController.uniqueCheckRequest(_uniqueText);
+      UniqueCheckData uniqueUniqueCheckData = await ServerRequestsController.uniqueCheckRequest(UserTextData.uniqueText);
 
       setState(() {
         uniqueCheckLayer?.setLoadingScreenEnabled(false);
@@ -329,11 +328,8 @@ class _BodyState extends State<Body> {
 
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy < border) {
-        double speed = 4;
-        speed *= border / layer.getOffset().dy;
-
         setState(() {
-          Offset newOffset = Offset(0, layer.getOffset().dy + speed);
+          Offset newOffset = Offset(0, layer.getOffset().dy + 10);
 
           if (newOffset.dy > border) {
             newOffset = Offset(0, border);
@@ -354,12 +350,8 @@ class _BodyState extends State<Body> {
 
     Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (layer.getOffset().dy > border) {
-
-        double speed = 3;
-        speed *= layer.getOffset().dy / border;
-
         setState(() {
-          Offset newOffset = Offset(0, layer.getOffset().dy - speed);
+          Offset newOffset = Offset(0, layer.getOffset().dy - 10);
 
           if (newOffset.dy < border) {
             newOffset = Offset(0, border);

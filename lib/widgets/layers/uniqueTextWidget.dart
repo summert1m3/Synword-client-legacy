@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:synword/userData/userTextData.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
 import 'package:synword/types.dart';
@@ -49,7 +50,8 @@ class UniqueTextWidget extends StatelessWidget {
                   splashRadius: 23,
                   icon: Icon(Icons.content_copy),
                   onPressed: () {
-                    Clipboard.setData(new ClipboardData(text: _uniqueText));
+                    Clipboard.setData(new ClipboardData(text: UserTextData.uniqueText));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('textCopied'.tr())));
                   }
                 ),
               )

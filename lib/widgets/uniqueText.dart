@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:synword/model/json/uniqueUpData.dart';
 import 'package:sizer/sizer.dart';
+import 'package:synword/userData/userTextData.dart';
 import 'package:validators/validators.dart';
 
 class ChoiceSynonymsDialogItem extends StatelessWidget {
@@ -18,7 +19,7 @@ class ChoiceSynonymsDialogItem extends StatelessWidget {
       onTapUp: (_) => _onTap(_word),
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
-        child: Text(_word, style: TextStyle(color: Colors.white, fontSize: 14.0.sp)),
+        child: Text(_word, style: TextStyle(color: Colors.white, fontSize: 14.0.sp, fontFamily: 'Roboto')),
       ),
     );
   }
@@ -42,10 +43,13 @@ class ChoiceSynonymsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 5.0.w,
-      height: 25.0.h,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: 5.0.w,
+        maxHeight: 25.0.h
+      ),
       child: RawScrollbar(
+        isAlwaysShown: true,
         thumbColor: Colors.white,
         child: SingleChildScrollView(
           child: Column(
@@ -61,7 +65,9 @@ class UniqueText extends StatefulWidget {
   final UniqueUpData? _uniqueUpData;
   final Offset _offset;
 
-  UniqueText(this._uniqueUpData, this._offset);
+  UniqueText({required UniqueUpData? uniqueUpData, required Offset offset})
+    : _uniqueUpData = uniqueUpData,
+      _offset = offset;
 
   @override
   State<StatefulWidget> createState() {
@@ -137,6 +143,8 @@ class _UniqueTextState extends State<UniqueText> {
                                 _uniqueUpData!.replaced[j].word.startIndex += difference;
                                 _uniqueUpData!.replaced[j].word.endIndex += difference;
                               }
+
+                              UserTextData.uniqueText = _uniqueUpData!.text;
 
                               Navigator.of(context).pop();
                             });

@@ -74,5 +74,7 @@
   "coinPageGeneralInfoThird" : "Unauthorized users cannot have more than {coin_count} coins",
   "coinPageGeneralInfoFourth" : "You will get {coin_count} coins for viewing ads",
   "coinPageServiceCostFirst" : "Synonymize: {coin_count} coin",
-  "coinPageServiceCostSecond" : "Plagiarism checker: {coin_count} coins"
+  "coinPageServiceCostSecond" : "Plagiarism checker: {coin_count} coins",
+
+  "textCopied" : "Text copied successfully"
 }

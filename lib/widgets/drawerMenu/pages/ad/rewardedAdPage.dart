@@ -116,7 +116,7 @@ class _RewardedAdPageState extends State<RewardedAdPage> {
                       createRewardedAd();
                     });
                   },
-                  child: Text('tryAgain'.tr(), style: TextStyle(fontSize: 13.0.sp, fontFamily: 'Roboto'),),
+                  child: Text('tryAgain'.tr(), style: TextStyle(fontSize: 13.0.sp, fontFamily: 'Roboto')),
               )
             ],
           ),
@@ -126,7 +126,7 @@ class _RewardedAdPageState extends State<RewardedAdPage> {
 
   void createRewardedAd() {
     _rewardedAd = RewardedAd(
-      adUnitId: AdState.rewardedAdUnitId,
+      adUnitId: RewardedAd.testAdUnitId,
       request: AdRequest(),
       listener: AdListener(
           onAdLoaded: (Ad ad) {
