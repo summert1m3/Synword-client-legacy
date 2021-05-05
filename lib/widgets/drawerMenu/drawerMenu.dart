@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dialogs/langDialog.dart';
 import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
+import 'package:sizer/sizer.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class DrawerMenu extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               SizedBox(
-                  height: 5
+                  height: 1.0.h
               ),
               IconButton(
                 icon: Icon(
@@ -35,19 +36,19 @@ class DrawerMenu extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 3,
+                height: 1.0.h,
               ),
               Text('drawerCommercial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white, fontSize: (screenSize.height + screenSize.width) / 80,
+                    color: Colors.white, fontSize: 10.0.sp,
                   ),
               ).tr(),
               SizedBox(
-                height: (screenSize.height + screenSize.width) / 240,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: (screenSize.height / 17 + screenSize.width / 17),
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/premium.svg',
                   semanticsLabel: 'Premium',
@@ -63,20 +64,20 @@ class DrawerMenu extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CoinPage())),
               ),
               SizedBox(
-                height: (screenSize.height + screenSize.width) / 160,
+                height: 1.0.h,
               ),
               Text(
                   'drawerSocial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontSize: (screenSize.height + screenSize.width) / 80,
+                      color: Colors.white, fontSize: 10.0.sp,
                   ),
               ).tr(),
               SizedBox(
-                height: (screenSize.height + screenSize.width) / 240,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: (screenSize.height / 17 + screenSize.width / 17),
+                iconSize: 9.5.h,
                 icon: Image(
                   image: AssetImage('icons/instagram.png'),
                 ),
@@ -90,19 +91,19 @@ class DrawerMenu extends StatelessWidget {
                 onPressed: () => _launchURL('https://vk.com/'),
               ),
               SizedBox(
-                height: (screenSize.height + screenSize.width) / 160,
+                height: 1.0.h,
               ),
               Text('drawerOther',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontSize: (screenSize.height + screenSize.width)/80,
+                      color: Colors.white, fontSize: 10.0.sp,
                   ),
               ).tr(),
               SizedBox(
-                height: (screenSize.height + screenSize.width) / 240,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: (screenSize.height / 17 + screenSize.width / 17),
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/language.svg',
                   semanticsLabel: 'Language',
@@ -110,7 +111,7 @@ class DrawerMenu extends StatelessWidget {
                 onPressed: () => _showLangDialog(context),
               ),
               IconButton(
-                iconSize: (screenSize.height / 17 + screenSize.width / 17),
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/feedback.svg',
                   semanticsLabel: 'Feedback',

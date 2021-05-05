@@ -1,6 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:synword/constants/defaultUserRestrictions.dart';
 import 'package:synword/exceptions/maxSymbolLimitException.dart';
 import 'package:synword/exceptions/minSymbolLimitException.dart';
@@ -106,11 +105,11 @@ class _BodyState extends State<Body> {
       if (await InternetChecker().isInternetAvailability()) {
         try {
           if (originalText.length < DefaultUserRestrictions.minSymbolLimit) {
-            throw MinSymbolLimitException();
+            throw MinSymbolLimitException(originalText.length, DefaultUserRestrictions.minSymbolLimit);
           }
 
           if (originalText.length > CurrentUser.userData.uniqueUpMaxSymbolLimit) {
-            throw MaxSymbolLimitException();
+            throw MaxSymbolLimitException(originalText.length, CurrentUser.userData.uniqueUpMaxSymbolLimit);
           }
 
           Offset offset = Offset(0, (_layerList.length + 1) * layersSetting.titleHeight);
@@ -256,11 +255,11 @@ class _BodyState extends State<Body> {
     String originalText = _textEditingController.value.text;
 
     if (originalText.length < DefaultUserRestrictions.minSymbolLimit) {
-      throw MinSymbolLimitException();
+      throw MinSymbolLimitException(originalText.length, DefaultUserRestrictions.minSymbolLimit);
     }
 
     if (originalText.length > CurrentUser.userData.uniqueCheckMaxSymbolLimit) {
-      throw MaxSymbolLimitException();
+      throw MaxSymbolLimitException(originalText.length, CurrentUser.userData.uniqueCheckMaxSymbolLimit);
     }
 
     try {

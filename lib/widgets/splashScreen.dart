@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:synword/monetization/purchase.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SplashScreen extends StatefulWidget {
   final Function _splashScreenCallback;
@@ -27,21 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
   );
 
   void _initialize() async {
-    //await _checkForUpdate();
     await authorization();
-    Purchase.instance.initialize();
-    Timer(Duration(seconds: 3), () => _splashScreenCallback());
-  }
-
-  Future<void> _checkForUpdate() async {
-    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate().catchError((error) {
-      print(error);
-    });
-    print(updateInfo.updateAvailability);
-    print(UpdateAvailability.updateAvailable);
-    if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
-      await InAppUpdate.performImmediateUpdate().catchError((error) {});
-    }
+    await Purchase.instance.initialize();
+    Timer(Duration(seconds: 2), () => _splashScreenCallback());
   }
 
   Future<void> authorization() async {
@@ -52,10 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
         break;
       }
       catch(ex){
-        print(ex);
+        print('Startup exception: $ex');
+        final snackBar = SnackBar(content: Text('startupError').tr());
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         await Future.delayed(Duration(seconds: 5));
-        print('Server unavailable');
-        continue;
       }
     }
   }

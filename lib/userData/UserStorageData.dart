@@ -7,10 +7,8 @@ class UserStorageData {
   static String _unauthUserRegistrationDataFileName = 'unauthUserRegistered.txt';
 
   static Future<String> getToken() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory? docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _tokenFileName;
 
     var file = File(filePath);
@@ -21,37 +19,29 @@ class UserStorageData {
   }
 
   static Future<bool> isAuthUserRegistered() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _authUserRegistrationDataFileName;
     return File(filePath).existsSync();
   }
   static Future<bool> isUnauthUserRegistered() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory? docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _unauthUserRegistrationDataFileName;
     return File(filePath).existsSync();
   }
 
   static Future<bool> isTokenExist() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory docDir = await getApplicationDocumentsDirectory();
+
     String docPath = docDir.path;
     String filePath = docPath + '/' + _tokenFileName;
     return File(filePath).existsSync();
   }
 
   static Future<void> setToken(String token) async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _tokenFileName;
 
     var file = File(filePath);
@@ -59,10 +49,8 @@ class UserStorageData {
   }
 
   static Future<void> setAuthUserRegistered() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _authUserRegistrationDataFileName;
 
     var file = File(filePath);
@@ -70,10 +58,8 @@ class UserStorageData {
   }
 
   static Future<void> setUnauthUserRegistered() async {
-    Directory? docDir = await getExternalStorageDirectory();
-    if(docDir == null){
-      throw Exception('docDir is null');
-    }
+    Directory? docDir = await getApplicationDocumentsDirectory();
+
     String filePath = docDir.path + '/' + _unauthUserRegistrationDataFileName;
 
     var file = File(filePath);

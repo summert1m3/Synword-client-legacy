@@ -62,7 +62,6 @@ class _ApplicationState extends State<Application> {
             title: 'Synword',
             home: _createHome(context),
             builder: (context, navigator) {
-              var lang = EasyLocalization.of(context)!.locale.languageCode;
               return Theme(
                 data: ThemeData(fontFamily: LocaleController.getFont()),
                 child: navigator!,

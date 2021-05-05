@@ -52,7 +52,7 @@ class StartCase extends StatelessWidget {
 void _filePick(DocumentHandlerData docData) async {
   try {
     FilePickerResult _file = await _filePickerCallback();
-    docData.file = _file;
+    docData.pickedFile = _file;
     docData.updateState(ChoiceCase());
   }catch(ex){
     print(ex);

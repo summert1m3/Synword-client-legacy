@@ -10,11 +10,9 @@ import 'package:synword/userData/currentUser.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
   final initFuture = MobileAds.instance.initialize();
   final adState = AdState(initFuture);
   InAppPurchaseConnection.enablePendingPurchases();
-
   runApp(
     MultiProvider(
       providers: [

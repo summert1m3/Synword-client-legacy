@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:synword/exceptions/maxSymbolLimitException.dart';
 import 'package:synword/exceptions/minSymbolLimitException.dart';
 import 'package:synword/exceptions/notEnoughCoinsException.dart';
@@ -70,7 +71,7 @@ class _ChoiceCaseState extends State<ChoiceCase> {
                         SizedBox(
                           height: 1.0.h,
                         ),
-                        Text(docData.file.names.first ?? 'null',
+                        Text(docData.pickedFile.names.first ?? 'null',
                             style: TextStyle(
                                 color: Colors.white, fontFamily: 'Roboto')),
                       ],
@@ -173,29 +174,34 @@ Future<void> onClickButtonHandler(DocumentHandlerData docData) async {
     docData.updateState(ErrorCase(MinSymbolLimitError(ex)));
   } on MaxSymbolLimitException catch(ex){
     docData.updateState(ErrorCase(MaxSymbolLimitError(ex)));
-  } on NotEnoughCoinsException catch(_){
-    docData.updateState(ErrorCase(NotEnoughCoinsError()));
+  } on NotEnoughCoinsException catch(ex){
+    docData.updateState(NotEnoughCoinsError(ex));
   } catch(ex) {
     docData.updateState(ErrorCase(DefaultError(ex)));
   }
 }
 
 Future<void> uniqueUp(DocumentHandlerData docData) async {
-  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path!);
-  FileData fileData = FileData(docData.file.names.first!, fileBytes);
+  Uint8List fileBytes = await _readFileByte(docData.pickedFile.files.first.path!);
+  FileData fileData = FileData(docData.pickedFile.names.first!, fileBytes);
 
   Response response =
       await ServerRequestsController.docxUniqueUpRequest(file: fileData);
 
-  File file = File(
-    join(docData.downloadPath, "synword_" + docData.file.names.first!),
+  Directory? dir = await getExternalStorageDirectory();
+
+  print(dir!.path);
+
+  docData.downloadedFilePath = dir.path;
+  File downloadedFile = File(
+    join(dir.path, "synword_" + docData.pickedFile.names.first!),
   );
-  file.writeAsBytesSync(response.data);
+  downloadedFile.writeAsBytesSync(response.data);
 }
 
 Future<void> uniqueCheck(DocumentHandlerData docData) async {
-  Uint8List fileBytes = await _readFileByte(docData.file.files.first.path!);
-  FileData fileData = FileData(docData.file.names.first!, fileBytes);
+  Uint8List fileBytes = await _readFileByte(docData.pickedFile.files.first.path!);
+  FileData fileData = FileData(docData.pickedFile.names.first!, fileBytes);
 
   docData.uniqueCheckData =
       await ServerRequestsController.docxUniqueCheckRequest(file: fileData);

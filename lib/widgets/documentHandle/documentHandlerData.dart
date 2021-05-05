@@ -5,14 +5,14 @@ import 'package:synword/model/json/uniqueCheckData.dart';
 class DocumentHandlerData {
   DocumentHandlerData(this.updateMainState);
 
-  late FilePickerResult file;
+  late FilePickerResult pickedFile;
 
   late bool uniqueUp = true;
   late bool uniqueCheck = false;
 
   UniqueCheckData? uniqueCheckData;
 
-  final String downloadPath = "/storage/emulated/0/Download/";
+  late String downloadedFilePath;
 
   Function updateMainState;
 

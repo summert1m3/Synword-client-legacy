@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/controller/authorizationController.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synword/userData/controller/registrationController.dart';
 
 class UnauthProfileDialog extends StatelessWidget {
   final Function _setState;

@@ -23,13 +23,17 @@ class DetermineExceptionType {
 
     String responseError = responseJson['message'] as String;
     if (responseError == NotEnoughCoinsException.message) {
-      return NotEnoughCoinsException();
+      int balance = responseJson['balance'] as int;
+      int price = responseJson['price'] as int;
+      return NotEnoughCoinsException(balance, price);
     } else if(responseError == MaxSymbolLimitException.message){
-      int? symbolCount = responseJson['symbolCount'] as int;
-      return MaxSymbolLimitException(symbolCount);
+      int symbolCount = responseJson['symbolCount'] as int;
+      int symbolLimit = responseJson['symbolLimit'] as int;
+      return MaxSymbolLimitException(symbolCount, symbolLimit);
     } else if(responseError == MinSymbolLimitException.message){
-      int? symbolCount = responseJson['symbolCount'] as int;
-      return MinSymbolLimitException(symbolCount);
+      int symbolCount = responseJson['symbolCount'] as int;
+      int symbolLimit = responseJson['symbolLimit'] as int;
+      return MinSymbolLimitException(symbolCount, symbolLimit);
     } else {
       return BadRequestException(ex.response!.data.toString());
     }

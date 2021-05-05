@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:synword/constants/googleProductId.dart';
 import 'package:synword/constants/mainServerData.dart';
-import 'package:synword/exceptions/serverUnavailableException.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/currentUser.dart';
 import 'package:synword/userData/model/apiParams/purchaseModel.dart';
@@ -59,8 +58,8 @@ class Purchase {
       for (PurchaseDetails purchase in purchases) {
         if (purchase.status == PurchaseStatus.purchased && GoogleAuthService.googleUser != null) {
           print('NEW PURCHASE: ${purchase.productID}');
-          await this.verifyAndDeliverPurchase(purchase);
-          await CurrentUser.serverRequest.authorization();
+          await verifyAndDeliverPurchase(purchase);
+          CurrentUser.serverRequest.authorization();
           if (purchase.pendingCompletePurchase) {
             _iap.completePurchase(purchase);
           }
@@ -85,15 +84,6 @@ class Purchase {
   /// Gets past purchases
   Future<void> _getPastPurchases() async {
     QueryPurchaseDetailsResponse response = await _iap.queryPastPurchases();
-
-    for (PurchaseDetails purchase in response.pastPurchases) {
-      await verifyAndDeliverPurchase(
-          purchase); // Verify the purchase following the best practices for each storefront.
-      await CurrentUser.serverRequest.authorization();
-      if (purchase.pendingCompletePurchase) {
-        _iap.completePurchase(purchase);
-      }
-    }
     _purchases = response.pastPurchases;
   }
 
@@ -115,7 +105,8 @@ class Purchase {
           data: purchaseModel.toJson());
 
     } on DioError catch (ex) {
-      throw ServerUnavailableException();
+      print(ex);
+      print('Item already purchased');
     }
   }
 

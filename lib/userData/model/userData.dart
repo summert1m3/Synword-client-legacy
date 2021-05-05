@@ -16,17 +16,27 @@ class UserData with ChangeNotifier {
   late int uniqueCheckMaxSymbolLimit;
   late int uniqueUpMaxSymbolLimit;
 
+  late int documentUniqueCheckMaxSymbolLimit;
+  late int documentUniqueUpMaxSymbolLimit;
+
   late int coins;
 
   void fromJson(Map<String, dynamic> json) {
     if(json['isPremium'] != null) {
       isPremium = json['isPremium'] as bool;
-    }
-    else{
+    } else {
       isPremium = false;
     }
+    if(json['documentUniqueCheckMaxSymbolLimit'] != null){
+      documentUniqueCheckMaxSymbolLimit = json['documentUniqueCheckMaxSymbolLimit'] as int;
+    } else {
+      documentUniqueCheckMaxSymbolLimit = 0;
+    }
+    documentUniqueUpMaxSymbolLimit = json['documentUniqueUpMaxSymbolLimit'] as int;
+
     uniqueCheckMaxSymbolLimit = json['uniqueCheckMaxSymbolLimit'] as int;
     uniqueUpMaxSymbolLimit = json['uniqueUpMaxSymbolLimit'] as int;
+
 
     coins = json['coins'] as int;
 

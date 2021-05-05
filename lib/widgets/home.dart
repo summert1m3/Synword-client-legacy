@@ -6,6 +6,7 @@ import 'package:synword/widgets/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:synword/widgets/documentHandle/uploadButtonWidget.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sizer/sizer.dart';
 
 class Home extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -23,7 +24,7 @@ class Home extends StatelessWidget {
             'synword',
             style: TextStyle(
                 fontFamily: 'Waxe',
-                fontSize: (screenSize.height / 33 + screenSize.width / 33),
+                fontSize: 24.2.sp,
                 letterSpacing: 1.5,
                 color: data.isPremium ? HexColor('#CEA448') : Colors.white),
           );

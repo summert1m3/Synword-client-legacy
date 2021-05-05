@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:synword/constants/defaultUserRestrictions.dart';
 import 'package:synword/userData/model/userData.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTextForm.dart';
@@ -42,8 +41,7 @@ class OriginalTextWidget extends StatelessWidget {
                                     fontSize: 17,
                                     fontWeight: FontWeight.normal,
                                     color: _textEditingController!.text.length >
-                                        DefaultUserRestrictions
-                                            .maxSymbolLimit
+                                        data.uniqueCheckMaxSymbolLimit
                                         ? Colors.red
                                         : Colors.black.withOpacity(0.8),
                                     fontFamily: 'Roboto',

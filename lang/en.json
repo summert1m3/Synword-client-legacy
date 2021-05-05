@@ -35,7 +35,7 @@
   "documentHandleLoadingCaseTitle": "Please wait.",
   "documentHandleLoadingCaseSubtitle": "Average waiting time: 10 seconds",
 
-  "documentHandleFinishCaseSavedFile":"The file is saved to the Downloads folder",
+  "documentHandleFinishCaseSavedFile":"The file is temporarily saved:",
   "documentHandleFinishCaseUniqueUpButton":"Open",
 
   "googleSignOut": "Sign Out",
@@ -76,5 +76,11 @@
   "coinPageServiceCostFirst" : "Synonymize: {coin_count} coin",
   "coinPageServiceCostSecond" : "Plagiarism checker: {coin_count} coins",
 
-  "textCopied" : "Text copied successfully"
+  "textCopied" : "Text copied successfully",
+
+  "startupError" : "The service is currently unavailable, reconnecting...",
+  "save": "Save",
+  "fileSaveSuccess": "File saved successfully",
+  "balance": "Balance:",
+  "price": "Price:"
 }

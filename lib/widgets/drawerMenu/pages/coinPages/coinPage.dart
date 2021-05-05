@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:synword/admob/adState.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
-import 'package:synword/userData/currentUser.dart';
 import 'package:synword/userData/model/userData.dart';
 import 'package:synword/widgets/drawerMenu/pages/coinPages/coinPriceListPage.dart';
 import 'package:synword/widgets/drawerMenu/pages/ad/rewardedAdPage.dart';
@@ -246,20 +243,20 @@ class _CoinPageState extends State<CoinPage> {
                                     CoinPageQuestionItem(
                                         'coinPageGeneralInfoFirst'.tr()),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoSecond'.tr()),
+                                        'coinPageGeneralInfoSecond'.tr(namedArgs: {'coin_count': '30'})),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoThird'.tr()),
+                                        'coinPageGeneralInfoThird'.tr(namedArgs: {'coin_count': '30'})),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoFourth'.tr())
+                                        'coinPageGeneralInfoFourth'.tr(namedArgs: {'coin_count': '2'}))
                                   }.toList()),
                               CoinPageQuestion(
                                   'coinPageServiceCost'.tr(),
                                   'icons/request_coin_cost.svg',
                                   {
                                     CoinPageQuestionItem(
-                                        'coinPageServiceCostFirst'.tr()),
+                                        'coinPageServiceCostFirst'.tr(namedArgs: {'coin_count': '1'})),
                                     CoinPageQuestionItem(
-                                        'coinPageServiceCostSecond'.tr()),
+                                        'coinPageServiceCostSecond'.tr(namedArgs: {'coin_count': '3'})),
                                   }.toList())
                             ],
                           ),

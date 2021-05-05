@@ -35,7 +35,7 @@
   "documentHandleLoadingCaseSubtitle": "Среднее время ожидания: 10 секунд",
 
 
-  "documentHandleFinishCaseSavedFile":"Файл сохранен в папку Загрузки",
+  "documentHandleFinishCaseSavedFile":"Файл временно сохранен:",
   "documentHandleFinishCaseUniqueUpButton":"Открыть",
 
   "googleSignOut": "Выйти",
@@ -63,7 +63,7 @@
 
   "balanceCheck" : "Проверить баланс",
   "tryAgain" : "Повторить",
-  "successPageRewardTitle" : "На ваш баланс зачислено {coin_count} монет(ы)",
+  "successPageRewardTitle" : "На ваш баланс зачислено {coin_count} монеты",
   "earn" : "Получить",
   "buy" : "Купить",
   "coinPageGeneralInfo" : "Общая информация",
@@ -75,5 +75,11 @@
   "coinPageServiceCostFirst" : "Повышение уникальности: {coin_count} монета",
   "coinPageServiceCostSecond" : "Проверка уникальности: {coin_count} монеты",
 
-  "textCopied" : "Текст успешно скопирован"
+  "textCopied" : "Текст успешно скопирован",
+
+  "startupError" : "Сервис в данный момент недоступен, повтор...",
+  "save": "Сохранить",
+  "fileSaveSuccess": "Файл успешно сохранен",
+  "balance": "Баланс:",
+  "price": "Цена:"
 }

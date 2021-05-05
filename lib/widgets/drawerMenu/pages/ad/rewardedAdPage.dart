@@ -9,7 +9,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/userData/currentUser.dart';
 import 'package:synword/widgets/drawerMenu/pages/ad/rewardedAdPageState.dart';
-import 'package:synword/monetization/purchase.dart';
 
 class RewardedAdPage extends StatefulWidget {
   @override
@@ -69,7 +68,7 @@ class _RewardedAdPageState extends State<RewardedAdPage> {
               SizedBox(
                 height: 5.0.h,
               ),
-              Text('successPageRewardTitle'.tr(namedArgs: {'coin_count': '3'}), style: TextStyle(fontSize: 13.0.sp, fontFamily: 'Roboto'),),
+              Text('successPageRewardTitle'.tr(namedArgs: {'coin_count': '2'}), style: TextStyle(fontSize: 13.0.sp, fontFamily: 'Roboto'),),
               SizedBox(
                 height: 5.0.h,
               ),
@@ -126,7 +125,7 @@ class _RewardedAdPageState extends State<RewardedAdPage> {
 
   void createRewardedAd() {
     _rewardedAd = RewardedAd(
-      adUnitId: RewardedAd.testAdUnitId,
+      adUnitId: AdState.rewardedAdUnitId,
       request: AdRequest(),
       listener: AdListener(
           onAdLoaded: (Ad ad) {

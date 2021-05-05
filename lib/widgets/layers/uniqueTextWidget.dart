@@ -51,6 +51,7 @@ class UniqueTextWidget extends StatelessWidget {
                   icon: Icon(Icons.content_copy),
                   onPressed: () {
                     Clipboard.setData(new ClipboardData(text: UserTextData.uniqueText));
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('textCopied'.tr())));
                   }
                 ),
