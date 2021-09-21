@@ -43,6 +43,7 @@ dependencies:
   provider: ^5.0.0
   validators: ^3.0.0
   google_mobile_ads: ^0.12.1+1
+  flutter_facebook_sdk: ^1.0.0
 
 flutter_icons:
   android: true
