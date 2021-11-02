@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:synword/userData/userTextData.dart';
 import 'package:synword/widgets/bodyLayer.dart';
 import 'package:synword/widgets/layerTitle.dart';
 import 'package:synword/types.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 class UniqueTextWidget extends StatelessWidget {
-  final Offset _offset;
+  final Widget _widget;
+  final String _uniqueText;
+  final Offset? _offset;
   final Color _titleColor;
-  final OnPanUpdateCallback _gestureDetectorOnPanUpdateCallback;
-  final OnPanEndCallback _gestureDetectorOnPanEndCallback;
-  final CloseButtonCallback _closeButtonCallback;
+  final OnPanUpdateCallback? _gestureDetectorOnPanUpdateCallback;
+  final OnPanEndCallback? _gestureDetectorOnPanEndCallback;
+  final CloseButtonCallback? _closeButtonCallback;
   final bool _isTitleVisible;
   final bool _isCloseButtonVisible;
 
   UniqueTextWidget(
-  this._offset,
+    this._widget,
+    this._uniqueText,
+    this._offset,
     this._titleColor,
     this._isTitleVisible,
     this._isCloseButtonVisible,
@@ -24,31 +31,39 @@ class UniqueTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: _offset.dy,
+    return AnimatedPositioned(
+      duration: Duration(microseconds: 0),
+      top: _offset!.dy,
       child: BodyLayer(
-          SizedBox(
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: Text('Исторически сложилось так, что программирование возникло и развивалось как процедурное программирование. В школьных курсах информатики рассматриваются традиционные процедурно-ориентированные языки программирования.',
-                  style: TextStyle(fontSize: 20, fontFamily: 'Audrey'),
-                ),
-              ),
-              width: MediaQuery.of(context).copyWith().size.width - 20,
-              height: MediaQuery.of(context).copyWith().size.height
-          ),
+          _widget,
           LayerTitle(
-              Text('Unique text', style: TextStyle(fontSize: 25, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+              Text('uniqueTextHeader', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
               _titleColor,
               Colors.black.withOpacity(0.4),
               _isTitleVisible,
               _isCloseButtonVisible,
               _closeButtonCallback,
+              additionalButton: Material(
+                color: Colors.transparent,
+                child: IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  splashRadius: 23,
+                  icon: Icon(Icons.content_copy),
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: UserTextData.uniqueText));
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('textCopied'.tr())));
+                  }
+                ),
+              )
           ),
           true,
           true,
           _gestureDetectorOnPanUpdateCallback,
-          _gestureDetectorOnPanEndCallback
+          _gestureDetectorOnPanEndCallback,
+          (details) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
       ),
     );
   }

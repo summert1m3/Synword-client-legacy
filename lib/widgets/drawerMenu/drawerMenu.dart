@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:synword/widgets/drawerMenu/pages/coinPages/coinPage.dart';
+import 'package:wiredash/wiredash.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'dialogs/langDialog.dart';
+import 'package:synword/widgets/drawerMenu/pages/premiumPage.dart';
+import 'package:sizer/sizer.dart';
 
-class DrawerMenu extends StatefulWidget {
-  @override
-  _DrawerMenuState createState() {
-    return _DrawerMenuState();
-  }
-}
-
-class _DrawerMenuState extends State<DrawerMenu> {
+class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Container(
-      width: 150,
+      width: screenSize.width / 2.8,
       child: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.black,
@@ -21,11 +21,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
         child: Drawer(
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 5),
+              SizedBox(
+                  height: 1.0.h
+              ),
               IconButton(
                 icon: Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
+                  size: (screenSize.height + screenSize.width) / 40,
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
@@ -33,98 +36,87 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 },
               ),
               SizedBox(
-                width: 8,
-                height: 8,
+                height: 1.0.h,
               ),
-              Text('COMMERCIAL',
+              Text('drawerCommercial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15)),
+                    color: Colors.white, fontSize: 10.0.sp,
+                  ),
+              ).tr(),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: 60,
-                tooltip: 'Premium',
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/premium.svg',
                   semanticsLabel: 'Premium',
                 ),
-                onPressed: () => {},
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => PremiumPage())),
               ),
-              //SizedBox(height: 25),
               IconButton(
-                iconSize: 60,
-                tooltip: 'Buy symbols',
+                iconSize: (screenSize.height / 17 + screenSize.width / 17),
                 icon: SvgPicture.asset(
                   'icons/buy_symbols.svg',
-                  semanticsLabel: 'Buy symbols',
+                  semanticsLabel: 'Buy',
                 ),
-                onPressed: () => {},
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CoinPage())),
               ),
               SizedBox(
-                width: 15,
-                height: 15,
+                height: 1.0.h,
               ),
               Text(
-                  'SOCIAL',
+                  'drawerSocial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
-                  )
-              ),
+                      color: Colors.white, fontSize: 10.0.sp,
+                  ),
+              ).tr(),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: 55,
-                tooltip: 'Instagram',
+                iconSize: 9.5.h,
                 icon: Image(
                   image: AssetImage('icons/instagram.png'),
                 ),
-                onPressed: () => {},
+                onPressed: () => _launchURL('https://www.instagram.com/')
               ),
               IconButton(
-                iconSize: 55,
-                tooltip: 'VK',
+                iconSize: (screenSize.height / 17 + screenSize.width / 17),
                 icon: Image(
                   image: AssetImage('icons/vk.png'),
                 ),
-                onPressed: () => {},
+                onPressed: () => _launchURL('https://vk.com/'),
               ),
               SizedBox(
-                width: 15,
-                height: 15,
+                height: 1.0.h,
               ),
-              Text('OTHER',
+              Text('drawerOther',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Audrey', fontSize: 15
-                  )
-              ),
+                      color: Colors.white, fontSize: 10.0.sp,
+                  ),
+              ).tr(),
               SizedBox(
-                width: 10,
-                height: 10,
+                height: 1.0.h,
               ),
               IconButton(
-                iconSize: 60,
-                tooltip: 'Language',
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/language.svg',
                   semanticsLabel: 'Language',
                 ),
-                onPressed: () => {},
+                onPressed: () => _showLangDialog(context),
               ),
               IconButton(
-                iconSize: 60,
-                tooltip: 'Feedback',
+                iconSize: 9.5.h,
                 icon: SvgPicture.asset(
                   'icons/feedback.svg',
                   semanticsLabel: 'Feedback',
                 ),
-                onPressed: () => {},
+                onPressed: () => Wiredash.of(context)!.show(),
               ),
             ],
           ),
@@ -132,4 +124,21 @@ class _DrawerMenuState extends State<DrawerMenu> {
       ),
     );
   }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+Future<void> _showLangDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return LangDialog();
+    },
+  );
 }

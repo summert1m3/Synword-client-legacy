@@ -1,0 +1,85 @@
+{
+  "textFormHintText" : "Введите ваш текст",
+  "uniqueCheckButton" : "ПРОВЕРИТЬ",
+  "uniqueUpButton": "ПОВЫСИТЬ",
+  "originalTextHeader": "Оригинальный текст",
+  "uniqueTextHeader": "Измененный текст",
+  "uniqueCheckHeader": "Проверка уникальности",
+  "uniqueCheckLayerOriginalWaveBallTitle": "Оригинальный",
+  "uniqueCheckLayerUniqueWaveBallTitle": "Измененный",
+
+  "drawerCommercial": "КОММЕРЦИЯ",
+  "drawerSocial": "СОЦ. СЕТИ",
+  "drawerOther": "ДРУГОЕ",
+
+  "fileUploadSupportedFiles": "Поддерживаемые файлы: docx",
+
+  "premiumPageFirstCardTitle": "Номер один",
+  "premiumPageFirstCardContent": "Всегда первый в очереди",
+  "premiumPageSecondCardTitle": "Ограничения",
+  "premiumPageSecondCardContent": "Ограничения на ввод до 40.000 символов",
+  "premiumPageThirdCardTitle": "Документы",
+  "premiumPageThirdCardContent": "Проверка уникальности документов",
+  "premiumPageFourthCardTitle": "Монеты",
+  "premiumPageFourthCardContent": "60 монет в день бесплатно",
+  "premiumPageSubscribeButton": "Подписаться за {price}/месяц",
+
+  "priceListPageTitle": "Проверка уникальности",
+  "priceListPageUniqueCheckCardContent": "запросов",
+
+  "documentHandleChoiceCaseUniqueCheck": "Проверить уникальность",
+  "documentHandleChoiceCaseUniqueCheckSubtitle": "Премиум функция",
+  "documentHandleChoiceCaseUniqueUp": "Повысить уникальность",
+  "documentHandleChoiceCaseButton": "ЗАГРУЗИТЬ",
+  "documentHandleLoadingCaseTitle": "Пожалуйста подождите.",
+  "documentHandleLoadingCaseSubtitle": "Среднее время ожидания: 10 секунд",
+
+
+  "documentHandleFinishCaseSavedFile":"Файл временно сохранен:",
+  "documentHandleFinishCaseUniqueUpButton":"Открыть",
+
+  "googleSignOut": "Выйти",
+
+  "noInternet": "Проверьте подключение к Интернету",
+  "serverError": "Ошибка. Сервис в данный момент недоступен",
+  "minSymbolLimit": "Данный текст слишком короткий",
+  "maxSymbolLimit": "Данный текст слишком большой",
+
+  "notEnoughCoins": "Вы использовали все доступные запросы на сегодня",
+  "maxSymbolLimitReached": "Ваш текст слишком большой",
+
+  "unauthProfileDialogTitle": "Войдите с помощью:",
+  "coins": "монет",
+  "coin": "монета",
+  "a coin": "монету",
+
+  "resultHeader" : "Результаты",
+
+  "alertDialogError" : "Ошибка",
+  "pleaseTryAgain" : "Повторите попытку позже",
+
+  "symbolCountMessage" : "Cимволов: ",
+  "symbolLimitMessage" : "Ограничение: ",
+
+  "balanceCheck" : "Проверить баланс",
+  "tryAgain" : "Повторить",
+  "successPageRewardTitle" : "На ваш баланс зачислено {coin_count} монеты",
+  "earn" : "Получить",
+  "buy" : "Купить",
+  "coinPageGeneralInfo" : "Общая информация",
+  "coinPageServiceCost" : "Стоимость услуг",
+  "coinPageGeneralInfoFirst" : "Монеты необходимы для пользования услугами synword",
+  "coinPageGeneralInfoSecond" : "Ежедневно вы будете получать {coin_count} монет",
+  "coinPageGeneralInfoThird" : "Неавторизованные пользователи не могут иметь больше {coin_count} монет",
+  "coinPageGeneralInfoFourth" : "За просмотр рекламы вы получите {coin_count} монеты",
+  "coinPageServiceCostFirst" : "Повышение уникальности: {coin_count} монета",
+  "coinPageServiceCostSecond" : "Проверка уникальности: {coin_count} монеты",
+
+  "textCopied" : "Текст успешно скопирован",
+
+  "startupError" : "Сервис в данный момент недоступен, повтор...",
+  "save": "Сохранить",
+  "fileSaveSuccess": "Файл успешно сохранен",
+  "balance": "Баланс:",
+  "price": "Цена:"
+}

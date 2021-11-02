@@ -1,0 +1,86 @@
+{
+  "textFormHintText" : "Enter your text here",
+  "uniqueCheckButton" : "CHECK",
+  "uniqueUpButton": "REPHRASE",
+  "originalTextHeader": "Original text",
+  "uniqueTextHeader": "Modified text",
+  "uniqueCheckHeader": "Plagiarism Checker",
+  "uniqueCheckLayerOriginalWaveBallTitle": "Original",
+  "uniqueCheckLayerUniqueWaveBallTitle": "Unique",
+
+  "drawerCommercial": "COMMERCIAL",
+  "drawerSocial": "SOCIAL",
+  "drawerOther": "OTHER",
+
+  "fileUploadSupportedFiles": "Supported files: docx",
+
+  "premiumPageFirstCardTitle": "Number one",
+  "premiumPageFirstCardContent": "Always first in line",
+  "premiumPageSecondCardTitle": "Restrictions",
+  "premiumPageSecondCardContent": "Restrictions on entering up to 40,000 characters",
+  "premiumPageThirdCardTitle": "Documents",
+  "premiumPageThirdCardContent": "Plagiarism checker for documents",
+  "premiumPageFourthCardTitle": "Coins",
+  "premiumPageFourthCardContent": "60 coins per day for free",
+  "premiumPageSubscribeButton": "Subscribe for {price} per month",
+
+  "priceListPageTitle": "Plagiarism Checker",
+  "priceListPageUniqueCheckCardContent": "requests",
+
+  "documentHandleChoiceCaseUniqueCheck": "Plagiarism Checker",
+  "documentHandleChoiceCaseUniqueCheckSubtitle": "Premium feature",
+  "documentHandleChoiceCaseUniqueUp": "Rephrase",
+  "documentHandleChoiceCaseButton": "UPLOAD",
+
+  "documentHandleLoadingCaseTitle": "Please wait.",
+  "documentHandleLoadingCaseSubtitle": "Average waiting time: 10 seconds",
+
+  "documentHandleFinishCaseSavedFile":"The file is temporarily saved:",
+  "documentHandleFinishCaseUniqueUpButton":"Open",
+
+  "googleSignOut": "Sign Out",
+
+  "noInternet": "Check your internet connection",
+  "serverError": "Error. Service is currently unavailable",
+  "minSymbolLimit": "This text is too short",
+  "maxSymbolLimit": "This text is too long",
+
+  "notEnoughCoins": "You have used all available queries for today",
+  "maxSymbolLimitReached": "Your text is too big",
+
+  "unauthProfileDialogTitle": "Sign in with:",
+
+  "coins": "coins",
+  "coin": "coin",
+  "a coin": "a coin",
+
+  "resultHeader" : "Results",
+
+  "alertDialogError" : "Error",
+  "pleaseTryAgain" : "Please try again later",
+
+  "symbolCountMessage" : "Characters: ",
+  "symbolLimitMessage" : "Restriction: ",
+
+  "balanceCheck" : "Check balance",
+  "tryAgain" : "Retry",
+  "successPageRewardTitle" : "Your balance is credited with {coin_count} coin(s)",
+  "earn" : "Earn",
+  "buy" : "Buy",
+  "coinPageGeneralInfo" : "General information",
+  "coinPageServiceCost" : "Service cost",
+  "coinPageGeneralInfoFirst" : "Coins are required to use synword service",
+  "coinPageGeneralInfoSecond" : "Every day you will receive {coin_count} coins",
+  "coinPageGeneralInfoThird" : "Unauthorized users cannot have more than {coin_count} coins",
+  "coinPageGeneralInfoFourth" : "You will get {coin_count} coins for viewing ads",
+  "coinPageServiceCostFirst" : "Synonymize: {coin_count} coin",
+  "coinPageServiceCostSecond" : "Plagiarism checker: {coin_count} coins",
+
+  "textCopied" : "Text copied successfully",
+
+  "startupError" : "The service is currently unavailable, reconnecting...",
+  "save": "Save",
+  "fileSaveSuccess": "File saved successfully",
+  "balance": "Balance:",
+  "price": "Price:"
+}

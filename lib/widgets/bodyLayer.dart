@@ -7,8 +7,9 @@ class BodyLayer extends StatelessWidget {
   final LayerTitle _title;
   final bool _isTitleVisible;
   final bool _isGestureDetectorEnable;
-  final OnPanUpdateCallback _onPanUpdateCallback;
-  final OnPanEndCallback _onPanEndCallback;
+  final OnPanUpdateCallback? _onPanUpdateCallback;
+  final OnPanEndCallback? _onPanEndCallback;
+  final OnPanDownCallback? _onPanDownCallback;
 
   BodyLayer(
     this._widget,
@@ -16,7 +17,8 @@ class BodyLayer extends StatelessWidget {
     this._isTitleVisible,
     this._isGestureDetectorEnable,
     this._onPanUpdateCallback,
-    this._onPanEndCallback
+    this._onPanEndCallback,
+    this._onPanDownCallback
   );
 
   @override
@@ -39,14 +41,15 @@ class BodyLayer extends StatelessWidget {
             )
           ],
         ),
+        onPanDown: _onPanDownCallback,
         onPanUpdate: (details) {
           if (_isGestureDetectorEnable) {
-            _onPanUpdateCallback(Offset(details.delta.dx, details.delta.dy));
+            _onPanUpdateCallback!(Offset(details.delta.dx, details.delta.dy));
           }
         },
         onPanEnd: (details) {
           if (_isGestureDetectorEnable) {
-            _onPanEndCallback(details.velocity.pixelsPerSecond);
+            _onPanEndCallback!(details.velocity.pixelsPerSecond);
           }
         },
       )

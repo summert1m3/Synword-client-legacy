@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:synword/types.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BodyButtonBar extends StatelessWidget {
   final bool _isFirstFloatingActionButtonVisible;
   final bool _isSecondFloatingActionButtonVisible;
-  final FloatingActionButtonCallback _firstButtonCallback;
-  final FloatingActionButtonCallback _secondButtonCallback;
+  final FloatingActionButtonCallback? _firstButtonCallback;
+  final FloatingActionButtonCallback? _secondButtonCallback;
 
   BodyButtonBar(
     this._isFirstFloatingActionButtonVisible,
@@ -15,7 +15,7 @@ class BodyButtonBar extends StatelessWidget {
     this._secondButtonCallback
   );
   
-  bool getSizedBoxVisible() {
+  bool _getSizedBoxVisible() {
     bool isSizedBoxVisible;
 
     if (!_isFirstFloatingActionButtonVisible || !_isSecondFloatingActionButtonVisible) {
@@ -29,6 +29,8 @@ class BodyButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Container(
       width: MediaQuery.of(context).copyWith().size.width,
       child: Row(
@@ -37,19 +39,25 @@ class BodyButtonBar extends StatelessWidget {
           Visibility(
             child: Column(
               children: [
-                FloatingActionButton(
-                    child: SvgPicture.asset(
-                      'icons/check_button.svg',
-                      color: Colors.black,
-                      semanticsLabel: 'Check button',
-                    ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    onPressed: _firstButtonCallback
+                Container(
+                  width: (screenSize.width+screenSize.height)/20,
+                  child: FloatingActionButton(
+                    heroTag: "btn1",
+                      child: Image(
+                        image: AssetImage('icons/check_button.png'),
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      onPressed: _firstButtonCallback
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text('CHECK', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)
+                  ),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
+                  child: Text('uniqueCheckButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )
               ],
             ),
@@ -59,24 +67,30 @@ class BodyButtonBar extends StatelessWidget {
             child: SizedBox(
               width: 30,
             ),
-            visible: getSizedBoxVisible(),
+            visible: _getSizedBoxVisible(),
           ),
           Visibility(
             child: Column(
               children: [
-                FloatingActionButton(
-                    child: SvgPicture.asset(
-                      'icons/up_button.svg',
-                      color: Colors.black,
-                      semanticsLabel: 'Up button',
-                    ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    onPressed: _secondButtonCallback
+                Container(
+                  width: (screenSize.width+screenSize.height)/20,
+                  child: FloatingActionButton(
+                    heroTag: "btn2",
+                      child: Image(
+                        image: AssetImage('icons/up_button.png'),
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      onPressed: _secondButtonCallback
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text('UP', style: TextStyle(fontSize: 12, fontFamily: 'Audrey', fontWeight: FontWeight.bold, color: Colors.black)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(3)
+                  ),
+                  padding: EdgeInsets.only(top: (screenSize.height + screenSize.width) / 280),
+                  child: Text('uniqueUpButton', style: TextStyle(fontSize: screenSize.height / 60, fontWeight: FontWeight.bold, color: Colors.black)).tr(),
                 )
               ],
             ),

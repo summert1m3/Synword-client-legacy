@@ -18,15 +18,32 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  hexcolor: ^1.0.4
-  flutter_svg: ^0.19.0
-  flutter_launcher_icons: ^0.8.0
+  hexcolor: ^2.0.3
+  flutter_svg: ^0.21.0+1
+  flutter_launcher_icons: ^0.9.0
+  loading_animations: ^2.2.0
+  wiredash: ^0.6.2
+  url_launcher: ^6.0.3
+  easy_localization: ^3.0.0
+  google_sign_in: ^5.0.1
+  file_picker: ^3.0.1
+  dio: ^4.0.0
+  path_provider: ^2.0.1
+  permission_handler: ^7.1.0
+  open_file: ^3.1.0
+  in_app_purchase: ^0.5.2
+  sizer: ^2.0.11
+  awesome_dialog: ^2.0.0
+  provider: ^5.0.0
+  validators: ^3.0.0
+  google_mobile_ads: ^0.12.1+1
+  flutter_facebook_sdk: ^1.0.0
 
 flutter_icons:
   android: true
@@ -60,13 +77,34 @@ flutter:
     - icons/instagram.png
     - icons/language.svg
     - icons/feedback.svg
-    - icons/check_button.svg
-    - icons/up_button.svg
+    - icons/check_button.png
+    - icons/up_button.png
     - icons/upload_button.svg
     - icons/premium.svg
     - icons/menu.svg
     - icons/buy_symbols.svg
     - icons/upload_file_button.svg
+    - icons/russia.svg
+    - icons/united-states.svg
+    - icons/premiumPage/crown.svg
+    - icons/premiumPage/first.png
+    - icons/premiumPage/file.png
+    - icons/premiumPage/limit.png
+    - icons/premiumPage/free.png
+    - icons/docx_logo.png
+    - lang/en.json
+    - lang/ru.json
+    - icons/google_sign_in.png
+    - icons/coin_page.svg
+    - icons/bag_of_coins.svg
+    - icons/coins.svg
+    - icons/question_mark.svg
+    - icons/coin.svg
+    - icons/get-coins.svg
+    - icons/request_coin_cost.svg
+    - icons/coinPage/coin_cost_page.png
+    - icons/hand_and_coins.svg
+    - icons/coinPage/treasure_chest.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -94,6 +132,9 @@ flutter:
     - family: Comodo
       fonts:
         - asset: fonts/Comodo.otf
+    - family: Gardens
+      fonts:
+        - asset: fonts/Gardens.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
