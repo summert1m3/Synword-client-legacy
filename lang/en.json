@@ -82,5 +82,7 @@
   "save": "Save",
   "fileSaveSuccess": "File saved successfully",
   "balance": "Balance:",
-  "price": "Price:"
+  "price": "Price:",
+
+  "functionNotAvailable": "Sorry, this feature is not available at the moment."
 }

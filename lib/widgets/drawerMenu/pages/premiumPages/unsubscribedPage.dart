@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,7 +73,7 @@ class UnsubscribedPage extends StatelessWidget {
                       subtitle: 'premiumPageFourthCardContent',
                     ),
                     SizedBox(
-                      height: (screenSize.height + screenSize.width ) / 50,
+                      height: (screenSize.height + screenSize.width) / 50,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
@@ -84,7 +85,11 @@ class UnsubscribedPage extends StatelessWidget {
                           },
                           child: const Text('premiumPageSubscribeButton',
                                   style: TextStyle(fontFamily: 'Roboto'))
-                              .tr(namedArgs: {'price' : Purchase.instance.getProduct(GoogleProductId.premium).price}),
+                              .tr(namedArgs: {
+                            'price': Purchase.instance
+                                .getProduct(GoogleProductId.premium)
+                                .price
+                          }),
                         ),
                       ),
                     ),
@@ -100,6 +105,7 @@ class UnsubscribedPage extends StatelessWidget {
 }
 
 Future<void> _subscribeCallback(BuildContext context) async {
+  /*
   try {
     await ServerStatus.check();
     if(GoogleAuthService.googleUser == null) {
@@ -117,4 +123,15 @@ Future<void> _subscribeCallback(BuildContext context) async {
     );
     ScaffoldMessenger.of(UnsubscribedPage.context).showSnackBar(snackBar);
   }
+  */
+
+  AwesomeDialog(
+          context: context,
+          dialogType: DialogType.INFO,
+          animType: AnimType.LEFTSLIDE,
+          title: 'alertDialogError'.tr(),
+          desc: 'functionNotAvailable'.tr(),
+          btnCancelOnPress: () {},
+          btnCancelText: 'Ок')
+      .show();
 }

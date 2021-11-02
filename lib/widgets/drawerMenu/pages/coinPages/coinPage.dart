@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:synword/googleAuth/googleAuthService.dart';
@@ -243,20 +244,25 @@ class _CoinPageState extends State<CoinPage> {
                                     CoinPageQuestionItem(
                                         'coinPageGeneralInfoFirst'.tr()),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoSecond'.tr(namedArgs: {'coin_count': '30'})),
+                                        'coinPageGeneralInfoSecond'.tr(
+                                            namedArgs: {'coin_count': '30'})),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoThird'.tr(namedArgs: {'coin_count': '30'})),
+                                        'coinPageGeneralInfoThird'.tr(
+                                            namedArgs: {'coin_count': '30'})),
                                     CoinPageQuestionItem(
-                                        'coinPageGeneralInfoFourth'.tr(namedArgs: {'coin_count': '2'}))
+                                        'coinPageGeneralInfoFourth'
+                                            .tr(namedArgs: {'coin_count': '2'}))
                                   }.toList()),
                               CoinPageQuestion(
                                   'coinPageServiceCost'.tr(),
                                   'icons/request_coin_cost.svg',
                                   {
                                     CoinPageQuestionItem(
-                                        'coinPageServiceCostFirst'.tr(namedArgs: {'coin_count': '1'})),
+                                        'coinPageServiceCostFirst'.tr(
+                                            namedArgs: {'coin_count': '1'})),
                                     CoinPageQuestionItem(
-                                        'coinPageServiceCostSecond'.tr(namedArgs: {'coin_count': '3'})),
+                                        'coinPageServiceCostSecond'.tr(
+                                            namedArgs: {'coin_count': '3'})),
                                   }.toList())
                             ],
                           ),
@@ -273,11 +279,26 @@ class _CoinPageState extends State<CoinPage> {
                                   Colors.white,
                                   Colors.red,
                                   () {
-                                    if(GoogleAuthService.googleUser != null){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => RewardedAdPage()));
+                                    /*
+                                    if (GoogleAuthService.googleUser != null) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RewardedAdPage()));
                                     } else {
                                       showUserProfileDialog(context);
                                     }
+                                    */
+                                    AwesomeDialog(
+                                            context: context,
+                                            dialogType: DialogType.INFO,
+                                            animType: AnimType.LEFTSLIDE,
+                                            title: 'alertDialogError'.tr(),
+                                            desc: 'functionNotAvailable'.tr(),
+                                            btnCancelOnPress: () {},
+                                            btnCancelText: 'Ок')
+                                        .show();
                                   },
                                 ),
                               ),
