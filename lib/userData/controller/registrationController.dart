@@ -1,6 +1,6 @@
 import 'package:synword/googleAuth/googleAuthService.dart';
 import 'package:synword/network/ServerStatus.dart';
-import 'package:synword/userData/UserStorageData.dart';
+import 'package:synword/userData/userStorageData.dart';
 import 'package:synword/userData/controller/unauthUserServerRequestsController.dart';
 import '../currentUser.dart';
 import 'authUserServerRequestsController.dart';
