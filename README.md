@@ -1,16 +1,15 @@
-# synword
+# Synword legacy
 
-A new Flutter project.
+<p align="center">
+    <img src="icon.png"/>
+</p>
 
-## Getting Started
+Verify & enhance the uniqueness of your texts and documents.
 
-This project is a starting point for a Flutter application.
+[Google Play](https://play.google.com/store/apps/details?id=com.patronum.synword)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+    <img src="https://play-lh.googleusercontent.com/VurmcHGzsynh5LHccYjOa6TQojT2U6tZAFOby22W1nnLAYr6XaWT8iiQtuxcndFeMaU=w1496-h754-rw"/>
+    <img src="https://play-lh.googleusercontent.com/amrzToVHcf9w9qu8SLRIEg72ohL5TzW4NsFwuxWeps0x2rEnPFGW_thY-F32Nx9hsTk=w1496-h754-rw"/>
+    <img src="https://play-lh.googleusercontent.com/ton7rDvgbd-65Cu5U_mDpBCYUQWsBLDs2SbGRoDZRKkqku4YJMam3YyndgbcDNwBUH0=w1496-h754-rw"/>
+</p>
